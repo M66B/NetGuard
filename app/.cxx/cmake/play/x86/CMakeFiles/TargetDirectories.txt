@@ -1,0 +1,3 @@
+/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/play/x86/CMakeFiles/rebuild_cache.dir
+/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/play/x86/CMakeFiles/edit_cache.dir
+/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/play/x86/CMakeFiles/netguard.dir

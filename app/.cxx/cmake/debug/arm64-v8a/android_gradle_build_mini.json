@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/whoami/Desktop/Contribution/NetGuard/app/CMakeLists.txt",
+    "/whoami/Android/Sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake",
+    "/whoami/Android/Sdk/ndk/21.1.6352462/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/whoami/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "/whoami/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "netguard-Debug-arm64-v8a": {
+      "artifactName": "netguard",
+      "buildCommand": "/whoami/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/arm64-v8a\" netguard",
+      "abi": "arm64-v8a",
+      "output": "/whoami/Desktop/Contribution/NetGuard/app/build/intermediates/cmake/debug/obj/arm64-v8a/libnetguard.so",
+      "runtimeFiles": []
+    }
+  }
+}

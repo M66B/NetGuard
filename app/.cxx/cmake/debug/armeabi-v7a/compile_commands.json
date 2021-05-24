@@ -1,0 +1,61 @@
+[
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/netguard.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/netguard.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/netguard.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/session.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/session.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/session.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/ip.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/ip.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/ip.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/tcp.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/tcp.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/tcp.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/udp.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/udp.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/udp.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/icmp.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/icmp.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/icmp.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/dns.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/dns.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/dns.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/dhcp.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/dhcp.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/dhcp.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/pcap.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/pcap.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/pcap.c"
+},
+
+{
+  "directory": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/armeabi-v7a",
+  "command": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=armv7-none-linux-androideabi22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles/netguard.dir/src/main/jni/netguard/util.c.o   -c /whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/util.c",
+  "file": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/util.c"
+}
+]

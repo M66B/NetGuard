@@ -1,0 +1,97 @@
+ninja: Entering directory `/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/arm64-v8a'
+[1/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/pcap.c.o
+[2/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/dhcp.c.o
+[3/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/util.c.o
+[4/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/dns.c.o
+[5/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/session.c.o
+[6/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/icmp.c.o
+[7/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/ip.c.o
+[8/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/udp.c.o
+[9/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/netguard.c.o
+../../../../src/main/jni/netguard/netguard.c:278:22: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+        ng_add_alloc(name, "name");
+                     ^~~~
+../../../../src/main/jni/netguard/netguard.h:556:25: note: passing argument to parameter 'ptr' here
+void ng_add_alloc(void *ptr, const char *tag);
+                        ^
+../../../../src/main/jni/netguard/netguard.c:300:25: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+        ng_delete_alloc(name, __FILE__, __LINE__);
+                        ^~~~
+../../../../src/main/jni/netguard/netguard.h:558:28: note: passing argument to parameter 'ptr' here
+void ng_delete_alloc(void *ptr, const char *file, int line);
+                           ^
+../../../../src/main/jni/netguard/netguard.c:314:18: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_add_alloc(addr, "addr");
+                 ^~~~
+../../../../src/main/jni/netguard/netguard.h:556:25: note: passing argument to parameter 'ptr' here
+void ng_add_alloc(void *ptr, const char *tag);
+                        ^
+../../../../src/main/jni/netguard/netguard.c:315:18: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_add_alloc(username, "username");
+                 ^~~~~~~~
+../../../../src/main/jni/netguard/netguard.h:556:25: note: passing argument to parameter 'ptr' here
+void ng_add_alloc(void *ptr, const char *tag);
+                        ^
+../../../../src/main/jni/netguard/netguard.c:316:18: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_add_alloc(password, "password");
+                 ^~~~~~~~
+../../../../src/main/jni/netguard/netguard.h:556:25: note: passing argument to parameter 'ptr' here
+void ng_add_alloc(void *ptr, const char *tag);
+                        ^
+../../../../src/main/jni/netguard/netguard.c:329:21: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_delete_alloc(addr, __FILE__, __LINE__);
+                    ^~~~
+../../../../src/main/jni/netguard/netguard.h:558:28: note: passing argument to parameter 'ptr' here
+void ng_delete_alloc(void *ptr, const char *file, int line);
+                           ^
+../../../../src/main/jni/netguard/netguard.c:330:21: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_delete_alloc(username, __FILE__, __LINE__);
+                    ^~~~~~~~
+../../../../src/main/jni/netguard/netguard.h:558:28: note: passing argument to parameter 'ptr' here
+void ng_delete_alloc(void *ptr, const char *file, int line);
+                           ^
+../../../../src/main/jni/netguard/netguard.c:331:21: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_delete_alloc(password, __FILE__, __LINE__);
+                    ^~~~~~~~
+../../../../src/main/jni/netguard/netguard.h:558:28: note: passing argument to parameter 'ptr' here
+void ng_delete_alloc(void *ptr, const char *file, int line);
+                           ^
+../../../../src/main/jni/netguard/netguard.c:362:18: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_add_alloc(name, "name");
+                 ^~~~
+../../../../src/main/jni/netguard/netguard.h:556:25: note: passing argument to parameter 'ptr' here
+void ng_add_alloc(void *ptr, const char *tag);
+                        ^
+../../../../src/main/jni/netguard/netguard.c:368:21: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_delete_alloc(name, __FILE__, __LINE__);
+                    ^~~~
+../../../../src/main/jni/netguard/netguard.h:558:28: note: passing argument to parameter 'ptr' here
+void ng_delete_alloc(void *ptr, const char *file, int line);
+                           ^
+../../../../src/main/jni/netguard/netguard.c:377:18: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_add_alloc(ip, "ip");
+                 ^~
+../../../../src/main/jni/netguard/netguard.h:556:25: note: passing argument to parameter 'ptr' here
+void ng_add_alloc(void *ptr, const char *tag);
+                        ^
+../../../../src/main/jni/netguard/netguard.c:394:21: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    ng_delete_alloc(ip, __FILE__, __LINE__);
+                    ^~
+../../../../src/main/jni/netguard/netguard.h:558:28: note: passing argument to parameter 'ptr' here
+void ng_delete_alloc(void *ptr, const char *file, int line);
+                           ^
+../../../../src/main/jni/netguard/netguard.c:775:26: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+            ng_add_alloc(raddr, "raddr");
+                         ^~~~~
+../../../../src/main/jni/netguard/netguard.h:556:25: note: passing argument to parameter 'ptr' here
+void ng_add_alloc(void *ptr, const char *tag);
+                        ^
+../../../../src/main/jni/netguard/netguard.c:778:29: warning: passing 'const char *' to parameter of type 'void *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+            ng_delete_alloc(raddr, __FILE__, __LINE__);
+                            ^~~~~
+../../../../src/main/jni/netguard/netguard.h:558:28: note: passing argument to parameter 'ptr' here
+void ng_delete_alloc(void *ptr, const char *file, int line);
+                           ^
+14 warnings generated.
+[10/11] Building C object CMakeFiles/netguard.dir/src/main/jni/netguard/tcp.c.o
+[11/11] Linking C shared library ../../../../build/intermediates/cmake/debug/obj/arm64-v8a/libnetguard.so

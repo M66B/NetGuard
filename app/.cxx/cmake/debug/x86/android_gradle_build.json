@@ -1,0 +1,88 @@
+{
+  "stringTable": {
+    "0": "/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/x86",
+    "1": "--target=i686-none-linux-android22 --gcc-toolchain=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64 --sysroot=/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/sysroot -Dnetguard_EXPORTS -I../../../../src/main/jni/netguard -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "/whoami/Desktop/Contribution/NetGuard/app/CMakeLists.txt",
+    "/whoami/Android/Sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake",
+    "/whoami/Android/Sdk/ndk/21.1.6352462/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/whoami/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/x86\" clean"
+  ],
+  "buildTargetsCommand": "/whoami/Android/Sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "netguard-Debug-x86": {
+      "buildCommand": "/whoami/Android/Sdk/cmake/3.10.2.4988404/bin/ninja -C \"/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/x86\" netguard",
+      "buildType": "debug",
+      "toolchain": "3320021414",
+      "abi": "x86",
+      "artifactName": "netguard",
+      "files": [
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/netguard.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/session.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/ip.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/tcp.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/udp.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/icmp.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/dns.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/dhcp.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/pcap.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "/whoami/Desktop/Contribution/NetGuard/app/src/main/jni/netguard/util.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/whoami/Desktop/Contribution/NetGuard/app/build/intermediates/cmake/debug/obj/x86/libnetguard.so",
+      "runtimeFiles": []
+    }
+  },
+  "toolchains": {
+    "3320021414": {
+      "cCompilerExecutable": "/whoami/Android/Sdk/ndk/21.1.6352462/toolchains/llvm/prebuilt/linux-x86_64/bin/clang"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}

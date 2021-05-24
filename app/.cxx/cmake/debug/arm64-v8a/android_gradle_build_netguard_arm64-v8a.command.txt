@@ -1,0 +1,7 @@
+Executable : /whoami/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/whoami/Desktop/Contribution/NetGuard/app/.cxx/cmake/debug/arm64-v8a
+netguard
+jvmArgs : 
+
