@@ -67,10 +67,12 @@ public class ApplicationEx extends Application {
 
         NotificationChannel notify = new NotificationChannel("notify", getString(R.string.channel_notify), NotificationManager.IMPORTANCE_DEFAULT);
         notify.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
+        notify.setBypassDnd(true);
         nm.createNotificationChannel(notify);
 
         NotificationChannel access = new NotificationChannel("access", getString(R.string.channel_access), NotificationManager.IMPORTANCE_DEFAULT);
         access.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
+        access.setBypassDnd(true);
         nm.createNotificationChannel(access);
     }
 }
