@@ -7,7 +7,7 @@
     <string name="app_first">NetGuard\'ın geliştirilip test edilmesi için büyük özen gösterilmiştir fakat her cihazda doğru çalışacağını garanti etmek imkansızdır.</string>
     <string name="app_agree">Kabul ediyorum</string>
     <string name="app_disagree">Reddediyorum</string>
-    <string name="app_support">NetGuard\'ın yardımınıza ihtiyacı var. Projeyi devam ettirmek için pro özellikleri satın almak için dokunun.</string>
+    <string name="app_support">Netguard\'ın yardımınıza ihtiyacı var. Projenin devam etmesi için pro özelliklerini satın almak için dokunun.</string>
     <string name="channel_foreground">Çalışan hizmetler</string>
     <string name="channel_notify">Genel bildirimler</string>
     <string name="channel_access">Erişim bildirimleri</string>
@@ -275,7 +275,7 @@ Bu yüzden bir sonraki diyalogda lütfen VPN bağlantısına izin verin.
     <string name="title_pro_unavailable">Mevcut değil</string>
     <string name="title_pro_details">Daha fazla bilgi için başlığa dokunun</string>
     <string name="title_pro_challenge">Challenge</string>
-    <string name="title_pro_reponse">Yanıt</string>
+    <string name="title_pro_reponse">Response</string>
     <string name="title_pro_feature">Bu bir pro özelliğidir</string>
     <string name="title_pro_subscription">        Aylık 1 veya 2 euroluk abonelik (vergiler hariç) tüm pro özelliklerini etkinleştirir.
         Aboneliği yönetmek için Play store uygulamasındaki abonelikler sekmesini kullanabilirsini.
