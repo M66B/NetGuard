@@ -193,24 +193,29 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 prefs.edit().putBoolean("enabled", isChecked).apply();
 
                 if (isChecked) {
-                    String alwaysOn = Settings.Secure.getString(getContentResolver(), "always_on_vpn_app");
-                    Log.i(TAG, "Always-on=" + alwaysOn);
-                    if (!TextUtils.isEmpty(alwaysOn))
-                        if (getPackageName().equals(alwaysOn)) {
-                            if (prefs.getBoolean("filter", false)) {
-                                int lockdown = Settings.Secure.getInt(getContentResolver(), "always_on_vpn_lockdown", 0);
-                                Log.i(TAG, "Lockdown=" + lockdown);
-                                if (lockdown != 0) {
-                                    swEnabled.setChecked(false);
-                                    Toast.makeText(ActivityMain.this, R.string.msg_always_on_lockdown, Toast.LENGTH_LONG).show();
-                                    return;
+                    try {
+                        String alwaysOn = Settings.Secure.getString(getContentResolver(), "always_on_vpn_app");
+                        Log.i(TAG, "Always-on=" + alwaysOn);
+                        if (!TextUtils.isEmpty(alwaysOn))
+                            if (getPackageName().equals(alwaysOn)) {
+                                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+                                        prefs.getBoolean("filter", false)) {
+                                    int lockdown = Settings.Secure.getInt(getContentResolver(), "always_on_vpn_lockdown", 0);
+                                    Log.i(TAG, "Lockdown=" + lockdown);
+                                    if (lockdown != 0) {
+                                        swEnabled.setChecked(false);
+                                        Toast.makeText(ActivityMain.this, R.string.msg_always_on_lockdown, Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
                                 }
+                            } else {
+                                swEnabled.setChecked(false);
+                                Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
+                                return;
                             }
-                        } else {
-                            swEnabled.setChecked(false);
-                            Toast.makeText(ActivityMain.this, R.string.msg_always_on, Toast.LENGTH_LONG).show();
-                            return;
-                        }
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+                    }
 
                     boolean filter = prefs.getBoolean("filter", false);
                     if (filter && Util.isPrivateDns(ActivityMain.this))
