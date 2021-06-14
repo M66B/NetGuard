@@ -319,148 +319,25 @@ void check_tcp_socket(const struct arguments *args,
                 }
             } else {
                 if (ev->events & EPOLLIN) {
-                    uint8_t buffer[32];
-                    ssize_t bytes = recv(s->socket, buffer, sizeof(buffer), 0);
-                    if (bytes < 0) {
-                        log_android(ANDROID_LOG_ERROR, "%s recv SOCKS5 error %d: %s",
-                                    session, errno, strerror(errno));
+                    if (socks5_client_recv_cb(s->socket, &s->tcp.socks5,
+                            s->tcp.version, SOCK_STREAM, NULL, NULL,
+                            session) < 0)
                         write_rst(args, &s->tcp);
-                    } else {
-                        char *h = hex(buffer, (const size_t) bytes);
-                        log_android(ANDROID_LOG_INFO, "%s recv SOCKS5 %s", session, h);
-                        ng_free(h, __FILE__, __LINE__);
-
-                        if (s->tcp.socks5 == SOCKS5_HELLO &&
-                            bytes == 2 && buffer[0] == 5) {
-                            if (buffer[1] == 0)
-                                s->tcp.socks5 = SOCKS5_CONNECT;
-                            else if (buffer[1] == 2)
-                                s->tcp.socks5 = SOCKS5_AUTH;
-                            else {
-                                s->tcp.socks5 = 0;
-                                log_android(ANDROID_LOG_ERROR, "%s SOCKS5 auth %d not supported",
-                                            session, buffer[1]);
-                                write_rst(args, &s->tcp);
-                            }
-
-                        } else if (s->tcp.socks5 == SOCKS5_AUTH &&
-                                   bytes == 2 &&
-                                   (buffer[0] == 1 || buffer[0] == 5)) {
-                            if (buffer[1] == 0) {
-                                s->tcp.socks5 = SOCKS5_CONNECT;
-                                log_android(ANDROID_LOG_WARN, "%s SOCKS5 auth OK", session);
-                            } else {
-                                s->tcp.socks5 = 0;
-                                log_android(ANDROID_LOG_ERROR, "%s SOCKS5 auth error %d",
-                                            session, buffer[1]);
-                                write_rst(args, &s->tcp);
-                            }
-
-                        } else if (s->tcp.socks5 == SOCKS5_CONNECT &&
-                                   bytes == 6 + (s->tcp.version == 4 ? 4 : 16) &&
-                                   buffer[0] == 5) {
-                            if (buffer[1] == 0) {
-                                s->tcp.socks5 = SOCKS5_CONNECTED;
-                                log_android(ANDROID_LOG_WARN, "%s SOCKS5 connected", session);
-                            } else {
-                                s->tcp.socks5 = 0;
-                                log_android(ANDROID_LOG_ERROR, "%s SOCKS5 connect error %d",
-                                            session, buffer[1]);
-                                write_rst(args, &s->tcp);
-                                /*
-                                    0x00 = request granted
-                                    0x01 = general failure
-                                    0x02 = connection not allowed by ruleset
-                                    0x03 = network unreachable
-                                    0x04 = host unreachable
-                                    0x05 = connection refused by destination host
-                                    0x06 = TTL expired
-                                    0x07 = command not supported / protocol error
-                                    0x08 = address type not supported
-                                 */
-                            }
-
-                        } else {
-                            s->tcp.socks5 = 0;
-                            log_android(ANDROID_LOG_ERROR, "%s recv SOCKS5 state %d",
-                                        session, s->tcp.socks5);
-                            write_rst(args, &s->tcp);
-                        }
-                    }
                 }
             }
 
-            if (s->tcp.socks5 == SOCKS5_HELLO) {
-                uint8_t buffer[4] = {5, 2, 0, 2};
-                char *h = hex(buffer, sizeof(buffer));
-                log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 hello: %s",
-                            session, h);
-                ng_free(h, __FILE__, __LINE__);
-                ssize_t sent = send(s->socket, buffer, sizeof(buffer), MSG_NOSIGNAL);
-                if (sent < 0) {
-                    log_android(ANDROID_LOG_ERROR, "%s send SOCKS5 hello error %d: %s",
-                                session, errno, strerror(errno));
-                    write_rst(args, &s->tcp);
-                }
-
-            } else if (s->tcp.socks5 == SOCKS5_AUTH) {
-                uint8_t ulen = strlen(socks5_username);
-                uint8_t plen = strlen(socks5_password);
-                uint8_t buffer[512];
-                *(buffer + 0) = 1; // Version
-                *(buffer + 1) = ulen;
-                memcpy(buffer + 2, socks5_username, ulen);
-                *(buffer + 2 + ulen) = plen;
-                memcpy(buffer + 2 + ulen + 1, socks5_password, plen);
-
-                size_t len = 2 + ulen + 1 + plen;
-
-                char *h = hex(buffer, len);
-                log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 auth: %s",
-                            session, h);
-                ng_free(h, __FILE__, __LINE__);
-                ssize_t sent = send(s->socket, buffer, len, MSG_NOSIGNAL);
-                if (sent < 0) {
-                    log_android(ANDROID_LOG_ERROR,
-                                "%s send SOCKS5 connect error %d: %s",
-                                session, errno, strerror(errno));
-                    write_rst(args, &s->tcp);
-                }
-
-            } else if (s->tcp.socks5 == SOCKS5_CONNECT) {
-                uint8_t buffer[22];
-                *(buffer + 0) = 5; // version
-                *(buffer + 1) = 1; // TCP/IP stream connection
-                *(buffer + 2) = 0; // reserved
-                *(buffer + 3) = (uint8_t) (s->tcp.version == 4 ? 1 : 4);
-                if (s->tcp.version == 4) {
-                    memcpy(buffer + 4, &s->tcp.daddr.ip4, 4);
-                    *((__be16 *) (buffer + 4 + 4)) = s->tcp.dest;
-                } else {
-                    memcpy(buffer + 4, &s->tcp.daddr.ip6, 16);
-                    *((__be16 *) (buffer + 4 + 16)) = s->tcp.dest;
-                }
-
-                size_t len = (s->tcp.version == 4 ? 10 : 22);
-
-                char *h = hex(buffer, len);
-                log_android(ANDROID_LOG_INFO, "%s sending SOCKS5 connect: %s",
-                            session, h);
-                ng_free(h, __FILE__, __LINE__);
-                ssize_t sent = send(s->socket, buffer, len, MSG_NOSIGNAL);
-                if (sent < 0) {
-                    log_android(ANDROID_LOG_ERROR,
-                                "%s send SOCKS5 connect error %d: %s",
-                                session, errno, strerror(errno));
-                    write_rst(args, &s->tcp);
-                }
-
-            } else if (s->tcp.socks5 == SOCKS5_CONNECTED) {
-                s->tcp.remote_seq++; // remote SYN
-                if (write_syn_ack(args, &s->tcp) >= 0) {
-                    s->tcp.time = time(NULL);
-                    s->tcp.local_seq++; // local SYN
-                    s->tcp.state = TCP_SYN_RECV;
+            if (socks5_client_send_cb(s->socket, &s->tcp.socks5,
+                    s->tcp.version, SOCK_STREAM, &s->tcp.daddr, s->tcp.dest,
+                    session) < 0) {
+                write_rst(args, &s->tcp);
+            } else {
+                if (s->tcp.socks5 == SOCKS5_CONNECTED) {
+                    s->tcp.remote_seq++; // remote SYN
+                    if (write_syn_ack(args, &s->tcp) >= 0) {
+                        s->tcp.time = time(NULL);
+                        s->tcp.local_seq++; // local SYN
+                        s->tcp.state = TCP_SYN_RECV;
+                    }
                 }
             }
         } else {

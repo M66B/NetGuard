@@ -19,6 +19,9 @@
 
 #include "netguard.h"
 
+extern bool sock5_udp_relay_enabled;
+extern struct socks5_client socks5_udp_relay_client;
+
 void clear(struct context *ctx) {
     struct ng_session *s = ctx->ng_session;
     while (s != NULL) {
@@ -82,6 +85,10 @@ void *handle_events(void *a) {
         log_android(ANDROID_LOG_ERROR, "epoll add tun error %d: %s", errno, strerror(errno));
         report_exit(args, "epoll add tun error %d: %s", errno, strerror(errno));
         args->ctx->stopping = 1;
+    }
+
+    if (sock5_udp_relay_enabled) {
+        start_socks5_udp_relay_client(args, epoll_fd);
     }
 
     // Loop
@@ -230,6 +237,9 @@ void *handle_events(void *a) {
                             error = 1;
                     }
 
+                } else if (ev[i].data.ptr == &socks5_udp_relay_client) {
+                    check_socks5_udp_relay_client(args, &ev[i], epoll_fd);
+
                 } else {
                     // Check downstream
                     log_android(ANDROID_LOG_DEBUG,
@@ -268,6 +278,10 @@ void *handle_events(void *a) {
             if (error)
                 break;
         }
+    }
+
+    if (sock5_udp_relay_enabled) {
+        close(socks5_udp_relay_client.socks5_fd);
     }
 
     // Close epoll file
