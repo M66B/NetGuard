@@ -1898,7 +1898,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "block");
 
-        builder.setSmallIcon(R.drawable.ic_ad_block_white_24dp)
+        builder.setSmallIcon(R.drawable.ic_security_white_24dp)
                 .setGroup("BlockingAttampt")
                 .setContentIntent(pi)
                 .setColor(tv.data)
