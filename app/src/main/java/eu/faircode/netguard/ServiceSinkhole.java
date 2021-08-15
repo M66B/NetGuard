@@ -93,6 +93,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -142,6 +144,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean temporarilyStopped = false;
 
     private long last_hosts_modified = 0;
+    private HashMap<String, Long> mapAdsBlocked = new HashMap<>();
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
@@ -189,7 +192,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static volatile PowerManager.WakeLock wlInstance = null;
 
     private ExecutorService executor = Executors.newCachedThreadPool();
-
+    private String previouslyBlockedDomain = "";
     private static final String ACTION_HOUSE_HOLDING = "eu.faircode.netguard.HOUSE_HOLDING";
     private static final String ACTION_SCREEN_OFF_DELAYED = "eu.faircode.netguard.SCREEN_OFF_DELAYED";
     private static final String ACTION_WATCHDOG = "eu.faircode.netguard.WATCHDOG";
@@ -1852,9 +1855,76 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean isDomainBlocked(String name) {
         lock.readLock().lock();
         boolean blocked = (mapHostsBlocked.containsKey(name) && mapHostsBlocked.get(name));
+        if (blocked) {
+            calculateBlockedAds(name);
+        }
         lock.readLock().unlock();
         return blocked;
     }
+
+    private void calculateBlockedAds(String blockedDomain) {
+        long noOfTimes = 1;
+        if (mapAdsBlocked.containsKey(blockedDomain)) {
+            noOfTimes = mapAdsBlocked.get(blockedDomain);
+            noOfTimes++;
+        }
+        mapAdsBlocked.put(blockedDomain, noOfTimes);
+        if (previouslyBlockedDomain.equals(blockedDomain)) {
+            return;
+        }
+        previouslyBlockedDomain = blockedDomain;
+        showBlockedAdsNotification(blockedDomain + " : " + format(noOfTimes) + " times.");
+    }
+
+
+    private String format(double value) {
+        int power;
+        String suffix = " kmbt";
+        String formattedNumber = "";
+        NumberFormat formatter = new DecimalFormat("#,###.#");
+        power = (int) StrictMath.log10(value);
+        value = value / (Math.pow(10, (power / 3) * 3));
+        formattedNumber = formatter.format(value);
+        formattedNumber = formattedNumber + suffix.charAt(power / 3);
+        return formattedNumber.length() > 4 ? formattedNumber.replaceAll("\\.[0-9]+", "") : formattedNumber;
+    }
+
+    private void showBlockedAdsNotification(String blockedDomain) {
+        String title = "Blocked Ads";
+        Intent main = new Intent(ServiceSinkhole.this, ActivityMain.class);
+        PendingIntent pi = PendingIntent.getActivity(ServiceSinkhole.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "block");
+
+        builder.setSmallIcon(R.drawable.ic_ad_block_white_24dp)
+                .setGroup("BlockingAttampt")
+                .setContentIntent(pi)
+                .setColor(tv.data)
+                .setOngoing(true)
+                .setAutoCancel(true);
+
+        builder.setContentTitle(title)
+                .setContentText(blockedDomain);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
+
+        NotificationCompat.InboxStyle notification = new NotificationCompat.InboxStyle(builder);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            notification.addLine(blockedDomain);
+        else {
+            String sname = getString(R.string.msg_access, blockedDomain);
+            int pos = sname.indexOf(blockedDomain);
+            Spannable sp = new SpannableString(sname);
+            sp.setSpan(new StyleSpan(Typeface.BOLD), pos, pos + blockedDomain.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            notification.addLine(sp);
+        }
+        NotificationManagerCompat.from(this).notify(0, notification.build());
+    }
+
 
     // Called from native code
     @TargetApi(Build.VERSION_CODES.Q)

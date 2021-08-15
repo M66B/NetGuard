@@ -14,6 +14,7 @@
     <string name="channel_foreground">Running services</string>
     <string name="channel_notify">General notifications</string>
     <string name="channel_access">Access notifications</string>
+    <string name="channel_block">Blocked Ads notifications</string>
 
     <string name="menu_search">Search for app</string>
     <string name="menu_filter">Filter apps</string>
