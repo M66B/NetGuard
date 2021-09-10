@@ -34,7 +34,7 @@
     <string name="menu_live">Atualizações em direto</string>
     <string name="menu_refresh">Atualizar</string>
     <string name="menu_resolve">Mostrar nomes</string>
-    <string name="menu_organization">Mostrar a organização</string>
+    <string name="menu_organization">Mostrar organização</string>
     <string name="menu_pcap_enabled">PCAP ativado</string>
     <string name="menu_pcap_export">Exportar PCAP</string>
     <string name="menu_clear">Limpar</string>
@@ -51,10 +51,10 @@
     <string name="title_external">Para um servidor externo, selecione \'ninguém\'</string>
     <string name="setting_defaults">Predefinições (lista branca/negra)</string>
     <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
-    <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
+    <string name="setting_whitelist_other">Bloquear dados móveis</string>
     <string name="setting_screen_wifi">Permitir Wi-Fi com o ecrã ligado</string>
     <string name="setting_screen_other">Com o ecrã ligado permitir dados móveis</string>
-    <string name="setting_whitelist_roaming">Bloquear Roaming</string>
+    <string name="setting_whitelist_roaming">Bloquear roaming</string>
     <string name="setting_options">Opções</string>
     <string name="setting_theme">Tema: %1$s</string>
     <string name="setting_dark">Usar tema escuro</string>
