@@ -122,8 +122,7 @@ public class Util {
             "SK", // Slovakia
             "SI", // Slovenia
             "ES", // Spain
-            "SE", // Sweden
-            "GB" // United Kingdom
+            "SE" // Sweden
     );
 
     private static native String jni_getprop(String name);
