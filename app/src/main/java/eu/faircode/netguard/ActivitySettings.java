@@ -605,8 +605,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         } else if ("log_app".equals(name)) {
             Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
             LocalBroadcastManager.getInstance(this).sendBroadcast(ruleset);
+            ServiceSinkhole.reload("changed " + name, this, false);
 
-        } else if ("filter".equals(name)) {
+        } else if ("notify_access".equals(name))
+            ServiceSinkhole.reload("changed " + name, this, false);
+
+        else if ("filter".equals(name)) {
             // Show dialog
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && prefs.getBoolean(name, false)) {
                 LayoutInflater inflater = LayoutInflater.from(ActivitySettings.this);
