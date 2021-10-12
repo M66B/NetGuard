@@ -118,6 +118,7 @@ public class Util {
             "NO", // Norway
             "PL", // Poland
             "PT", // Portugal
+            "RE", // La Réunion
             "RO", // Romania
             "SK", // Slovakia
             "SI", // Slovenia
