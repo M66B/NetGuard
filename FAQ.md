@@ -32,8 +32,8 @@ It will, however, be much better than nothing.
 In the advanced options you can enable *Seamless VPN handover on reload* to prevent traffic from leaking when the Android VPN service is being restarted.
 However, this does not work properly on all Android versions/variants causing NetGuard to hang and block all connections.
 
-Android N and later allows NetGuard to be an [Always-On VPN](https://developer.android.com/preview/features/afw.html#always-on-vpn).
-On Android O do not enable '*Block connections without VPN*', see [question 51](#user-content-faq51)) for more information on this.
+On Android N and later NetGuard can be configured as [Always-On VPN](https://developer.android.com/preview/features/afw.html#always-on-vpn).
+On Android O **do not** enable the sub option '*Block connections without VPN*', see [question 51](#user-content-faq51)) for more information on this.
 
 To protect yourself more, remember to disable Wi-Fi and mobile data before rebooting,
 and only enable them on reboot, after the firewall service has started (and the key icon is visible in the status bar).
@@ -528,7 +528,7 @@ and that Android allows NetGuard to use the internet in the background (see also
 
 Make sure you are not running NetGuard in allow (whitelist) mode (check the NetGuard default settings).
 
-Make sure you didn't enable the Always-On VPN setting '*Block connections without VPN*' (Android 8 Oreo or later).
+Make sure you didn't enable the Always-On VPN sub option '*Block connections without VPN*' (Android 8 Oreo or later).
 This will block resolving domain names too (is it a bug or feature?).
 
 Some Android versions, including LineageOS and /e/ for some devices, contain a bug resulting in all internet traffic being blocked.
