@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">TCP 트래픽만이 프록시 서버로 전송될 것입니다</string>
     <string name="summary_watchdog">NetGuard가 계속 작동하고 있는지 주기적으로 확인합니다. (이 설정을 비활성화하려면 0 입력) 배터리 사용량이 증가할 수 있습니다.</string>
     <string name="summary_stats">상태 표시줄 알림에 네트워크 속도 그래프를 표시합니다</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">계속 하시겠습니까?</string>
     <string name="msg_started">규칙 적용 중</string>
     <string name="msg_packages">%1$d건 허용됨, %2$d건 차단됨</string>
@@ -173,8 +172,6 @@
     <string name="msg_terms">후원하면 <a href="http://www.netguard.me/#terms">이용 약관</a>에 동의하게 됩니다</string>
     <string name="msg_dimming">다음 창에서 확인 버튼을 누를 수 없는 경우, 다른(화면 감광 등의) 앱이 화면을 제어하고 있을 가능성이 높습니다.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/일</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

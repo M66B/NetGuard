@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">يـــتـــم إرســال حــركـــة مـــرور TCP فـــقـــط إلـــى الـــمـــلـــقـــم الـــوكــيـــل</string>
     <string name="summary_watchdog">الــفـــحـــص الــدوري إذا كــان قـــيـــد تـــشـــغـــيـــل NetGuard (فــأدخـــل صـــفـــر لـــتـــعـــطـــيـــل هـــذا الــخـــيـــار). قـــد يـــســـتـــلـــزم هـــذا إســـتـــخـــدام أكـــثـــر لـلـــبـــطــاريـــة.</string>
     <string name="summary_stats">إظهار الرسم البياني لسرعة الشبكة على شريط حالة الإشعارات</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">هل أنت متأكد؟</string>
     <string name="msg_started">فرض الـقـواعد</string>
     <string name="msg_packages">%1$d مسموح، %2$d محظور</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">عند تبرعك فهذا يعني انك مواقق على الشروط والاحكام. <a href="http://www.netguard.me/#terms">احكام &amp; شروط</a></string>
     <string name="msg_dimming">إن لم تستطع الضغط على زر الموافقة في مربع الحوار القادم فهذا معناه أنه يوجد برنامج آخر يتحكم في الشاشة.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ ميغابيت/يوم</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ كيلو بايت</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ ميجا بايت</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ جيجابايت</string>

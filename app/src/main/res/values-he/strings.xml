@@ -151,7 +151,6 @@
     <string name="summary_socks5_enabled">רק תעבורת TCP תועבר אל שרת ה-proxy</string>
     <string name="summary_watchdog">בדוק מדי פרק הזמן המוגדר האם NetGuard עדיין פועל (הזן 0 כדי לבטל אפשרות זו). עלול לגרום לצריכת סוללה מוגברת.</string>
     <string name="summary_stats">הצג גרף מהירות רשת בהתראת שורת המצב</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">האם אתה בטוח?</string>
     <string name="msg_started">אוכף חוקים</string>
     <string name="msg_packages">%1$d אושרו, %2$d נחסמו</string>
@@ -172,8 +171,6 @@
     <string name="msg_terms">בתרומתך אתה מסכים ל <a href="http://www.netguard.me/#terms"> תנאים והגבלות</a></string>
     <string name="msg_dimming">אם אין אפשרות ללחוץ על אישור בתיבת הדו-שיח הבאה, סביר להניח שיישום אחר (כגון עמעום מסך) משנה את המסך.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/יום</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

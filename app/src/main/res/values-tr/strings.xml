@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Sadece TCP trafiği vekil sunucuya gönderilecek</string>
     <string name="summary_watchdog">NetGuard\'ın çalışıp çalışmadığını zaman zaman kontrol et (bu seçeneği devre dışı bırakmak için sıfır olarak ayarlayın). Pil kullanımını arttırabilir.</string>
     <string name="summary_stats">İnternet hız grafiği bildirimini göster</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Emin misiniz?</string>
     <string name="msg_started">Kuralları uygulanıyor</string>
     <string name="msg_packages">%1$d izinli, %2$d engelli</string>
@@ -173,8 +172,6 @@ Bu yüzden bir sonraki diyalogda lütfen VPN bağlantısına izin verin.
     <string name="msg_terms">Bağış yaparak <a href="http://www.netguard.me/#terms">şart ve koşulları</a> kabul etmiş sayılırsınız</string>
     <string name="msg_dimming">Sonraki diyalogda TAMAM\'a basamıyorsanız, farklı bir (ekran karartma) uygulama ekranı kontrol ediyor olabilir.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/gün</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

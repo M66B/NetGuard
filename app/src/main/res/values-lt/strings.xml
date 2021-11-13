@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Tik TCP duomenų srautas bus siunčiamas į tarpinį serverį</string>
     <string name="summary_watchdog">Periodiškai tikrinti NetGuard aktyvumo būseną (nustatymo išjungimui įveskite nulį). Tai gali lemti didesnį baterijos energijos naudojimą.</string>
     <string name="summary_stats">Rodyti tinklo greičio grafiko pranešimą būsenos juostoje</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Ar esate įsitikinę?</string>
     <string name="msg_started">Paslauga aktyvi</string>
     <string name="msg_packages">%1$d leista, %2$d blokuojama</string>
@@ -173,8 +172,6 @@ Jūsų interneto duomenų srautas nėra siunčiamas į jokį nuotolinį VPN serv
     <string name="msg_terms">Paaukodami sutinkate su <a href="http://www.netguard.me/#terms">nuostatomis &amp; sąlygomis</a></string>
     <string name="msg_dimming">Jei kitame lange negalite spausti „Gerai“, greičiausiai ekraną valdo kita (ekrano pritemdymo) programa.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dieną</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

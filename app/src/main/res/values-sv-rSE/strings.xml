@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Endast TCP-trafik kommer att sändas till proxyservern</string>
     <string name="summary_watchdog">Kontrollera regelbundet om NetGuard fortfarande körs (ange noll för att inaktivera det här alternativet). Detta kan leda till extra batterianvändning.</string>
     <string name="summary_stats">Visa nätverkshastighetsdiagram i statusfältet</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Är du säker?</string>
     <string name="msg_started">Tvingande regler</string>
     <string name="msg_packages">%1$d tillåtna, %2$d blockerade</string>
@@ -173,8 +172,6 @@ Din internettrafik skickas inte till en avlägsen VPN-server.</string>
     <string name="msg_terms">Genom att donera samtycker du till <a href="http://www.netguard.me/#terms">villkor</a></string>
     <string name="msg_dimming">Om du inte kan klicka på OK i nästa dialogruta kommer en annan (skärmdimnings)app sannolikt att manipulera skärmen.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dag</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

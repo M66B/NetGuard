@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Vain TCP-liikenne lähetetään välityspalvelimelle</string>
     <string name="summary_watchdog">Tarkasta väliajoin NetGuardin päälläolo (aseta 0 kytkeäksesi tämä pois käytöstä). Tämä saattaa lisätä akun käyttöä.</string>
     <string name="summary_stats">Näytä verkkoyhteyden nopeuskuvaaja tilapalkin ilmoituksessa</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Oletko varma?</string>
     <string name="msg_started">Toimeenpanee sääntöjä</string>
     <string name="msg_packages">%1$d sallittu, %2$d estetty</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">Lahjoittamalla hyväksyt <a href="http://www.netguard.me/#terms">terms &amp; ehdot</a></string>
     <string name="msg_dimming">Jos et voi valita OK seuraavassa kohdassa, jokin näyttöä hallinnoiva (himmentävä) sovellus luultavasti estää sen.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/päivä</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">僅 TCP 流量會被送到代理伺服器</string>
     <string name="summary_watchdog">定時檢查 NetGuard 是否仍在運行 (輸入 0 停用此選項)。這可能導致額外的耗電量。</string>
     <string name="summary_stats">在狀態欄通知列上顯示網路速度圖</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">您確定？</string>
     <string name="msg_started">執行規則</string>
     <string name="msg_packages">已允許 %1$d，已封鎖 %2$d</string>
@@ -173,8 +172,6 @@
     <string name="msg_terms">捐款代表你同意<a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
     <string name="msg_dimming">如果您在下一個對話方塊無法按下 OK，很可能有其他 app (藍光過濾器) 在操控您的螢幕。</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/日</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

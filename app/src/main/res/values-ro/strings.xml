@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Dar traficul de date TCP va fi rutat spre serverul proxy</string>
     <string name="summary_watchdog">Verifică periodic dacă NetGuard rulează (introdu zero pentru a dezactiva). Această opțiune poate duce la un consum ridicat al bateriei.</string>
     <string name="summary_stats">Arată graficul de viteză al rețelei în bara de notificări</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Ești sigur(ă)?</string>
     <string name="msg_started">Limitări activate</string>
     <string name="msg_packages">%1$d permise, %2$d blocate</string>
@@ -172,8 +171,6 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
     <string name="msg_dimming">Dacă în următoarea fereastră de dialog nu puteți apasă OK înseamnă că o aplicație ce manipulează ecranul (luminozitatea sau nuanță) blochează interacțiunea.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/zi</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

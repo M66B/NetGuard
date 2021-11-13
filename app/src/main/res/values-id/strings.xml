@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Hanya lalu lintas TCP yang akan dikirim ke server proksi</string>
     <string name="summary_watchdog">Periksa secara berkala apakah NetGuard masih berjalan (masukkan nol untuk menonaktifkan opsi ini). Hal ini mungkin menyebabkan penggunaan baterai ekstra.</string>
     <string name="summary_stats">Tampilkan grafik kecepatan jaringan di notifikasi bilah status</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Apakah anda yakin?</string>
     <string name="msg_started">Memaksa aturan</string>
     <string name="msg_packages">%1$d diizinkan, %2$d diblokir</string>
@@ -173,8 +172,6 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="msg_terms">Dengan donasi anda setuju dengan <a href="http://www.netguard.me/#terms">syarat &amp; kondisi</a></string>
     <string name="msg_dimming">Jika anda tidak bisa menekan OKE pada dialog berikutnya, apl (peredup layar) mungkin sedang memanipulasi layar.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/hari</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

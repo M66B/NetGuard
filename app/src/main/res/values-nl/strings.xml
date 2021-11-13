@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Alleen TCP-verkeer zal worden verzonden naar de proxyserver</string>
     <string name="summary_watchdog">Controleer regelmatig of NetGuard nog actief is (voer nul in om deze optie uit te schakelen). Dit kan resulteren in extra batterijgebruik.</string>
     <string name="summary_stats">Geef netwerksnelheidsgrafiek weer in statusbalkmelding</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Weet je het zeker?</string>
     <string name="msg_started">Regels worden toegepast</string>
     <string name="msg_packages">%1$d toegestaan, %2$d geblokkeerd</string>
@@ -173,8 +172,6 @@ Je internetverkeer wordt niet naar een externe VPN-server gestuurd.</string>
     <string name="msg_terms">Door te doneren ga je akkoord met de <a href="http://www.netguard.me/#terms">algemene &amp; voorwaarden</a></string>
     <string name="msg_dimming">Als je niet op \'OK\' kan tikken in het dialoogvenster, is een (schermdimmende) app waarschijnlijk actief.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dag</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

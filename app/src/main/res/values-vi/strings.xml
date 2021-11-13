@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Lưu lượng TCP sẽ được gửi đến máy chủ proxy</string>
     <string name="summary_watchdog">Định kỳ kiểm tra nếu NetGuard vẫn chạy (nhập 0 để tắt tùy chọn này). Điều này có thể dẫn đến việc hao pin.</string>
     <string name="summary_stats">Hiển thị đồ thị tốc độ mạng trên thanh thông báo trạng thái</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Bạn có chắc không?</string>
     <string name="msg_started">Đang thực thi các quy tắc</string>
     <string name="msg_packages">%1$d cho phép, %2$d bị chặn</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">Bằng cách tặng, bạn đồng ý với các <a href="http://www.netguard.me/#terms"> điều khoản &amp; điều kiện</a></string>
     <string name="msg_dimming">Nếu bạn không thể nhấn OK trong hộp thoại kế tiếp, rất có thể một ứng dụng khác (màn hình mờ) đang thao tác với màn hình.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/ngày</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

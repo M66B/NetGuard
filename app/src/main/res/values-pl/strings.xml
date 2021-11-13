@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Tylko ruch TCP zostanie przesłany do serwera proxy</string>
     <string name="summary_watchdog">Sprawdź okresowo, czy NetGuard nadal działa (wpisz zero, aby wyłączyć tę opcję). Może to spowodować większe zużycie baterii.</string>
     <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Czy jesteś pewien?</string>
     <string name="msg_started">Wymuś Reguły</string>
     <string name="msg_packages">%1$d dozwolone, %2$d zablokowane</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">Przekazując darowiznę wyrażam zgodę na <a href="http://www.netguard.me/#terms">terms &amp; conditions</a></string>
     <string name="msg_dimming">Jeśli nie możesz nacisnąć OK w następnym oknie, prawdopodobnie inna aplikacja zarządza ekranem (przygaszanie ekranu).</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dzień</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

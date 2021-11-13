@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">TCP போக்குவரத்து மட்டும் பதிலிச் சேவையகம் அனுப்பப்படும்</string>
     <string name="summary_watchdog">அவ்வப்போது என்றால் NetGuard இயங்கிக்கொண்டிருக்கும் சரிபார்க்கவும் (இந்த விருப்பத்தை முடக்க பூஜ்யம் உள்ளிட). கூடுதல் மின்கல பயன்பாட்டு இது இதனால் இருக்கலாம்.</string>
     <string name="summary_stats">நிலை பட்டி அறிவிக்கை பிணைய வேகம் வரைபடம் காண்பி</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">உறுதியாக?</string>
     <string name="msg_started">விதிகளை அமலாக்கம்</string>
     <string name="msg_packages">%1$d அனுமதிக்கப்பட்டவை, %2$d தடுக்கப்பட்டவை</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">கொடுப்பதன் மூலம் நீங்கள் ஒப்புக்கொள்கிறீர்கள், <a href="http://www.netguard.me/#terms"> விதிமுறைகள் &amp; நிபந்தனைகள்</a></string>
     <string name="msg_dimming">நீங்கள், அடுத்த உரையாடலில் உள்ள சரி என்பதை அழுத்தினால் முடியாது, வேறு (திரை dimming) பயன்பாடு என்பது தெரிகிறது manipulating திரை.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/நாள்</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

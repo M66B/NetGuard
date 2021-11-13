@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">केवल TCP यातायात प्रॉक्सी सर्वर से भेजा जाएगा</string>
     <string name="summary_watchdog">समय-समय पर NetGuard अभी भी चल रहा है या नहीं की जाँच करें (इस विकल्प को अक्षम करने के लिए शून्य दर्ज करें)। यह अतिरिक्त बैटरी उपयोग में परिणाम हो सकता है।</string>
     <string name="summary_stats">स्थिति पट्टी में सूचना नेटवर्क गति ग्राफ़ दिखाएँ</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">क्या आपको यकीन है?</string>
     <string name="msg_started">नियमों को लागू करने के</string>
     <string name="msg_packages">अनुमति, %2$d अवरुद्ध %1$d</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">दान करने से आप <a href="http://www.netguard.me/#terms"> &amp; नियम और शर्तों के लिए सहमत हैं </a></string>
     <string name="msg_dimming">यदि आप अगले संवाद में ओके नहीं दबा सकते हैं, तो एक किसी (स्क्रीन डिमिंग) ऐप से स्क्रीन के हेरफेर होने की संभावना है।</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/दिन</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ KB</string>

@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Seul le trafic TCP sera envoyé au serveur proxy</string>
     <string name="summary_watchdog">Vérifier périodiquement si NetGuard est toujours en fonctionnement (entrez zéro pour désactiver cette option). Cela peut entraîner une surconsommation de la batterie.</string>
     <string name="summary_stats">Afficher le graphe de débit du réseau dans la barre d\'état</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Êtes-vous sûr ?</string>
     <string name="msg_started">Application des règles</string>
     <string name="msg_packages">%1$d autorisée(s), %2$d bloquée(s)</string>
@@ -173,8 +172,6 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="msg_terms">En faisant un don vous acceptez les <a href="http://www.netguard.me/#terms">termes et conditions</a></string>
     <string name="msg_dimming">Si vous ne pouvez pas appuyer sur OK dans la fenêtre suivante, une autre application (filtre de luminosité) manipule probablement l\'écran.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ Mo/jour</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ Ko</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ Mo</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ Go</string>

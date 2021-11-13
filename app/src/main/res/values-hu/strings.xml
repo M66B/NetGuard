@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Csak a TCP forgalom küldése a proxy szerverre</string>
     <string name="summary_watchdog">Rendszeresen ellenőrzi ha a NetGuard fut (a 0 beírása letiltja azt az opciót). Ez extra akkumulátor használattal járhat.</string>
     <string name="summary_stats">Mutassa a hálózat sebesség grafikont az értesítés sávon</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Biztos benne?</string>
     <string name="msg_started">Szabályok érvényesítése</string>
     <string name="msg_packages">%1$d engedélyezve, %2$d letiltva</string>
@@ -173,8 +172,6 @@ Az internetes forgalom nem érkezik meg a távoli VPN kiszolgálóhoz.</string>
     <string name="msg_terms">A támogató elfogadja a <a href="http://www.netguard.me/#terms">felhasználási feltételeket</a></string>
     <string name="msg_dimming">Ha nem nyomja meg az OK gombot a következő párbeszédablakban, a másik (a képernyő fényerő) alkalmazás valószínűleg módosul a képernyőn.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/nap</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

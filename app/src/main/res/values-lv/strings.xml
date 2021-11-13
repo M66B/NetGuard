@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Tikai TCP datu plūsma tiks sūtīta uz proxy serveri</string>
     <string name="summary_watchdog">Periodiski pārbauda, vai NetGuard vēl joprojām darbojas (nulle atspējo šo funkciju). Var palielināt baterijas noslodzi.</string>
     <string name="summary_stats">Parāda tīkla ātruma grafiku statusa joslā</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Vai esi pārliecināts?</string>
     <string name="msg_started">Noteikumu izpilde</string>
     <string name="msg_packages">%1$d atļauts, %2$d bloķēts</string>
@@ -173,8 +172,6 @@ Tava interneta datu plūsma netiks sūtīta uz kādu ārējo VPN serveri.</strin
     <string name="msg_terms">Ziedojot Tu piekrītu <a href="http://www.netguard.me/#terms">noteikumiem un nosacījumiem</a></string>
     <string name="msg_dimming">Ja nākamajā dialog logā nevari nospiest OK, tad visticamākais kāda cita (ekrāna aptumšošanas) lietotne patreiz lieto ekrānu.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dienā</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
