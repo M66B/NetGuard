@@ -3,6 +3,14 @@
 *NetGuard* provides simple and advanced ways to block access to the internet - no root required.
 Applications and addresses can individually be allowed or denied access to your Wi-Fi and/or mobile connection.
 
+<br>
+
+**WARNING: there is an app in the Samsung Galaxy app store "*Play Music - MP3 Music player*"
+with the same package name as NetGuard, which will be installed as update without your confirmation.
+This app is probably malicious and was reported to Samsung on December 8, 2021.**
+
+<br>
+
 Blocking access to the internet can help:
 
 * reduce your data usage
