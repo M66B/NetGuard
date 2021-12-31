@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">На прокси-сервер будет направляться только TCP трафик</string>
     <string name="summary_watchdog">Периодически проверять, запущен ли NetGuard (введите ноль, чтобы отключить эту опцию). Это может привести к большему потреблению заряда аккумулятора.</string>
     <string name="summary_stats">Показать график скорости сети в статус-баре</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Вы уверены?</string>
     <string name="msg_started">Определить правила</string>
     <string name="msg_packages">%1$d разрешено, %2$d заблокировано</string>
@@ -172,8 +171,6 @@
     <string name="msg_terms">Делая пожертвование, Вы соглашаетесь с <a href="http://www.netguard.me/#terms">условиями &amp; положениями</a></string>
     <string name="msg_dimming">Если вам не удается нажать ОК в следующем диалоговом окне (затемнение экрана), то, скорее всего, какое то другое приложение использует экран.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ МБ/день</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ КБ</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ МБ</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ ГБ</string>

@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">プロキシサーバーには TCP トラフィックのみが送信されます</string>
     <string name="summary_watchdog">NetGuard が実行されているかどうかを定期的にチェックします (0 を入力すると、このオプションを無効にします)。余分にバッテリーを使用することがあります。</string>
     <string name="summary_stats">通知領域にネットワーク速度のグラフを表示します</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">よろしいですか?</string>
     <string name="msg_started">ルールを執行します</string>
     <string name="msg_packages">許可 %1$d、ブロック %2$d</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">寄付によって <a href="http://www.netguard.me/#terms">利用規約</a> に同意します</string>
     <string name="msg_dimming">次のダイアログボックスで OK を押すことができない場合、別の (画面調光) アプリが画面を操作している可能性があります。</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/日</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

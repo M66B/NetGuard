@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Kun TCP-trafik sendes til proxy-serveren</string>
     <string name="summary_watchdog">Kontrollér periodisk at NetGuard stadig kører (angiv 0 for at deaktivere denne funktion). Dette kan medføre forøget strømforbrug.</string>
     <string name="summary_stats">Vis netværkshastighedsgraf i statusbjælkenotifikation</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Er du sikker?</string>
     <string name="msg_started">Håndhæver regler</string>
     <string name="msg_packages">%1$d tilladt, %2$d blokeret</string>
@@ -173,8 +172,6 @@ Din Internettrafik sendes ikke til en ekstern VPN-server.</string>
     <string name="msg_terms">Ved at donere, accepterer du <a href="http://www.netguard.me/#terms">vilkårene og betingelserne</a></string>
     <string name="msg_dimming">Kan du ikke trykke OK i næste dialog, så håndteres skærmen sandsynligvis af en anden (skærmnedtonings-) app.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/dag</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

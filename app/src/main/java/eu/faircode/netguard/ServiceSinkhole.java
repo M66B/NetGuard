@@ -57,6 +57,7 @@ import android.os.ParcelFileDescriptor;
 import android.os.PowerManager;
 import android.os.Process;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
@@ -163,12 +164,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private static final int NOTIFY_ENFORCING = 1;
     private static final int NOTIFY_WAITING = 2;
     private static final int NOTIFY_DISABLED = 3;
-    private static final int NOTIFY_AUTOSTART = 4;
-    private static final int NOTIFY_ERROR = 5;
-    private static final int NOTIFY_TRAFFIC = 6;
-    private static final int NOTIFY_UPDATE = 7;
-    public static final int NOTIFY_EXTERNAL = 8;
-    public static final int NOTIFY_DOWNLOAD = 9;
+    private static final int NOTIFY_LOCKDOWN = 4;
+    private static final int NOTIFY_AUTOSTART = 5;
+    private static final int NOTIFY_ERROR = 6;
+    private static final int NOTIFY_TRAFFIC = 7;
+    private static final int NOTIFY_UPDATE = 8;
+    public static final int NOTIFY_EXTERNAL = 9;
+    public static final int NOTIFY_DOWNLOAD = 10;
 
     public static final String EXTRA_COMMAND = "Command";
     private static final String EXTRA_REASON = "Reason";
@@ -442,6 +444,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         Log.e(TAG, "Unknown command=" + cmd);
                 }
 
+                if (cmd == Command.start || cmd == Command.reload) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        boolean filter = prefs.getBoolean("filter", false);
+                        if (filter && isLockdownEnabled())
+                            showLockdownNotification();
+                        else
+                            removeLockdownNotification();
+                    }
+                }
+
                 if (cmd == Command.start || cmd == Command.reload || cmd == Command.stop) {
                     // Update main view
                     Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);
@@ -469,7 +481,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     if (VpnService.prepare(ServiceSinkhole.this) == null) {
                         Log.w(TAG, "VPN prepared connected=" + last_connected);
                         if (last_connected && !(ex instanceof StartFailedException)) {
-                            showAutoStartNotification();
+                            //showAutoStartNotification();
                             if (!Util.isPlayStoreInstall(ServiceSinkhole.this))
                                 showErrorNotification(ex.toString());
                         }
@@ -572,6 +584,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     last_builder = builder;
 
                     boolean handover = prefs.getBoolean("handover", false);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
+                        handover = false;
                     Log.i(TAG, "VPN restart handover=" + handover);
 
                     if (handover) {
@@ -1298,6 +1312,23 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 listExclude.add(new IPUtil.CIDR("192.168.0.0", 16));
             }
 
+            if (!filter) {
+                for (InetAddress dns : getDns(ServiceSinkhole.this))
+                    if (dns instanceof Inet4Address)
+                        listExclude.add(new IPUtil.CIDR(dns.getHostAddress(), 32));
+
+                String dns_specifier = Util.getPrivateDnsSpecifier(ServiceSinkhole.this);
+                if (!TextUtils.isEmpty(dns_specifier))
+                    try {
+                        Log.i(TAG, "Resolving private dns=" + dns_specifier);
+                        for (InetAddress pdns : InetAddress.getAllByName(dns_specifier))
+                            if (pdns instanceof Inet4Address)
+                                listExclude.add(new IPUtil.CIDR(pdns.getHostAddress(), 32));
+                    } catch (Throwable ex) {
+                        Log.e(TAG, ex.toString());
+                    }
+            }
+
             // https://en.wikipedia.org/wiki/Mobile_country_code
             Configuration config = getResources().getConfiguration();
 
@@ -1966,7 +1997,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 packet.allowed = true;
                 Log.i(TAG, "Allowing UDP " + packet);
             } else if (packet.uid < 2000 &&
-                    !last_connected && isSupported(packet.protocol)) {
+                    !last_connected && isSupported(packet.protocol) && false) {
                 // Allow system applications in disconnected state
                 packet.allowed = true;
                 Log.w(TAG, "Allowing disconnected system " + packet);
@@ -2947,6 +2978,36 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         notification.bigText(getString(R.string.msg_revoked));
 
         NotificationManagerCompat.from(this).notify(NOTIFY_DISABLED, notification.build());
+    }
+
+    private void showLockdownNotification() {
+        Intent intent = new Intent(Settings.ACTION_VPN_SETTINGS);
+        PendingIntent pi = PendingIntent.getActivity(this, NOTIFY_LOCKDOWN, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        TypedValue tv = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorOff, tv, true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+        builder.setSmallIcon(R.drawable.ic_error_white_24dp)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.msg_always_on_lockdown))
+                .setContentIntent(pi)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setColor(tv.data)
+                .setOngoing(false)
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            builder.setCategory(NotificationCompat.CATEGORY_STATUS)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET);
+
+        NotificationCompat.BigTextStyle notification = new NotificationCompat.BigTextStyle(builder);
+        notification.bigText(getString(R.string.msg_always_on_lockdown));
+
+        NotificationManagerCompat.from(this).notify(NOTIFY_LOCKDOWN, notification.build());
+    }
+
+    private void removeLockdownNotification() {
+        NotificationManagerCompat.from(this).cancel(NOTIFY_LOCKDOWN);
     }
 
     private void showAutoStartNotification() {

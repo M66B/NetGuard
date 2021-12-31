@@ -2,24 +2,24 @@
 <resources>
     <string name="app_description">NetGuard oferă modalități simple și avansate de a bloca accesul la internet, ce nu necesită acces root. Accesul aplicațiilor la conexiunile Wi-Fi și/sau mobile poate fi permis sau blocat atât la nivel individual cât și la nivel de adresă.</string>
     <string name="app_android">NetGuard necesită Android 5.1 sau mai nou</string>
-    <string name="app_xposed">Xposed cauzează prea multe erori care ar putea duce la scoaterea NetGuard din Google Play store, prin urmare, NetGuard nu va fi suportat atunci când Xposed este instalat</string>
+    <string name="app_xposed">Xposed cauzează prea multe erori care ar putea duce la ștergerea NetGuard din Google Play Store, prin urmare NetGuard nu este suportat atâta timp cât Xposed este instalat</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Politica de confidențialitate</a></string>
-    <string name="app_first">NetGuard este dezvoltat și testat cu mare atenție, cu toate acestea este imposibil de garantat că va funcționa corect pe fiecare sau pe orice dispozitiv.</string>
+    <string name="app_first">NetGuard este dezvoltat și testat cu mare atenție, cu toate acestea este imposibil de garantat că va funcționa corect pe oricare dispozitiv.</string>
     <string name="app_agree">Accept</string>
     <string name="app_disagree">Nu accept</string>
-    <string name="app_support">NetGuard are nevoie de ajutorul dumneavoastră. Atingeți pentru a achiziționa caracteristici pro și a putea dezvolta proiectul în continuare.</string>
+    <string name="app_support">NetGuard are nevoie de ajutorul dumneavoastră. Atingeți pentru a achiziționa funcții Pro și a susține proiectul.</string>
     <string name="channel_foreground">Serviciile care rulează</string>
     <string name="channel_notify">Notificări generale</string>
     <string name="channel_access">Notificări acces</string>
-    <string name="menu_search">Caută aplicații</string>
-    <string name="menu_filter">Filtrează aplicațiile</string>
+    <string name="menu_search">Caută app</string>
+    <string name="menu_filter">Filtrează app</string>
     <string name="menu_app_user">Arată aplicațiile utilizatorului</string>
-    <string name="menu_app_system">Arată aplicațiile de sistem</string>
-    <string name="menu_app_nointernet">Arată aplicațiile fără permisiuni internet</string>
+    <string name="menu_app_system">Arată aplicații de sistem</string>
+    <string name="menu_app_nointernet">Arată aplicații fără permisiuni internet</string>
     <string name="menu_app_disabled">Arată aplicațiile dezactivate</string>
     <string name="menu_sort">Sortează aplicațiile</string>
     <string name="menu_sort_name">Sortare după nume</string>
-    <string name="menu_sort_uid">Sortare după uid</string>
+    <string name="menu_sort_uid">Sortare după UID</string>
     <string name="menu_sort_data">Sortare după traficul de date</string>
     <string name="menu_log">Arată jurnal</string>
     <string name="menu_settings">Setări</string>
@@ -32,12 +32,12 @@
     <string name="menu_traffic_allowed">Permis</string>
     <string name="menu_traffic_blocked">Blocat</string>
     <string name="menu_live">Actualizare în timp real</string>
-    <string name="menu_refresh">Reîmprospătare</string>
+    <string name="menu_refresh">Actualizare</string>
     <string name="menu_resolve">Arată nume domenii</string>
     <string name="menu_organization">Arată organizația</string>
     <string name="menu_pcap_enabled">Activează PCAP</string>
     <string name="menu_pcap_export">Exportă PCAP</string>
-    <string name="menu_clear">Curăță jurnalul</string>
+    <string name="menu_clear">Golește jurnalul</string>
     <string name="menu_export">Exportă</string>
     <string name="menu_reset">Resetează</string>
     <string name="menu_add">Adaugă</string>
@@ -49,7 +49,7 @@
     <string name="title_rport">Portul de destinație</string>
     <string name="title_ruid">Aplicație destinație</string>
     <string name="title_external">Pentru un server extern alegeți \'Proces fără utilizator\'</string>
-    <string name="setting_defaults">Setări implicite</string>
+    <string name="setting_defaults">Setări implicite (whitelist/blacklist)</string>
     <string name="setting_whitelist_wifi">Blochează Wi-Fi</string>
     <string name="setting_whitelist_other">Blochează datele mobile</string>
     <string name="setting_screen_wifi">Permite Wi-Fi cu ecranul pornit</string>
@@ -59,11 +59,11 @@
     <string name="setting_theme">Tema: %1$s</string>
     <string name="setting_dark">Folosește tema întunecată</string>
     <string name="setting_install">Notificare la o instalare nouă</string>
-    <string name="setting_screen_on">Aplică regulile când \'ecranul este pornit\'</string>
+    <string name="setting_screen_on">Aplică regulile pentru \'ecran pornit\'</string>
     <string name="setting_auto">Activează automat după %1$s minute</string>
-    <string name="setting_delay">Temporizare la oprirea ecranului %1$s minute</string>
+    <string name="setting_delay">Întârzie regulile pentru \"ecran oprit\" %1$s minute</string>
     <string name="setting_update">Verificați dacă există actualizări</string>
-    <string name="setting_network_options">Opțiuni conexiune</string>
+    <string name="setting_network_options">Opțiuni rețea</string>
     <string name="setting_subnet">Rutare subrețea</string>
     <string name="setting_tethering">Permite partajarea conexiunii</string>
     <string name="setting_lan">Permite acces LAN</string>
@@ -109,9 +109,9 @@
     <string name="setting_watchdog">Repornire automată: o dată la %s minute</string>
     <string name="setting_stats_category">Notificare viteză conexiune</string>
     <string name="setting_stats">Arată notificare viteză</string>
-    <string name="setting_stats_top">Arată aplicațiile consumatoare</string>
+    <string name="setting_stats_top">Arată aplicațiile consumătoare</string>
     <string name="setting_stats_frequency">Interval de eșantionare: %s ms</string>
-    <string name="setting_stats_samples">Numar de esantioane: %s s</string>
+    <string name="setting_stats_samples">Număr de eșantioane: %s s</string>
     <string name="setting_backup">Copie de siguranță</string>
     <string name="setting_export">Exportă setări</string>
     <string name="setting_import">Importă setări</string>
@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Dar traficul de date TCP va fi rutat spre serverul proxy</string>
     <string name="summary_watchdog">Verifică periodic dacă NetGuard rulează (introdu zero pentru a dezactiva). Această opțiune poate duce la un consum ridicat al bateriei.</string>
     <string name="summary_stats">Arată graficul de viteză al rețelei în bara de notificări</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Ești sigur(ă)?</string>
     <string name="msg_started">Limitări activate</string>
     <string name="msg_packages">%1$d permise, %2$d blocate</string>
@@ -172,8 +171,6 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_terms">Donand esti de acord cu <a href="http://www.netguard.me/#terms">termenii si conditiile</a></string>
     <string name="msg_dimming">Dacă în următoarea fereastră de dialog nu puteți apasă OK înseamnă că o aplicație ce manipulează ecranul (luminozitatea sau nuanță) blochează interacțiunea.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/zi</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
@@ -227,8 +224,8 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="title_download">Descărcările sunt realizate de către managerul de descărcări și nu de către această aplicație, în consecință nu pot fi blocate prin blocarea acesteia</string>
     <string name="title_apply">Aplică regulile și condițiile</string>
     <string name="title_conditions">Restricții</string>
-    <string name="title_screen_wifi">Permite Wi-Fi cand ecranul e pornit</string>
-    <string name="title_screen_other">Permite date mobile cand ecranul e pornit</string>
+    <string name="title_screen_wifi">Permite Wi-Fi când ecranul este pornit</string>
+    <string name="title_screen_other">Permite date mobile când ecranul este pornit</string>
     <string name="title_roaming_symbol">R</string>
     <string name="title_roaming">Blochează în roaming</string>
     <string name="title_lockdown">Permite când traficul este închis</string>
@@ -266,7 +263,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="title_pro_filter">Filtrează traficul de rețea</string>
     <string name="title_pro_notify">Notificare aplicație nou instalată</string>
     <string name="title_pro_speed">Notificare cu grafic viteza conexiune</string>
-    <string name="title_pro_theme">Tema, culori configurabile</string>
+    <string name="title_pro_theme">Aspect (temă, culori)</string>
     <string name="title_pro_all">Toate funcțiile avansate de mai sus</string>
     <string name="title_pro_dev">Sprijină dezvoltarea</string>
     <string name="title_pro_buy">Cumpără</string>
@@ -282,7 +279,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string-array name="themeNames">
         <item>verde albăstrui/portocaliu</item>
         <item>albastru/portocaliu</item>
-        <item>mov/rosu</item>
+        <item>mov/roșu</item>
         <item>culoarea chihlimbarului/albastru</item>
         <item>portocaliu/gri</item>
         <item>verde</item>

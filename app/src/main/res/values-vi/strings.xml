@@ -3,20 +3,20 @@
     <string name="app_description">NetGuard cung cấp những cách đơn giản và nâng cao để chặn quyền truy cập vào internet - không yêu cầu root. Ứng dụng và địa chỉ có thể được cá nhân cho phép hoặc từ chối truy cập Wi-Fi và/hoặc kết nối di động của bạn.</string>
     <string name="app_android">NetGuard yêu cầu Android 5.1 hoặc cao hơn</string>
     <string name="app_xposed">Xposed gây ra quá nhiều lỗi, mà có ảnh hưởng đến NetGuard bị gỡ bỏ khỏicửa hàng Google Play; Do đó, NetGuard sẽ không được hỗ trợ nếu Xposed được cài đặt.</string>
-    <string name="app_privacy">chính sách bảo mật <a href="https://www.netguard.me/privacy/"></a></string>
-    <string name="app_first">Chăm sóc tuyệt vời đã được thực hiện để phát triển và thử nghiệm NetGuard, Tuy nhiên chúng tôi không thể đảm bảo NetGuard sẽ làm việc chính xác trên mọi thiết bị</string>
+    <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Chính sách riêng tư</a></string>
+    <string name="app_first">Tôi đã rất cẩn thận để phát triển và thử nghiệm NetGuard, tuy nhiên không thể đảm bảo NetGuard sẽ làm việc chính xác trên mọi thiết bị.</string>
     <string name="app_agree">Tôi đồng ý</string>
     <string name="app_disagree">Tôi không đồng ý</string>
-    <string name="app_support">NetGuard cần sự giúp đỡ của bạn.Nhấn để mua các tính năng Pro để trải nghiệm tốt hơn.</string>
-    <string name="channel_foreground">Các dịch vụ đang hoạt động</string>
+    <string name="app_support">NetGuard cần sự giúp đỡ của bạn. Nhấn để mua các tính năng Pro để giữ cho dự án hoạt động.</string>
+    <string name="channel_foreground">Các dịch vụ đang chạy</string>
     <string name="channel_notify">Thông báo chung</string>
     <string name="channel_access">Truy cập thông báo</string>
-    <string name="menu_search">Tìm kiếm các ứng dụng</string>
-    <string name="menu_filter">Bộ lọc ứng dụng</string>
+    <string name="menu_search">Tìm kiếm ứng dụng</string>
+    <string name="menu_filter">Lọc ứng dụng</string>
     <string name="menu_app_user">Hiển thị ứng dụng của người dùng</string>
     <string name="menu_app_system">Hiển thị các ứng dụng hệ thống</string>
-    <string name="menu_app_nointernet">Hiển thị các ứng dụng mà không có internet</string>
-    <string name="menu_app_disabled">Hiển thị ứng dụng bị vô hiệu hóa</string>
+    <string name="menu_app_nointernet">Hiển thị các ứng dụng không có internet</string>
+    <string name="menu_app_disabled">Hiển thị các ứng dụng bị tắt</string>
     <string name="menu_sort">Sắp xếp ứng dụng</string>
     <string name="menu_sort_name">Sắp xếp theo tên</string>
     <string name="menu_sort_uid">Sắp xếp theo uid</string>
@@ -24,7 +24,7 @@
     <string name="menu_log">Xem lịch sử</string>
     <string name="menu_settings">Cài đặt</string>
     <string name="menu_invite">Mời</string>
-    <string name="menu_legend">Chú thích</string>
+    <string name="menu_legend">Chú giải</string>
     <string name="menu_support">Hỗ trợ</string>
     <string name="menu_about">Giới thiệu</string>
     <string name="menu_apps">Ứng dụng khác</string>
@@ -47,7 +47,7 @@
     <string name="title_dport">Cổng nguồn</string>
     <string name="title_raddr">Địa chỉ nơi đến</string>
     <string name="title_rport">Cổng nơi đến</string>
-    <string name="title_ruid">Đích đến</string>
+    <string name="title_ruid">Ứng dụng đích đến</string>
     <string name="title_external">Đối với một máy chủ bên ngoài chọn \'nobody\'</string>
     <string name="setting_defaults">Mặc định (white/blacklist)</string>
     <string name="setting_whitelist_wifi">Chặn Wi-Fi</string>
@@ -97,7 +97,7 @@
     <string name="setting_vpn4">VPN IPv4: %s</string>
     <string name="setting_vpn6">VPN IPv6: %s</string>
     <string name="setting_dns">VPN DNS: %s</string>
-    <string name="setting_validate">Validate at: %s</string>
+    <string name="setting_validate">Xác thực tại: %s</string>
     <string name="setting_ttl">Tối thiểu DNS TTL: %s s</string>
     <string name="setting_socks5_enabled">Dùng Socks5 proxy</string>
     <string name="setting_socks5_addr">Địa chỉ (Socks5): %s</string>
@@ -146,11 +146,10 @@
     <string name="summary_track_usage">Theo dõi số lượng byte gửi và nhận được cho mỗi ứng dụng và địa chỉ. Điều này có thể dẫn đến việc hao pin.</string>
     <string name="summary_block_domains">DNS được định cấu hình cho các tên miền bị chặn. Tùy chọn này bị vô hiệu hóa khi không có sẵn file hosts.</string>
     <string name="summary_rcode">Giá trị mặc định là 3 (NXDOMAIN), có nghĩa là \'không tồn tại tên miền\'.</string>
-    <string name="summary_validate">Domain name used to validate the internet connection at port 443 (https).</string>
+    <string name="summary_validate">Tên miền được sử dụng để xác thực kết nối internet tại cổng 443 (https).</string>
     <string name="summary_socks5_enabled">Lưu lượng TCP sẽ được gửi đến máy chủ proxy</string>
     <string name="summary_watchdog">Định kỳ kiểm tra nếu NetGuard vẫn chạy (nhập 0 để tắt tùy chọn này). Điều này có thể dẫn đến việc hao pin.</string>
     <string name="summary_stats">Hiển thị đồ thị tốc độ mạng trên thanh thông báo trạng thái</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Bạn có chắc không?</string>
     <string name="msg_started">Đang thực thi các quy tắc</string>
     <string name="msg_packages">%1$d cho phép, %2$d bị chặn</string>
@@ -171,8 +170,6 @@
     <string name="msg_terms">Bằng cách tặng, bạn đồng ý với các <a href="http://www.netguard.me/#terms"> điều khoản &amp; điều kiện</a></string>
     <string name="msg_dimming">Nếu bạn không thể nhấn OK trong hộp thoại kế tiếp, rất có thể một ứng dụng khác (màn hình mờ) đang thao tác với màn hình.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/ngày</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
@@ -220,8 +217,8 @@
     <string name="title_metered">Theo mặc định, kết nối Wi-Fi được coi là không trả phí và kết nối điện thoại di động được coi là có trả phí</string>
     <string name="title_internet">không có sự cho phép của internet</string>
     <string name="title_disabled">bị vô hiệu hóa</string>
-    <string name="title_messaging">Incoming messages are received by Google Play services and not by this app and can therefore not be blocked by blocking this app</string>
-    <string name="title_download">Downloads are performed by the download manager and not by this app and can therefore not be blocked by blocking this app</string>
+    <string name="title_messaging">Các thông báo đến được dịch vụ Google Play nhận và không phải ứng dụng này và do đó không thể bị chặn bằng cách chặn ứng dụng này</string>
+    <string name="title_download">Các lượt tải xuống được trình quản lý tải xuống thực hiện và không phải ứng dụng này và do đó không thể bị chặn bằng cách chặn ứng dụng này</string>
     <string name="title_apply">Áp dụng các quy tắc và trạng thái</string>
     <string name="title_conditions">Điều kiện</string>
     <string name="title_screen_wifi">Cho phép Wi-Fi khi màn hình bật</string>
@@ -272,16 +269,16 @@
     <string name="title_pro_details">Nhấn vào một tiêu đề để biết thêm thông tin</string>
     <string name="title_pro_challenge">Thử thách</string>
     <string name="title_pro_reponse">Phản ứng:</string>
-    <string name="title_pro_feature">This is a pro feature</string>
-    <string name="title_pro_subscription">        A monthly subscriptions of 1 or 2 euros (excluding local taxes) will activate all pro features.
-        You can cancel or manage a subscription via the subscriptions tab in the Play store app.
+    <string name="title_pro_feature">Đây là một tính năng pro</string>
+    <string name="title_pro_subscription">        Một gói đăng ký 1 hoặc 2 euro (chưa bao gồm thuế ở địa phương) sẽ kích hoạt tất cả tính năng pro.
+        Bạn có thể huỷ hoặc quản lý gói đăng ký qua tab gói đăng ký trong ứng dụng CH Play.
     </string>
     <string-array name="themeNames">
-        <item>teal/orange</item>
+        <item>xanh mòng két/cam</item>
         <item>xanh dương/cam</item>
         <item>tím/đỏ</item>
-        <item>amber/blue</item>
-        <item>orange/grey</item>
+        <item>hổ phách/xanh dương</item>
+        <item>cam/xám</item>
         <item>xanh lá cây</item>
     </string-array>
     <string-array name="protocolNames">

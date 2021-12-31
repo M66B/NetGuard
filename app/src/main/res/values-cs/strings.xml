@@ -150,7 +150,6 @@
     <string name="summary_socks5_enabled">Pouze TCP přenosy budou přenášeny skrze proxy server</string>
     <string name="summary_watchdog">Pravidelně kontrolovat, zda NetGuard stále běží (zadejte nulu pro vypnutí). Toto nastavení může mít vliv na spotřebu.</string>
     <string name="summary_stats">Zobrazit graf rychlosti sítě v notifikační liště</string>
-    <string-array name="default_wifi_home"></string-array>
     <string name="msg_sure">Jste si jistý?</string>
     <string name="msg_started">Vynucení pravidel</string>
     <string name="msg_packages">povoleno: %1$d | blokováno: %2$d</string>
@@ -173,8 +172,6 @@ Váš internetový provoz není odesílán žádnému vzdálenému VPN serveru.<
     <string name="msg_terms">Darováním souhlasíte s <a href="http://www.netguard.me/#terms">podmínkami&amp; služby</a></string>
     <string name="msg_dimming">Pokud v následujícím dialogu nelze potvrdit OK, jiná aplikace (např. barevný filtr) pravděpodobně překrývá obrazovku.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/den</string>
-    <string name="msg_kbsec">%7.3f KB/s</string>
-    <string name="msg_mbsec">%7.3f MB/s</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>

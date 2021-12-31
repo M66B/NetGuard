@@ -659,8 +659,8 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
                         if (!checked) {
                             cbNotify.setChecked(false);
                             prefs.edit().putBoolean("notify_access", false).apply();
-                            ServiceSinkhole.reload("changed notify", context, false);
                         }
+                        ServiceSinkhole.reload("changed notify", context, false);
                         AdapterRule.this.notifyDataSetChanged();
                     }
                 });
