@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">NetGuard は、インターネットへのアクセスをブロックするシンプルで高度な方法を提供します - root 権限は必要ありません。Wi-Fi および/またはモバイル接続へのアクセスを、アプリケーションとアドレスで個別に許可または拒否することができます。</string>
+    <string name="app_description">NetGuard は、インターネットへのアクセスをブロックするシンプルで高度な方法です - root 権限は必要ありません。Wi-Fi/モバイルデータ接続へのアクセスを、アプリとアドレスで個別に許可または拒否することができます。</string>
     <string name="app_android">NetGuard は Android 5.1 以降が必要です</string>
     <string name="app_xposed">Xposed があまりにクラッシュを引き起こしすぎるため、NetGuard が Google Play ストアから削除される可能性があります。したがって Xposed がインストールされていると、NetGuard はサポートされていません</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">プライバシーポリシー</a></string>
@@ -11,17 +11,17 @@
     <string name="channel_foreground">実行中のサービス</string>
     <string name="channel_notify">全般通知</string>
     <string name="channel_access">アクセス通知</string>
-    <string name="menu_search">アプリの検索</string>
+    <string name="menu_search">アプリを検索</string>
     <string name="menu_filter">アプリをフィルター</string>
     <string name="menu_app_user">ユーザーアプリを表示</string>
     <string name="menu_app_system">システムアプリを表示</string>
-    <string name="menu_app_nointernet">ネットを使用しないアプリを表示</string>
+    <string name="menu_app_nointernet">インターネットを使用しないアプリを表示</string>
     <string name="menu_app_disabled">無効になっているアプリを表示</string>
     <string name="menu_sort">アプリの並び替え</string>
     <string name="menu_sort_name">名前で並べ替え</string>
     <string name="menu_sort_uid">UID で並べ替え</string>
     <string name="menu_sort_data">データ使用状況で並べ替え</string>
-    <string name="menu_log">ログ表示</string>
+    <string name="menu_log">ログを表示</string>
     <string name="menu_settings">設定</string>
     <string name="menu_invite">招待</string>
     <string name="menu_legend">凡例</string>

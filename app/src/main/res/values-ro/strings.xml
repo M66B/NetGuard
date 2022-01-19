@@ -189,7 +189,7 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_downloaded">Lista de domenii de blocat descărcată</string>
     <string name="msg_download_last">Ultima descărcare: %s</string>
     <string name="msg_start_forward">Pornește redirecționarea de la %1$s port %2$d la %3$s:%4$d al \'%5$s\'?</string>
-    <string name="msg_stop_forward">Opreste redirectionarea %1$s port %2$d?</string>
+    <string name="msg_stop_forward">Oprește redirecționarea %1$s port %2$d?</string>
     <string name="msg_metered">Rețeaua este contorizată</string>
     <string name="msg_inactive">Nu există conexiune la internet</string>
     <string name="msg_queue">NetGuard este ocupat</string>
@@ -198,9 +198,9 @@ Din acest motiv, va rugăm să permiteți conexiunea VPN în caseta de dialog ur
     <string name="msg_fairemail">Dacă ați instalat NetGuard pentru a vă proteja intimitatea, poate vă interesează și <a href="https://email.faircode.eu/">FairEmail</a>, o aplicație client de e-mail cu sursă deschisă, prietenoasă cu intimitatea</string>
     <string name="msg_whitelist">Accesul la internet este permis in mod implicit, acest lucru poate fi schimbat in meniul setari</string>
     <string name="msg_push">Mesajele \"push\" sunt de obicei gestionate de componentele de sistem ale serviciilor Google Play. carora le este permis in mod implicit accesul la internet</string>
-    <string name="msg_system">Gestionarea aplicatiilor de sistem se activeaza din optiunile avansate</string>
-    <string name="msg_issue">Va rog sa descrieți problema și să indicați momentul când s-a produs:</string>
-    <string name="msg_vpn_cancelled">Conexiunea VPN a fost anulata\nS-a configurat cumva un alt VPN ca activat permanent?</string>
+    <string name="msg_system">Gestionarea aplicațiilor de sistem se activează din opțiunile avansate</string>
+    <string name="msg_issue">Vă rog să descrieți problema și să indicați momentul când s-a produs:</string>
+    <string name="msg_vpn_cancelled">Conexiunea VPN a fost anulată\nS-a configurat cumva un alt VPN ca activat permanent?</string>
     <string name="msg_on">Oprind dispozitivul atunci când NetGuard este pornit va face ca NetGuard să pornească automat la repornirea lui</string>
     <string name="msg_unavailable">Această caracteristică nu este disponibilă în această versiune de Android</string>
     <string name="msg_always_on">O altă rețea VPN este setată ca activată permanent</string>

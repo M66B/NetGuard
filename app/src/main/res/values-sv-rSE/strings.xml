@@ -7,7 +7,7 @@
     <string name="app_first">Stor omsorg har tagits för att utveckla och testa NetGuard, men det är omöjligt att garantera att NetGuard fungerar korrekt på alla enheter.</string>
     <string name="app_agree">Jag godkänner</string>
     <string name="app_disagree">Jag godkänner inte</string>
-    <string name="app_support">NetGuard behöver din hjälp. Tryck för att köpa pro-funktioner för att hålla projektet rullande.</string>
+    <string name="app_support">NetGuard behöver din hjälp. Tryck för att köpa pro-funktioner för att hålla projektet igång.</string>
     <string name="channel_foreground">Aktiva tjänster</string>
     <string name="channel_notify">Allmänna aviseringar</string>
     <string name="channel_access">Tillgång meddelanden</string>
