@@ -64,6 +64,7 @@
         <activity
             android:name=".ActivityMain"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:resizeableActivity="true">
@@ -95,6 +96,7 @@
         <activity
             android:name=".ActivitySettings"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/menu_settings"
             android:parentActivityName=".ActivityMain">
             <intent-filter>
@@ -153,6 +155,7 @@
         <activity
             android:name=".ActivityForwardApproval"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/AppDialog">
             <intent-filter>
@@ -163,6 +166,7 @@
 
         <service
             android:name=".ServiceSinkhole"
+            android:exported="true"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
@@ -172,6 +176,7 @@
 
         <service
             android:name=".ServiceExternal"
+            android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="eu.faircode.netguard.DOWNLOAD_HOSTS_FILE" />
@@ -180,6 +185,7 @@
 
         <service
             android:name=".ServiceTileMain"
+            android:exported="true"
             android:icon="@drawable/ic_security_white_24dp"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -190,6 +196,7 @@
 
         <service
             android:name=".ServiceTileGraph"
+            android:exported="true"
             android:icon="@drawable/ic_equalizer_white_24dp"
             android:label="@string/setting_stats_category"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -200,6 +207,7 @@
 
         <service
             android:name=".ServiceTileFilter"
+            android:exported="true"
             android:icon="@drawable/ic_filter_list_white_24dp"
             android:label="@string/setting_filter"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -210,6 +218,7 @@
 
         <service
             android:name=".ServiceTileLockdown"
+            android:exported="true"
             android:icon="@drawable/ic_lock_outline_white_24dp"
             android:label="@string/setting_lockdown"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
@@ -220,6 +229,7 @@
 
         <receiver
             android:name=".ReceiverAutostart"
+            android:exported="true"
             android:label="@string/app_name">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -227,7 +237,9 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".ReceiverPackageRemoved">
+        <receiver
+            android:name=".ReceiverPackageRemoved"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
                 <data android:scheme="package" />
@@ -236,6 +248,7 @@
 
         <receiver
             android:name=".WidgetMain"
+            android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -247,6 +260,7 @@
 
         <receiver
             android:name=".WidgetLockdown"
+            android:exported="true"
             android:label="@string/setting_lockdown">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -258,6 +272,7 @@
 
         <receiver
             android:name=".WidgetAdmin"
+            android:exported="true"
             android:label="@string/app_name"
             android:permission="eu.faircode.netguard.permission.ADMIN">
             <intent-filter>
