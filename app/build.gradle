@@ -5,13 +5,13 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion = 30
+    compileSdkVersion = 31
 
     defaultConfig {
         applicationId = "eu.faircode.netguard"
         versionName = "2.299"
         minSdkVersion 22
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode = 2021111301
         archivesBaseName = "NetGuard-v$versionName"
 

@@ -47,7 +47,7 @@ public class WidgetMain extends AppWidgetProvider {
             try {
                 Intent intent = new Intent(enabled ? WidgetAdmin.INTENT_OFF : WidgetAdmin.INTENT_ON);
                 intent.setPackage(context.getPackageName());
-                PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pi = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
                 for (int id : appWidgetIds) {
                     RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widgetmain);
                     views.setOnClickPendingIntent(R.id.ivEnabled, pi);
