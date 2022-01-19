@@ -312,20 +312,23 @@
             android:gravity="center_horizontal"
             android:text="≠"
             android:textAppearance="@style/TextLarge"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dip"
             android:layout_marginTop="8dip"
             android:layout_marginBottom="8dip"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvDev1Title"
@@ -363,7 +366,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tvDev2Title"
@@ -402,14 +406,16 @@
             android:layout_height="wrap_content"
             android:text="@string/title_pro_subscription"
             android:textAppearance="@style/TextSmall"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dip"
             android:layout_marginTop="8dip"
             android:layout_marginBottom="8dip"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
