@@ -1684,12 +1684,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
                             boolean exists = mapUidIPFilters.get(key).containsKey(iname);
                             if (!exists || !mapUidIPFilters.get(key).get(iname).isBlocked()) {
-                                IPRule rule = new IPRule(key, name + "/" + iname, block, time + ttl);
+                                IPRule rule = new IPRule(key, name + "/" + iname, block, time, ttl);
                                 mapUidIPFilters.get(key).put(iname, rule);
                                 if (exists)
                                     Log.w(TAG, "Address conflict " + key + " " + daddr + "/" + dresource);
                             } else if (exists) {
-                                mapUidIPFilters.get(key).get(iname).updateExpires(time + ttl);
+                                mapUidIPFilters.get(key).get(iname).updateExpires(time, ttl);
                                 if (dname != null && ttl > 60 * 1000L)
                                     Log.w(TAG, "Address updated " + key + " " + daddr + "/" + dresource);
                             } else {
@@ -3247,13 +3247,15 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         private IPKey key;
         private String name;
         private boolean block;
-        private long expires;
+        private long time;
+        private long ttl;
 
-        public IPRule(IPKey key, String name, boolean block, long expires) {
+        public IPRule(IPKey key, String name, boolean block, long time, long ttl) {
             this.key = key;
             this.name = name;
             this.block = block;
-            this.expires = expires;
+            this.time = time;
+            this.ttl = ttl;
         }
 
         public boolean isBlocked() {
@@ -3261,17 +3263,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         public boolean isExpired() {
-            return System.currentTimeMillis() > this.expires;
+            return System.currentTimeMillis() > (this.time + this.ttl * 2);
         }
 
-        public void updateExpires(long expires) {
-            this.expires = Math.max(this.expires, expires);
+        public void updateExpires(long time, long ttl) {
+            this.time = time;
+            this.ttl = ttl;
         }
 
         @Override
         public boolean equals(Object obj) {
             IPRule other = (IPRule) obj;
-            return (this.block == other.block && this.expires == other.expires);
+            return (this.block == other.block &&
+                    this.time == other.time &&
+                    this.ttl == other.ttl);
         }
 
         @Override
