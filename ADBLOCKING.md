@@ -29,7 +29,7 @@ Note that:
 
 * applications, like web browsers, may cache data, so you may need to clear caches
 * applications, browsers mostly, that have a *"data saver"*-like feature that proxies requests through their servers (eg. Opera w/ Turbo, Opera Max, Puffin, Chrome w/ data saver, UC Browser, Yandex w/ Turbo, Apus Browser, KK Browser, Onavo Extend, Maxthon) will not have ads blocked as NetGuard cannot see those domain requests
-* applications, browsers mostly, can have a private DNS feature (Chrome: three-dots menu, Settings, Privacy, Use secure DNS, turn off)
+* applications, browsers mostly, can have a private DNS feature (Chrome: three-dots menu, Settings, Privacy, Use secure DNS, turn off) **
 * applications, including browser, can be system apps, which require managing system apps in the advanced settings to be enabled
 * the Android always-on VPN setting *Block connections without VPN* will result in stop sending domain names to the VPN after some time
 * YouTube ads are not domain-based, and thus cannot be blocked with NetGuard
@@ -42,6 +42,14 @@ Note that:
 * you cannot exclude a single app from ad blocking because Android resolves domain names on behalf of all apps
 * **ad blocking is provided as-is**, see also [here](https://forum.xda-developers.com/showpost.php?p=71805655&postcount=4668)
 * **ad blocking is not available when NetGuard was installed from the Google Play store!** (disable automatic updates of NetGuard in the Play store application)
+
+** Some browsers (and also apps) now use DNS over TLS (DoT) or DNS over
+HTTPS (DoH). If one of the two protocols is active in the browser,
+NetGuard cannot "see" the outgoing DNS requests (due to encryption).
+They still flow through NetGuard, but are not treated as DNS requests,
+but as normal connections (via port 853 or 443). It is therefore not
+sufficient to disable Private DNS within Android, but you must also
+check the settings for DoT and DoH (especially for browsers).
 
 <br />
 
