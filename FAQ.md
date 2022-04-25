@@ -531,6 +531,9 @@ Make sure you are not running NetGuard in allow (whitelist) mode (check the NetG
 Make sure you didn't enable the Always-On VPN sub option '*Block connections without VPN*' (Android 8 Oreo or later).
 This will block resolving domain names too (is it a bug or feature?).
 
+Some internet providers block all DNS requests except via their own DNS servers.
+So, if you configured custom DNS servers, try to undo this.
+
 Some Android versions, including LineageOS and /e/ for some devices, contain a bug resulting in all internet traffic being blocked.
 Mostly, you can workaround this bug by enabling filtering in NetGuard's *Advanced options*.
 If this doesn't solve the issue, the problem can unfortunately not be fixed or worked around by NetGuard.
@@ -544,8 +547,8 @@ except for applications with the condition *'Allow in lockdown mode'* enabled.
 You can use this mode to limit battery usage or network usage,
 for example, when your battery is almost empty or when your data allotment is almost exhausted.
 
-Note that Lockdown mode applies only if the corresponding option is also set in "Network options" 
-(one for Wi-Fi mode, one for Mobile data), allowing to have lockdown in only one of the two network modes 
+Note that Lockdown mode applies only if the corresponding option is also set in "Network options"
+(one for Wi-Fi mode, one for Mobile data), allowing to have lockdown in only one of the two network modes
 and not in the other (eg. Lock down if mobile data are active, but not if Wi-Fi is currently used).
 
 Note also that system applications will only be blocked in this mode
