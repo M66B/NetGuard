@@ -714,6 +714,10 @@ and to save on battery power and to prevent crashes blocking NetGuard with itsel
 **(66) Why is a blocked app still accessing the internet?**
 
 Blocked apps cannot access the internet. There are no exceptions to this.
+All app and system traffic flows through the [Android VPN service](https://developer.android.com/guide/topics/connectivity/vpn),
+which is a *must* for companies with high security requirements.
+This also means that all apps will be treated in the same way
+and that the global access log (*Show log* in the three-dots overflow menu) will show all traffic.
 
 However:
 
