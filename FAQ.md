@@ -681,13 +681,13 @@ Be sure to enter and confirm the addresses and to set two DNS server addresses.
 If you enter just one DNS server address, it will be used in addition to the default DNS server addresses.
 
 <a name="faq64"></a>
-**(64) Can you add DNS over TLS?**
+**(64) Can you add DNS over TLS/HTTP?**
 
-If you mean to intercept [DNS over TLS](https://en.wikipedia.org/wiki/DNS_over_TLS) requests to resolve domain names,
-this is not possible because DNS over TLS traffic is encrypted, which is the whole point of DNS over TLS.
+If you mean to intercept [DNS over HTTP](https://en.wikipedia.org/wiki/DNS_over_HTTPS) (DoH)
+or [DNS over TLS](https://en.wikipedia.org/wiki/DNS_over_TLS) (DoT) requests to resolve domain names,
+this is not possible because DoH/DoT traffic is encrypted, which is the whole point of DoH/DoT.
 
-If you mean to translate plain DNS to DNS over TLS, Android 9 Pie and later already support DNS over TLS out of the box,
-so it isn't worth the significant effort to add this.
+Please [see here](https://github.com/Ch4t4r/Nebulo/blob/master/docs/NONVPNMODE.md) about how you can use DoH/DoT with NetGuard anyway.
 
 <br />
 
