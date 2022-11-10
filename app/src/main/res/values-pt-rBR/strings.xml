@@ -49,7 +49,7 @@
     <string name="title_rport">Porta de destino</string>
     <string name="title_ruid">Aplicativo de destino</string>
     <string name="title_external">Para um servidor externo, selecione \'ninguém\'</string>
-    <string name="setting_defaults">Padrões (white/blacklist)</string>
+    <string name="setting_defaults">Padrões (lista branca/negra)</string>
     <string name="setting_whitelist_wifi">Bloquear Wi-Fi</string>
     <string name="setting_whitelist_other">Bloquear Dados Móveis</string>
     <string name="setting_screen_wifi">Permitir Wi-Fi ao ligar a tela</string>
@@ -61,7 +61,7 @@
     <string name="setting_install">Notificar sobre novas instalações</string>
     <string name="setting_screen_on">Aplicar regras \'quando tela estiver ligada\'</string>
     <string name="setting_auto">Auto habilitar após %1$s minutos</string>
-    <string name="setting_delay">Delay de %1$s minutos após desligar a tela</string>
+    <string name="setting_delay">Atraso de %1$s minutos após desligar o ecrã</string>
     <string name="setting_update">Procurar por atualizações</string>
     <string name="setting_network_options">Opções de rede</string>
     <string name="setting_subnet">Roteamento de subrede</string>

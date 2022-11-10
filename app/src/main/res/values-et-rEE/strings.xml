@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_agree">Nõustun</string>
+    <string name="app_disagree">Ei nõustu</string>
+    <string name="menu_search">Rakenduse otsimine</string>
+    <string name="menu_filter">Rakenduse filtreerimine</string>
+    <string name="menu_app_user">Näita kasutajarakendusi</string>
+    <string name="menu_app_system">Näita süsteemirakendusi</string>
+    <string name="menu_app_nointernet">Näita ilma internetita rakendusi</string>
+    <string name="menu_app_disabled">Näita keelatud rakendusi</string>
+    <string name="menu_sort">Sorteeri rakendusi</string>
+    <string name="menu_sort_name">Sorteeri nime järgi</string>
+    <string name="menu_sort_uid">Sorteeri uid alusel</string>
+    <string name="menu_sort_data">Sorteeri andmekasutuse järgi</string>
+    <string name="menu_log">Näita logi</string>
+    <string name="menu_settings">Seaded</string>
+    <string name="menu_invite">Kutsu</string>
+    <string name="menu_legend">Legend</string>
+    <string name="menu_support">Kasutajatugi</string>
+    <string name="menu_about">Info</string>
+    <string name="menu_protocol_other">Muu</string>
+    <string name="menu_traffic_allowed">Lubatud</string>
+    <string name="menu_traffic_blocked">Blokeeritud</string>
+    <string name="menu_live">Uuendused</string>
+    <string name="menu_refresh">Värskenda</string>
+    <string name="menu_resolve">Näita nimesid</string>
+    <string name="menu_organization">Näita organisatsiooni</string>
+    <string name="menu_pcap_enabled">PCAP lubatud</string>
+    <string name="menu_pcap_export">PCAP eksport</string>
+    <string name="menu_clear">Tühjenda</string>
+    <string name="menu_reset">Lähtesta</string>
+    <string name="menu_add">Lisa</string>
+    <string name="menu_delete">Kustuta</string>
+    <string name="menu_cleanup">Puhasta</string>
+    <string name="title_protocol">Protokoll</string>
+    <string name="title_dport">Lähteport</string>
+    <string name="title_raddr">Sihtkoha aadress</string>
+    <string name="title_rport">Sihtkoha port</string>
+    <string name="title_ruid">Sihtrakendus</string>
+    <string name="setting_defaults">Vaikeväärtused (valge/must nimekiri)</string>
+    <string name="setting_whitelist_wifi">Blokeeri wifi</string>
+    <string name="setting_whitelist_other">Blokeeri andmeside</string>
+    <string name="setting_screen_wifi">Luba WiFi, kui ekraan on sisse lülitatud</string>
+    <string name="setting_screen_other">Luba andmeside, kui ekraan on sisse lülitatud</string>
+    <string name="setting_whitelist_roaming">Blokeeri rändluse ajal</string>
+    <string name="setting_options">Valikud</string>
+    <string name="setting_theme">Teema: %1$s</string>
+    <string name="setting_dark">Kasuta tumedat teemat</string>
+    <string name="setting_network_options">Võrgu valikud</string>
+    <string name="setting_subnet">Alamvõrgu marsuutimine</string>
+    <string name="setting_tethering">Luba edasijagamine</string>
+    <string name="setting_lan">Luba LAN ligipääs</string>
+    <string name="setting_metered_2g">Ära mõõda 2G mühendust</string>
+    <string name="setting_metered_3g">Ära mõõda 3G mühendust</string>
+    <string name="setting_metered_4g">Ära mõõda LTE mühendust</string>
+    <string name="setting_track_usage">Jälgi võrgu kasutamist</string>
+    <string name="setting_reset_usage">Nulli võrgu kasutamine</string>
+    <string name="setting_show_resolved">Näita lahendatud domeeninimesid</string>
+    <string name="setting_block_domains">Blokeeri domeenid</string>
+    <string name="setting_vpn4">VPN IPv4: %s</string>
+    <string name="setting_vpn6">VPN IPv6: %s</string>
+    <string name="setting_dns">VPN DNS: %s</string>
+    <string name="setting_ttl">Minimaalne DNS TTL: %s s</string>
+    <string name="setting_socks5_enabled">Kasuta SOCKS5 puhverserverit</string>
+    <string name="setting_socks5_addr">SOCKS5 aadress: %s</string>
+    <string name="setting_stats_category">Kiirus teavitus</string>
+    <string name="setting_backup">Varunda</string>
+    <string name="setting_export">Ekspordi seaded</string>
+    <string name="setting_import">Impordi seaded</string>
+    <string name="setting_technical">Tehniline info</string>
+    <string name="setting_technical_general">Üldine</string>
+    <string name="setting_technical_networks">Võrgud</string>
+    <string name="setting_technical_subscription">Tellimused</string>
+    <string name="msg_sure">Oled sa kindel?</string>
+    <string name="msg_started">Reeglite jõustamine</string>
+    <string name="msg_packages">%1$d lubatud, %2$d blokeeritud</string>
+    <string name="msg_hosts">%1$d lubatud %2$d blokeeritud, %3$d hosti</string>
+    <string name="msg_waiting">Sündmuse ootel</string>
+    <string name="msg_installed">\'%1$s\' paigaldatud</string>
+    <string name="msg_installed_n">On paigaldatud</string>
+    <string name="msg_try">Proovi NetGuardi</string>
+    <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/päevas</string>
+    <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
+    <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+    <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
+    <string name="msg_count">%dx</string>
+    <string name="msg_import_last">Viimane import: %s</string>
+    <string name="title_lockdown_enabled">Liiklus on lukus</string>
+    <string name="title_conditions">Tingimused</string>
+    <string name="title_screen_wifi">Luba WiFi, kui ekraan on sisse lülitatud</string>
+    <string name="title_screen_other">Luba andmeside, kui ekraan on sisse lülitatud</string>
+    <string name="title_roaming_symbol">R</string>
+    <string name="title_roaming">Blokeeri rändluse ajal</string>
+    <string name="title_options">Valikud</string>
+    <string name="title_logging_configure">Seadista</string>
+    <string name="title_rate">Hinda</string>
+    <string name="title_allow">Luba</string>
+    <string name="title_block">Blokeeri</string>
+    <string name="title_allow_wifi">Luba wifi</string>
+    <string name="title_block_wifi">Blokeeri wifi</string>
+    <string name="title_allow_other">Luba mobiilandmeside</string>
+    <string name="title_block_other">Blokeeri andmeside</string>
+    <string name="title_mediaserver">meediaserver</string>
+    <string name="title_nobody">mitte keegi</string>
+    <string name="title_dontask">Ära enam küsi</string>
+    <string name="title_log_whois">Whois %1$s</string>
+    <string name="title_log_port">Port %1$d</string>
+    <string name="title_pro">Pro funktsioonid</string>
+    <string name="title_pro_buy">Osta</string>
+    <string name="title_pro_bought">Lubatud</string>
+    <string name="title_pro_unavailable">Pole saadaval</string>
+    <string name="title_pro_challenge">Väljakutse</string>
+    <string name="title_pro_reponse">Vastus</string>
+    <string-array name="themeNames">
+        <item>rohekas-sinine/oranž</item>
+        <item>sinine/oranž</item>
+        <item>lilla/punane</item>
+        <item>merevaik/sinine</item>
+        <item>oranž/hall</item>
+        <item>roheline</item>
+    </string-array>
+    <string-array name="protocolNames">
+        <item>UDP</item>
+        <item>TCP</item>
+    </string-array>
+</resources>

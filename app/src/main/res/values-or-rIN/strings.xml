@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_agree">ମୁଁ ସହମତ</string>
+    <string name="app_disagree">ମୁଁ ସହମତ ନୁହେଁ</string>
+    <string name="menu_settings">ସେଟିଂସମୂହ</string>
+    <string name="menu_support">ସମର୍ଥନ</string>
+    <string name="menu_about">ବିଷୟରେ</string>
+    <string name="menu_protocol_other">ଅନ୍ୟ</string>
+    <string name="title_protocol">ପ୍ରୋଟୋକଲ୍</string>
+    <string name="setting_theme">ଥିମ୍‌: %1$s</string>
+    <string name="setting_dark">ଗାଢ଼ ଥିମ୍ ବ୍ୟବହାର କରିବା</string>
+    <string name="setting_socks5_enabled">SOCKS5 ପ୍ରକ୍ସି ବ୍ୟବହାର କରିବା</string>
+    <string name="setting_backup">ବ୍ୟାକଅପ୍</string>
+    <string name="setting_export">ସେଟିଂସ୍ ରପ୍ତାନି କରନ୍ତୁ</string>
+    <string name="setting_import">ସେଟିଂସ୍ ଆମଦାନୀ କରନ୍ତୁ</string>
+    <string name="setting_technical_general">ସାଧାରଣ</string>
+    <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/ଦିନ</string>
+    <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
+    <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
+    <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
+    <string name="msg_count">%dଗୁଣ</string>
+    <string name="title_conditions">ସର୍ତ୍ତାବଳୀ</string>
+    <string name="title_roaming_symbol">R</string>
+    <string name="title_options">ବିକଳ୍ପଗୁଡ଼ିକ</string>
+    <string name="title_logging_configure">ବିନ୍ୟାସ କରନ୍ତୁ</string>
+    <string name="title_rate">ମୂଲ୍ୟାୟନ</string>
+    <string name="title_allow">ଅନୁମତି ଦିଅନ୍ତୁ</string>
+    <string name="title_block">ଅବରୋଧ କରନ୍ତୁ</string>
+    <string name="title_dontask">ପୁଣି ପଚାରନ୍ତୁ ନାହିଁ</string>
+    <string name="title_log_copy">କପି କରନ୍ତୁ</string>
+    <string name="title_pro">ପ୍ରୋ ବୈଶିଷ୍ଟ୍ୟଗୁଡ଼ିକ</string>
+    <string name="title_pro_description">ନିମ୍ନଲିଖିତ ପ୍ରୋ ବୈଶିଷ୍ଟ୍ୟଗୁଡ଼ିକ ଉପଲବ୍ଧ ଅଛି:</string>
+    <string name="title_pro_theme">ରୂପ (ଥିମ୍, ରଙ୍ଗ)</string>
+    <string name="title_pro_all">ସମସ୍ତ ଉପରୋକ୍ତ ପ୍ରୋ ବୈଶିଷ୍ଟ୍ୟଗୁଡ଼ିକ</string>
+    <string name="title_pro_dev">ବିକାଶକୁ ସମର୍ଥନ କରନ୍ତୁ</string>
+    <string name="title_pro_buy">କିଣନ୍ତୁ</string>
+    <string name="title_pro_bought">ସକ୍ଷମ ହୋଇଛି</string>
+    <string name="title_pro_unavailable">ଅନୁପଲବ୍ଧ</string>
+    <string name="title_pro_details">ଅଧିକ ସୂଚନା ପାଇଁ ଏକ ଆଖ୍ୟା ଉପରେ ଟ୍ୟାପ୍ କରନ୍ତୁ</string>
+    <string name="title_pro_challenge">ଆହ୍ବାନ</string>
+    <string name="title_pro_reponse">ପ୍ରତିକ୍ରିୟା</string>
+    <string name="title_pro_feature">ଏହା ଏକ ପ୍ରୋ ବୈଶିଷ୍ଟ୍ୟ</string>
+    <string-array name="themeNames">
+        <item>ଟିଲ୍/କମଳା</item>
+        <item>ନୀଳ/କମଳା</item>
+        <item>ବାଇଗଣୀ/ନାଲି</item>
+        <item>ଆମ୍ବର/ନୀଳ</item>
+        <item>କମଳା/ଧୂସର</item>
+        <item>ସବୁଜ</item>
+    </string-array>
+    <string-array name="protocolNames">
+        <item>UDP</item>
+        <item>TCP</item>
+    </string-array>
+</resources>
