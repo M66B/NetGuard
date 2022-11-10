@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_description">নেটগার্ড ইন্টারনেটে অ্যাক্সেস ব্লক করার সহজ এবং উন্নত উপায় প্রোভাইড করে - কোনও রুট করার প্রয়োজন হয় না। প্রতিটি অ্যাপ্লিকেশন এবং ওয়েব এড্রেসগুলোকে পৃথকভাবে আপনার ওয়াইফাই এবং / অথবা মোবাইল সংযোগ অ্যাক্সেসের অনুমতি দেয় বা বিরত রাখে।</string>
+    <string name="app_android">নেটগার্ডের জন্য অ্যান্ড্রয়েড 5.1 বা তার পরের কোনো ভার্সন প্রয়োজন পরে।</string>
+    <string name="app_agree">আমি সম্মতি দিচ্ছি</string>
+    <string name="app_disagree">আমি সম্মতি দিচ্ছি না</string>
+    <string name="channel_foreground">চলমান পরিষেবা</string>
+    <string name="channel_notify">সাধারণ বিজ্ঞপ্তি</string>
+    <string name="menu_search">অ্যাপ খুঁজো</string>
+    <string name="menu_filter">অ্যাপ ফিল্টার করো</string>
+    <string name="menu_app_system">সিস্টেম অ্যাপ্স প্রদর্শন করুন</string>
+    <string name="menu_app_nointernet">ইন্টারনেট ছাড়া অ্যাপ্স প্রদর্শন করুন</string>
+    <string name="menu_sort">অ্যাপ সাজাও</string>
+    <string name="menu_sort_name">নাম অনুযায়ী সাজাও</string>
+    <string name="menu_settings">সেটিংস</string>
+    <string name="menu_support">সমর্থন</string>
+    <string name="menu_about">পরিচিতি</string>
+    <string name="menu_protocol_other">অন্যান্য</string>
+    <string name="menu_traffic_blocked">অবরুদ্ধ</string>
+    <string name="menu_refresh">পুনঃনির্মাণ</string>
+    <string name="menu_clear">মুছে ফেলুন</string>
+    <string name="title_raddr">গন্তব্যস্থানের ঠিকানা</string>
+    <string name="title_rport">গন্তব্যস্থানের পোর্ট</string>
+    <string name="title_ruid">গন্তব্য অ্যাপ</string>
+</resources>

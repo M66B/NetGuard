@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_agree">ကျွန်ုပ်သဘောတူတယ်</string>
+    <string name="app_disagree">ကျွန်ုပ်သဘောမတူပါ</string>
+    <string name="app_support">NetGuard မှ သင်တို့ရဲ့ အကူအညီကို လိုအပ်တယ်။ စီမံကိန်းဆက်လက် လုပ်ဆောင်နိုင်ရန် အထူးပြုလုပ်ထားသော Pro လုပ်ဆောင်ချက်များကို ၀ယ်ယူဖို့
+ခလုတ်ကို နှိပ်ပါ။</string>
+    <string name="channel_foreground">လည်ပတ်နေသောဝန်ဆောင်မှုများ</string>
+    <string name="channel_notify">အထွေထွေအသိပေးချက်များ</string>
+    <string name="channel_access">အသိပေးချက်များဆီသို့ ၀င်ရောက်ကြည့်ရှုပါ</string>
+    <string name="menu_search">အက်ပလီကေးရှင်းကိုရှာပါ</string>
+    <string name="menu_filter">အက်ပ်များကိုစစ်ထုတ်မယ်</string>
+    <string name="menu_app_user">အသုံးပြုသူအက်ပ်များကို ပြပါ</string>
+    <string name="menu_app_system">စစ်စတမ်အက်ပ်များကို ပြပါ</string>
+    <string name="menu_app_nointernet">အင်တာနက်မပါဘဲ အက်ပ်များကို ပြပါ</string>
+    <string name="menu_app_disabled">ပိတ်ထားသော အက်ပ်များကို ပြပါ</string>
+    <string name="menu_sort">အက်ပ်များကိုစီပါ</string>
+    <string name="menu_sort_name">နာမည်အလိုက်စီပါ</string>
+    <string name="menu_sort_uid">uid အလိုက်စီပါ</string>
+    <string name="menu_sort_data">ဒေတာအသုံးပြုမှုအလိုက် စီပါ</string>
+    <string name="menu_log">မှတ်တမ်းကိုပြပါ</string>
+    <string name="menu_invite">ဖိတ်ပါ</string>
+    <string name="menu_support">ပံ့ပိုးမှု</string>
+    <string name="menu_about">အကြောင်း</string>
+    <string name="menu_apps">အခြားအက်ပ်များ</string>
+    <string name="menu_protocol_other">အခြား</string>
+    <string name="menu_traffic_allowed">ခွင့်ပြုပြီးပြီ</string>
+    <string name="menu_resolve">အမည်များကို ပြပါ</string>
+    <string name="menu_organization">အဖွဲ့အစည်းကိုပြပါ</string>
+    <string name="menu_clear">ရှင်းပါ</string>
+    <string name="menu_export">တင်ပို့ပါ</string>
+    <string name="menu_add">ထည့်ပါ</string>
+    <string name="menu_delete">ဖျက်ပါ</string>
+    <string name="setting_theme">ဒီဇိုင်းပုံစံ -  %1$s</string>
+    <string name="setting_dark">အမှောင်ဒီဇိုင်းပုံစံကို သုံးပါ</string>
+    <string name="setting_technical_general">အထွေထွေ</string>
+    <string name="setting_technical_networks">ကွန်ယက်များ</string>
+    <string name="msg_sure">သင်သေချာလား။</string>
+</resources>
