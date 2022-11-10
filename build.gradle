@@ -9,7 +9,7 @@ buildscript {
         // http://tools.android.com/tech-docs/new-build-system/gradle-experimental
         // https://bintray.com/android/android-tools/com.android.tools.build.gradle-experimental/view
         // https://bintray.com/android/android-tools/com.google.gms.google-services/view
-        classpath 'com.android.tools.build:gradle:7.1.0-rc01'
+        classpath 'com.android.tools.build:gradle:7.3.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
