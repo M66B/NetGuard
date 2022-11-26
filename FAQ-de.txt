@@ -1,0 +1,500 @@
+Häufig gestellte Fragen (FAQ)
+
+(0) Wie verwende ich NetGuard?
+
+    Aktivieren Sie die NetGuard-Firewall über den Schalter in der Aktionsleiste von NetGuard
+    Erlauben (grünlich*) oder verweigern (rötlich*) Sie den Wi-Fi- oder mobilen Internetzugang über die Symbole neben den Anwendungsnamen in der Anwendungsliste des NetGuard
+
+Über Einstellungen > Standardeinstellungen können Sie vom Modus "Blockieren/Blacklist" (Deaktivieren von "Wi-Fi blockieren" und "Mobile blockieren" und anschließendes Blockieren unerwünschter Anwendungen in der Anwendungsliste des NetGuard) in den Modus "Zulassen/Whitelist" (Aktivieren von "Wi-Fi blockieren" und "Mobile blockieren" und anschließendes Zulassen gewünschter Anwendungen in der Anwendungsliste des NetGuard) wechseln.
+
+* Je nach dem von Ihnen verwendeten Thema können die Symbole wie folgt aussehen:
+
+    Erlaubt (Internetzugang erlaubt): grünlich (teal) / blau / lila / grau
+    Blockiert (Internetzugang verweigert): rötlich (lachsfarben) / orange / gelb / gelb
+
+(1) Kann NetGuard meine Privatsphäre vollständig schützen?
+
+Nein - nichts kann Ihre Privatsphäre vollständig schützen. NetGuard tut sein Bestes, ist aber durch die Tatsache eingeschränkt, dass es den Android-VPN-Dienst verwenden muss. Dies ist der Kompromiss, der erforderlich ist, um eine Firewall zu entwickeln, die keinen Root-Zugriff erfordert. Die Firewall kann nur gestartet werden, wenn Android den Start "erlaubt". Sie bietet also keinen Schutz beim frühen Hochfahren (obwohl Sie Ihr Netzwerk vor dem Neustart deaktivieren können). Außerdem muss der Android-VPN-Dienst neu gestartet werden, um neue Regeln anzuwenden, wenn sich die Konnektivität geändert hat oder wenn der Bildschirm ein- oder ausgeschaltet wird. Das ist jedoch viel besser als gar nichts.
+
+In den erweiterten Optionen können Sie Seamless VPN Handover on reload aktivieren, um zu verhindern, dass Datenverkehr verloren geht, wenn der Android VPN-Dienst neu gestartet wird. Dies funktioniert jedoch nicht bei allen Android-Versionen/Varianten und führt dazu, dass NetGuard hängen bleibt und alle Verbindungen blockiert.
+
+Unter Android N und höher kann NetGuard als Always-On VPN konfiguriert werden. Aktivieren Sie unter Android O nicht die Unteroption "Verbindungen ohne VPN blockieren", siehe Frage 51) für weitere Informationen dazu.
+
+Um sich besser zu schützen, denken Sie daran, Wi-Fi und mobile Daten vor dem Neustart zu deaktivieren und sie erst beim Neustart zu aktivieren, nachdem der Firewall-Dienst gestartet wurde (und das Schlüsselsymbol in der Statusleiste sichtbar ist).
+
+Vielen Dank @pulser
+
+(2) Kann ich eine andere VPN-Anwendung verwenden, während ich NetGuard nutze?
+
+Wenn die VPN-Anwendung den VPN-Dienst nutzt, dann nicht, denn NetGuard muss diesen Dienst nutzen. Android erlaubt immer nur einer Anwendung, diesen Dienst zu nutzen.
+
+NetGuard ist eine Firewall-Anwendung, es ist also nicht beabsichtigt, VPN-Unterstützung hinzuzufügen. NetGuard unterstützt jedoch einen SOCKS5-Proxy zur Verkettung von VPN-Anwendungen. Eine mögliche Lösung, die von der Community beigesteuert wurde, finden Sie hier.
+
+3) Kann ich NetGuard auf jeder Android-Version verwenden?
+
+Nein, die minimal erforderliche Android-Version ist 5.1 (Lollipop).
+
+(4) Verbraucht NetGuard zusätzliche Akkuleistung?
+
+In der Standardeinstellung verbraucht NetGuard kaum Akkuleistung. Alle Einstellungen, die zusätzlichen Akkuverbrauch verursachen, wie IP-Filterung und Protokollierung, sind mit einer Warnung versehen. Wenn NetGuard sehr viel Strom verbraucht, überprüfen Sie bitte Ihre Einstellungen.
+
+Der Akkuverbrauch bei aktivierter IP-Filterung hängt von der Qualität der Implementierung Ihres Android-VPN-Dienstes und der Leistungsfähigkeit des Prozessors Ihres Geräts ab. Im Allgemeinen kann der Akkuverbrauch auf älteren Geräten inakzeptabel sein, während er auf modernen Geräten mit einem effizienten Prozessor kaum auffällt.
+
+Die Benachrichtigung über die Netzwerkgeschwindigkeitsgrafik verbraucht zusätzliche Akkuleistung. Deshalb wird die Benachrichtigung nur angezeigt, wenn der Bildschirm eingeschaltet ist. Sie können die Aktualisierungshäufigkeit in den Einstellungen verringern, um den Akkuverbrauch zu reduzieren.
+
+Beachten Sie, dass Android oft fälschlicherweise den Akkuverbrauch anderer Anwendungen dem NetGuard zuordnet, da der Netzwerkverkehr anderer Anwendungen durch den NetGuard fließt. Das bedeutet, dass es so aussehen kann, als würde NetGuard viel Akkuleistung verbrauchen, aber in Wirklichkeit ist der Gesamtakkuverbrauch aller Apps immer noch derselbe.
+
+(6) Sendet NetGuard meinen Internetverkehr an einen externen (VPN-)Server?
+
+Nein, je nach Betriebsmodus geschieht grundsätzlich eines von zwei Dingen mit Ihrem Internetverkehr:
+
+    Wenn die IP-Filterung deaktiviert ist, wird der blockierte Internetverkehr an den lokalen VPN-Dienst weitergeleitet, der dann als Sinkhole fungiert (d.h. den gesamten blockierten Verkehr verwirft).
+    Wenn die IP-Filterung aktiviert ist, wird sowohl der blockierte als auch der erlaubte Internetverkehr in den lokalen VPN-Dienst geleitet und nur der erlaubte Verkehr wird an das vorgesehene Ziel weitergeleitet (und nicht an einen VPN-Server).
+
+Der Android-VPN-Dienst wird verwendet, um den gesamten Internetverkehr lokal zu NetGuard zu leiten, so dass für die Erstellung dieser Firewall-Anwendung kein Root-Recht erforderlich ist. NetGuard ist im Gegensatz zu allen anderen No-Root-Firewall-Anwendungen zu 100 % Open Source, so dass Sie im Zweifelsfall den Quellcode selbst überprüfen können.
+
+(7) Warum werden Anwendungen ohne Internetzulassung angezeigt?
+
+Die Internetzugangsberechtigung kann bei jedem Anwendungsupdate ohne Zustimmung des Benutzers erteilt werden. Indem NetGuard alle Anwendungen anzeigt, können Sie den Internetzugang kontrollieren, noch bevor ein solches Update erfolgt.
+
+(8) Was muss ich aktivieren, damit die Google Play™ Store-App funktioniert?
+
+Sie müssen 3 Pakete (Anwendungen) aktivieren (verwenden Sie die Suche in NetGuard, um sie schnell zu finden):
+
+    com.android.vending (Play Store)
+    com.google.android.gms (Play-Dienste)
+    com.android.providers.downloads (Download-Manager)
+
+Da die Google Play™ Store-App dazu neigt, von sich aus nach Updates zu suchen oder sie sogar herunterzuladen (auch wenn kein Konto damit verknüpft ist), kann man sie in Schach halten, indem man "Bei eingeschaltetem Bildschirm zulassen" für alle 3 Pakete aktiviert. Klicken Sie auf den Pfeil nach unten auf der linken Seite eines Anwendungsnamens und aktivieren Sie diese Option, aber lassen Sie die Netzwerksymbole auf rot stehen (daher blockiert). Das kleine menschliche Symbol wird für diese Pakete angezeigt.
+
+Beachten Sie, dass NetGuard die Installation eines Google-Dienstes nicht erfordert.
+
+(9) Warum wird der VPN-Dienst neu gestartet?
+
+Der VPN-Dienst wird neu gestartet, wenn Sie den Bildschirm ein- oder ausschalten und wenn sich die Konnektivität ändert (Wi-Fi, Mobilfunk), um die Regeln mit den Bedingungen "Zulassen, wenn der Bildschirm eingeschaltet ist" und "Blockieren, wenn Roaming" anzuwenden.
+
+Siehe hier für weitere Details.
+
+(10) Werden Sie ein Tasker-Plug-in anbieten?
+
+Nein, denn wenn es Tasker erlaubt ist, den NetGuard zu deaktivieren, kann jede Anwendung den NetGuard deaktivieren. Es ist keine gute Idee, einer Sicherheitsanwendung zu erlauben, von anderen Anwendungen deaktiviert zu werden.
+
+
+(13) Wie kann ich den laufenden NetGuard-Eintrag auf dem Benachrichtigungsbildschirm entfernen?
+
+    Klicken Sie lange auf die NetGuard-Benachrichtigung
+    Tippen Sie auf das "i"-Symbol
+    Je nach den Software-Anpassungen Ihres Geräts und/oder ROM-Herstellers werden Sie entweder zu
+        zum Bildschirm "App-Info", wo Sie das Häkchen bei "Benachrichtigungen anzeigen" entfernen und dem nächsten Dialog zustimmen können
+        zum Bildschirm "App-Benachrichtigungen", wo Sie den Schieberegler "Blockieren" auf "Ein" stellen können
+
+Beachten Sie, dass unabhängig davon, ob Sie eine Dialogwarnung erhalten oder nicht, dieser Vorgang auch alle Informations- oder Warnbenachrichtigungen von NetGuard deaktiviert, wie z. B. die Benachrichtigung über eine neu installierte Anwendung.
+
+Um zu erfahren, warum diese Benachrichtigung überhaupt notwendig ist, lesen Sie bitte Frage 24.
+
+Einige Android-Versionen zeigen eine zusätzliche Benachrichtigung an, die ein Schlüsselsymbol enthalten kann. Diese Benachrichtigung kann leider nicht entfernt werden.
+
+(14) Warum kann ich nicht OK wählen, um die VPN-Verbindungsanfrage zu bestätigen?
+
+Möglicherweise befindet sich eine weitere (unsichtbare) Anwendung über dem Dialog für die VPN-Verbindungsanfrage. Einige bekannte (den Bildschirm verdunkelnde) Anwendungen, die dies verursachen können, sind Lux Brightness, Night Mode und Twilight. Um dieses Problem zumindest vorübergehend zu vermeiden, schließen Sie alle Anwendungen und/oder Dienste, die im Hintergrund ausgeführt werden können.
+
+(15) Werden F-Droid-Builds unterstützt?
+
+F-Droid-Builds werden nicht unterstützt, da ich keine Kontrolle darüber habe, ob und wann die F-Droid-Version von NetGuard aktualisiert wird, so dass ich keine rechtzeitigen Updates garantieren kann, z. B. wenn es ein kritisches oder Sicherheitsproblem gibt.
+
+Da F-Droid-Builds und GitHub-Versionen unterschiedlich signiert sind, muss ein F-Droid-Build zuerst deinstalliert werden, um auf eine GitHub-Version aktualisieren zu können.
+
+(16) Warum werden einige Anwendungen abgeblendet angezeigt?
+
+Deaktivierte Anwendungen und Anwendungen ohne Internetzugang werden abgeblendet dargestellt.
+
+(17) Warum verbraucht der NetGuard so viel Speicher?
+
+Das tut er nicht. NetGuard weist keinen Speicher zu, außer ein wenig für die Anzeige der Elemente der Benutzeroberfläche und für die Pufferung des Datenverkehrs. Bei einigen Android-Varianten scheint die Verbindung mit der Google Play™ Store-App fast 150 MB zu verbrauchen. Sie wird für In-App-Spenden benötigt und wird fälschlicherweise NetGuard statt der Google Play™ Store-App zugewiesen.
+
+(18) Warum kann ich NetGuard nicht in der Google Play™-Store-App finden?
+
+NetGuard erfordert mindestens Android 5.1 und ist daher in der Google Play™ Store-App auf Geräten mit früheren Android-Versionen nicht verfügbar.
+
+(18) Warum kann ich NetGuard nicht in der Google Play™ Store-App finden?
+
+NetGuard erfordert mindestens Android 5.1 und ist daher in der Google Play™ Store-App auf Geräten mit früheren Android-Versionen nicht verfügbar.
+
+(19) Warum hat die Anwendung XYZ immer noch Internetzugang?
+
+Wenn Sie den Internetzugang für eine Anwendung sperren, gibt es keine Möglichkeit, dies zu umgehen. Anwendungen können jedoch über andere (System-)Anwendungen/Komponenten auf das Internet zugreifen. So erhalten beispielsweise die Google Play-Dienste eingehende Push-Nachrichten und Werbung für die meisten Anwendungen, einschließlich WhatsApp und Facebook Messenger. Sie können dies verhindern, indem Sie den Internetzugang auch für die andere Anwendung/Komponente blockieren. Sie können Systemanwendungen und -komponenten wie Google Play Services blockieren, indem Sie die erweiterte NetGuard-Option Systemanwendungen verwalten aktivieren. Dies lässt sich am besten diagnostizieren, indem Sie das globale Zugriffsprotokoll überprüfen (Drei-Punkte-Menü, Protokoll anzeigen).
+
+Beachten Sie, dass einige Anwendungen immer wieder versuchen, auf das Internet zuzugreifen, was durch das Senden eines Verbindungsanforderungspakets geschieht. Dieses Paket geht in das VPN-Sinkhole, wenn der Internetzugang für die Anwendung blockiert ist. Dieses Paket besteht aus weniger als 100 Bytes und wird von Android als ausgehender Datenverkehr gezählt und ist auch in der Geschwindigkeitsanzeige sichtbar.
+
+(20) Kann ich den NetGuard "grün" machen/bewerben?
+
+Nein. Wenn Sie den NetGuard auf "grün" stellen oder anderweitig in den Ruhezustand versetzen, werden die Regeln nicht angewendet, wenn sich die Konnektivität von Wi-Fi/Mobilfunk, Bildschirm ein/aus und Roaming/nicht Roaming ändert.
+
+(21) Wirkt sich der Dämmerungsmodus auf den NetGuard aus?
+
+Ich bin mir nicht sicher, denn aus der Dokumentation zum Dämmerungsmodus geht nicht hervor, ob der Android-VPN-Dienst davon betroffen ist.
+
+Um sicher zu gehen, können Sie die Akku-Optimierung für NetGuard wie folgt manuell deaktivieren:
+
+Android-Einstellungen > Akku > Drei-Punkte-Menü > Akku-Optimierungen > Dropdown > Alle Apps > NetGuard > Nicht optimieren > Fertig
+
+Die Vorgehensweise kann von Gerät zu Gerät unterschiedlich sein.
+
+Das Deaktivieren des Standby-Modus für NetGuard kann nicht von NetGuard aus erfolgen, da NetGuard laut Google kein Anwendungstyp ist, der dies tun darf.
+
+(22) Kann ich mit dem NetGuard Tethering (Android-Hotspot) oder Wi-Fi-Anrufe nutzen?
+
+Ja, aber Sie müssen das Subnetz-Routing und Tethering in den NetGuard-Netzwerkeinstellungen aktivieren. Ob dies funktioniert, hängt von Ihrer Android-Version ab, da einige Android-Versionen einen Fehler aufweisen, der die Zusammenarbeit zwischen Tethering und dem VPN-Dienst verhindert.
+
+Einige Geräte schalten das Wi-Fi in den Ruhezustand, so dass Tethering nicht funktioniert, wenn der Bildschirm ausgeschaltet ist. Dieses Verhalten kann in den erweiterten Wi-Fi-Einstellungen von Android deaktiviert werden.
+
+(24) Kann man die Benachrichtigung aus der Statusleiste entfernen?
+
+Android kann Hintergrunddienste jederzeit beenden. Dies kann nur verhindert werden, indem ein Hintergrunddienst in einen Vordergrunddienst umgewandelt wird. Android verlangt eine ständige Benachrichtigung für alle Vordergrunddienste, um Sie auf einen möglichen Batterieverbrauch aufmerksam zu machen (siehe Frage 4). Die Benachrichtigung kann also nicht entfernt werden, ohne Instabilität zu verursachen. Allerdings wird die Benachrichtigung als niedrige Priorität markiert, was dazu führen sollte, dass sie an das Ende der Liste verschoben wird.
+
+Das Schlüsselsymbol und/oder die Benachrichtigung "VPN läuft", die von Android und nicht von NetGuard angezeigt wird, kann leider nicht entfernt werden. In der Google-Dokumentation steht: "Eine vom System verwaltete Benachrichtigung wird während der Lebensdauer einer VPN-Verbindung angezeigt".
+
+Android 8 Oreo und höher zeigen eine Benachrichtigung "... läuft im Hintergrund" an, die alle im Hintergrund laufenden Apps auflistet. Sie können diese Benachrichtigung nicht deaktivieren, aber Sie können das Symbol wie folgt aus der Statusleiste entfernen:
+
+    Öffnen Sie Einstellungen > Apps & Benachrichtigungen > App-Info
+    Öffnen Sie die Einstellungen (drei Punkte); Wählen Sie "System anzeigen".
+    Wählen Sie "Android-System".
+    Wählen Sie "App-Benachrichtigungen".
+    Wählen Sie "Im Hintergrund laufende Apps".
+    Wählen Sie "Wichtigkeit" und wählen Sie "Niedrig".
+
+(25) Können Sie eine Funktion "Alle auswählen" hinzufügen?
+
+Die Funktion "Alle auswählen" ist nicht erforderlich, da Sie in den Einstellungen von Netguard vom Modus "Blockieren" (Blacklist) auf "Zulassen" (Whitelist) umschalten können. Siehe auch Frage 0.
+
+(27) Wie lese ich das Protokoll des blockierten Datenverkehrs?
+
+Die Spalten haben die folgenden Bedeutungen:
+
+    Zeit (tippen Sie auf einen Protokolleintrag, um das Datum zu sehen)
+    Anwendungssymbol (tippen Sie auf einen Protokolleintrag, um den Anwendungsnamen zu sehen)
+    UID der Anwendung
+    Wi-Fi / mobile Verbindung, grün=erlaubt, rot=geblockt
+    Interaktiver Status (Bildschirm an oder aus)
+    Protokoll (siehe unten) und Paketflags (siehe unten)
+    Quell- und Zielport (tippen Sie auf einen Protokolleintrag, um einen Zielport zu suchen)
+    Quell- und Ziel-IPv4- oder IPv6-Adresse (tippen Sie auf einen Protokolleintrag, um eine Ziel-IP-Adresse nachzuschlagen)
+    Name der Organisation, der die IP-Adresse gehört (muss über das Menü aktiviert werden)
+
+Protokolle:
+
+    HOPO (IPv6 Hop-by-Hop-Option)
+    ICMP
+    IGMP
+    ESP (IPSec)
+    TCP
+    UDP
+    Nummer = eines der Protokolle in dieser Liste
+    4 = IPv4
+    6 = IPv6
+
+Paket-Flags:
+
+    S = SYN
+    A = ACK
+    P = PSH
+    F = FIN
+    R = RST
+
+Eine ausführliche Erklärung finden Sie hier.
+
+Nur TCP-, UDP- und ICMP-Ping-Datenverkehr kann durch den Android VPN-Dienst geleitet werden. Alle anderen Daten werden verworfen und im globalen Datenverkehrsprotokoll als blockiert angezeigt. Dies ist auf einem Android-Gerät fast nie ein Problem.
+
+(28) Warum wird den Google-Konnektivitätsdiensten standardmäßig der Internetzugang gestattet?
+
+Die Systemanwendung der Google-Konnektivitätsdienste prüft, ob das aktuelle Netzwerk wirklich mit dem Internet verbunden ist. Dies wird wahrscheinlich durch eine kurze Verbindung zu einem Google-Server erreicht.
+
+Wenn dies nicht der Fall ist, erscheint ein '!' im Wi-Fi- oder Mobil-Symbol in der Systemstatusleiste.
+
+Neuere Android-Versionen scheinen die Konnektivität nicht von Mobil auf Wi-Fi umzuschalten, wenn das Wi-Fi-Netzwerk nicht wirklich verbunden ist, obwohl eine Verbindung zum Wi-Fi-Netzwerk besteht (oder umgekehrt). Unter Android 6.0 und höher erhalten Sie möglicherweise eine Benachrichtigung, in der Sie gefragt werden, ob Sie die Verbindung aufrechterhalten möchten oder nicht. Um eine schlechte Benutzererfahrung zu vermeiden, enthält NetGuard eine vordefinierte Regel, um die Google-Konnektivitätsdienste standardmäßig zuzulassen.
+
+Sie können alle vordefinierten Regeln hier finden.
+
+Sie können vordefinierte Regeln außer Kraft setzen.
+
+(29) Warum erhalte ich die Meldung "Das von Ihnen angeforderte Element ist nicht zum Kauf verfügbar"?
+
+Sie können nur Pro-Funktionen erwerben, wenn Sie NetGuard aus dem Google Play Store installiert haben.
+
+(30) Kann ich auch AFWall+ auf demselben Gerät ausführen?
+
+Sofern Sie NetGuard nicht nur testen, gibt es derzeit keinen Grund, beide zu verwenden, da sie dieselbe Funktion (Firewall) abdecken, wenn auch mit unterschiedlichen Grundvoraussetzungen (AFWall+ benötigt ein gerootetes Gerät) und Vorgehensweisen (AFWall+ verwendet iptables, während NetGuard ein VPN verwendet).
+
+Außerdem müssen Sie die Zugriffsregeln für jede Anwendung zwischen AFWall+ und NetGuard synchron halten, da die Anwendung sonst nicht auf das Netzwerk zugreifen kann.
+
+Einige Hinweise zur Einrichtung von AFWall+ für den gleichzeitigen Einsatz mit NetGuard:
+
+    Wenn Sie keine Filterung in NetGuard verwenden, benötigen die Anwendungen direkten Internetzugang (Wi-Fi und/oder mobil) in AFWall+
+    Wenn Sie die Filterung verwenden, benötigt NetGuard einen Internetzugang (Wi-Fi und/oder mobil) in AFWall+
+    Wenn Sie die Filterung verwenden, müssen Sie NetGuard in AFWall+ wieder zulassen, wenn Sie NetGuard deinstallieren/neu installieren.
+    Wenn Sie die Filterung verwenden, benötigen die Anwendungen einen VPN-Internetzugang (aktivieren Sie das Kontrollkästchen, um diese Option in den AFWall+-Einstellungen anzuzeigen).
+
+Diese Frage wurde von der Community gestellt. Es gibt keine Unterstützung für die Verwendung von NetGuard und AFWall+ zusammen.
+
+(31) Warum können einige Anwendungen nur als Gruppe konfiguriert werden?
+
+Für viele Zwecke, einschließlich des Netzwerkzugriffs, gruppiert Android Anwendungen nach UID und nicht nach Paket/Anwendungsname. Insbesondere Systemanwendungen haben oft dieselbe UID, obwohl sie einen anderen Paket- und Anwendungsnamen haben; diese werden vom ROM-Hersteller bei der Erstellung so eingerichtet. Diesen Anwendungen kann nur als Gruppe der Zugang zum Internet erlaubt/gesperrt werden.
+
+(32) Warum ist der Akku-/Netzwerkverbrauch von NetGuard so hoch?
+
+Das liegt daran, dass Android die Batterie- und Netzwerknutzung zählt, die normalerweise für andere Anwendungen gegen NetGuard im IP-Filtermodus gezählt wird. Der gesamte Akkuverbrauch ist etwas höher, wenn der IP-Filtermodus aktiviert ist. Der IP-Filtermodus ist bei Android-Versionen vor 5.0 immer aktiviert, bei späteren Android-Versionen ist er optional.
+
+(33) Können Sie Profile hinzufügen?
+
+Profile sind unpraktisch, da sie manuell bedient werden müssen. Bedingungen wie "Wenn der Bildschirm eingeschaltet ist" sind dagegen praktisch, weil sie automatisch funktionieren. Daher werden keine Profile hinzugefügt, aber Sie können gerne neue Bedingungen vorschlagen; diese müssen jedoch allgemein verwendbar sein, um aufgenommen zu werden.
+
+Als Abhilfe können Sie die Export-/Importfunktion verwenden, um bestimmte Einstellungen unter bestimmten Umständen anzuwenden. Alternativ können Sie auch den Sperrmodus als Profil verwenden.
+
+(34) Können Sie eine Bedingung "wenn im Vordergrund" oder "wenn aktiv" hinzufügen?
+
+Aktuelle Android-Versionen erlauben es einer Anwendung nicht, abzufragen, ob andere Anwendungen im Vordergrund/Hintergrund oder aktiv/inaktiv sind, ohne eine zusätzliche, die Privatsphäre verletzende Berechtigung zu besitzen und auf Kosten eines zusätzlichen Batterieverbrauchs (da eine regelmäßige Abfrage erforderlich ist). Daher kann dies nicht ohne erhebliche Nachteile, wie diesen, hinzugefügt werden. Sie können stattdessen die Bedingung "wenn der Bildschirm eingeschaltet ist" verwenden.
+
+(35) Warum startet das VPN nicht?
+
+NetGuard "bittet" Android, den lokalen VPN-Dienst zu starten, aber einige Android-Versionen enthalten einen Fehler, der den (automatischen) Start des VPN verhindert. Manchmal wird dies durch ein Update von NetGuard verursacht. Leider kann dieser Fehler nicht von NetGuard behoben werden. Sie können versuchen, Ihr Gerät neu zu starten und/oder die VPN-Berechtigungen von NetGuard über die Android-Einstellungen zu widerrufen. Manchmal hilft es auch, NetGuard zu deinstallieren und neu zu installieren (exportieren Sie vorher unbedingt Ihre Einstellungen!).
+
+(36) Können Sie einen PIN- oder Passwortschutz hinzufügen?
+
+Da das Ausschalten des VPN-Dienstes über die Android-Einstellungen nicht verhindert werden kann, ist es wenig sinnvoll, einen PIN- oder Passwortschutz hinzuzufügen.
+
+(37) Warum sind die Profi-Funktionen so teuer?
+
+Die richtige Frage lautet: "Warum gibt es so viele Steuern und Gebühren":
+
+    Mehrwertsteuer: 25% (abhängig von Ihrem Land)
+    Google-Gebühr: 30%
+    Einkommenssteuer: 50%
+
+Was für den Entwickler übrig bleibt, ist also nur ein Bruchteil dessen, was Sie bezahlen.
+
+Obwohl NetGuard wirklich viel Arbeit macht, müssen nur einige der Komfort- und erweiterten Funktionen gekauft werden, was bedeutet, dass NetGuard im Grunde kostenlos ist und Sie nichts bezahlen müssen, um Ihren Datenverbrauch zu reduzieren, die Akkulaufzeit zu erhöhen und Ihre Privatsphäre zu schützen.
+
+Beachten Sie auch, dass die meisten kostenlosen Anwendungen am Ende nicht nachhaltig zu sein scheinen, während NetGuard ordnungsgemäß gewartet und unterstützt wird, und dass kostenlose Anwendungen einen Haken haben können, wie z. B. das Senden von datenschutzrelevanten Informationen an das Internet.
+
+Siehe hier für weitere Informationen.
+
+(38) Warum hat NetGuard aufgehört zu laufen?
+
+Vergewissern Sie sich zunächst, dass Sie in den Android-Einstellungen die Akku-Optimierung für NetGuard deaktiviert haben.
+
+Auf den meisten Geräten läuft der NetGuard im Hintergrund mit seinem Dienst im Vordergrund weiter. Auf einigen Geräten (insbesondere einigen Samsung-Modellen), auf denen viele Anwendungen um den Speicher konkurrieren, kann Android NetGuard als letzte Möglichkeit noch stoppen. Einige Android-Versionen, insbesondere von Huawei (siehe hier für einen Fix) oder Xiaomi (siehe hier für einen Fix) stoppen Apps und Dienste zu aggressiv. Dies kann leider nicht von NetGuard behoben werden und kann als Mangel des Gerätes und/oder als Fehler in Android angesehen werden. In der Tat leiden viele Apps unter diesem Problem, siehe die Website Don't kill my app! für weitere Informationen und Lösungen. Sie können dieses Problem umgehen, indem Sie in den erweiterten Optionen des NetGuard den Watchdog aktivieren, der alle 10-15 Minuten überprüft.
+
+(39) Wie unterscheidet sich eine VPN-basierte Firewall von einer iptables-basierten Firewall?
+
+Siehe diese Stack Exchange-Frage.
+
+(40) Kann man Zeitpläne hinzufügen?
+
+Abgesehen davon, dass es nicht trivial ist, Zeitpläne hinzuzufügen, sind sie - meiner Meinung nach - keine gute Idee, da Zeit keine gute Regelbedingung ist. Eine Regelbedingung wie Wenn der Bildschirm eingeschaltet ist ist eine bessere und einfachere Bedingung. Daher werden keine Zeitpläne hinzugefügt, aber Sie können gerne andere neue Bedingungen vorschlagen.
+
+(41) Können Sie Wildcards / Adress-/Portbereiche hinzufügen?
+
+Wildcards zum Zulassen/Blockieren von Adressen und Adress-/Anschlussbereichen hätten erhebliche Auswirkungen auf die Leistung und Benutzerfreundlichkeit und werden daher nicht hinzugefügt. Wildcard-Regeln und Adress-/Port-Bereiche müssten für jeden einzelnen Verbindungsversuch überprüft werden. Da NetGuard im Gegensatz zu anderen No-Root-Firewalls Domänennamen anstelle von IP-Adressen blockiert, gibt es kaum einen Bedarf für Wildcards.
+
+(42) Warum wird die Berechtigung ... benötigt?
+
+    INTERNET ('Voller Netzwerkzugriff'): um erlaubten (gefilterten) Datenverkehr an das Internet weiterzuleiten
+    ACCESS_NETWORK_STATE ("Netzwerkverbindungen anzeigen"): um zu prüfen, ob das Gerät über Wi-Fi mit dem Internet verbunden ist
+    READ_PHONE_STATE ('Device ID & call information'): um Änderungen im Mobilfunknetz zu erkennen, siehe hier für weitere Details
+    ACCESS_WIFI_STATE ("Wi-Fi-Verbindungsinformationen"): zur Erkennung von Änderungen im Wi-Fi-Netzwerk
+    RECEIVE_BOOT_COMPLETED ('Run at startup'): zum Starten der Firewall beim Booten des Geräts
+    WAKE_LOCK ("Gerät am Schlafen hindern"): zum zuverlässigen Neuladen von Regeln im Hintergrund bei Änderungen der Konnektivität
+    VIBRATE: um eine Vibrationsrückmeldung beim Antippen des Widgets zu geben
+    FOREGROUND_SERVICE ('Vordergrunddienst'): zur Ausführung eines Vordergrunddienstes unter Android 9 Pie und höher
+    QUERY_ALL_PACKAGES: zum Auflisten aller Apps unter Android 11 und höher
+    BILLING: zur Verwendung der In-App-Abrechnung
+
+(43) Ich erhalte die Meldung "Diese App führt dazu, dass Ihr Gerät langsam läuft".
+
+Diese Meldung wird vom Smart Manager angezeigt, aber eigentlich ist es die Smart Manager-Anwendung selbst, die Verzögerungen und Lags verursacht. Einige Links:
+
+    Smart Manager beschwert sich über LastPass
+    Smart Manager deaktivieren?
+(44) Ich erhalte keine Benachrichtigungen beim Zugriff
+
+Um eine hohe Anzahl von Benachrichtigungen in der Statusleiste zu vermeiden, wird die Benachrichtigung bei Zugriff nur einmal pro Domainname und Anwendung durchgeführt. Zugriffe auf Domänennamen, die im Zugriffsprotokoll der Anwendung angezeigt werden (Drilldown in den NetGuard-Anwendungseinstellungen), werden nicht erneut benachrichtigt, selbst wenn Sie die Benachrichtigung bei Zugriff gerade aktiviert haben. Um wieder für alle Domainnamen benachrichtigt zu werden, können Sie das Anwendungszugriffsprotokoll über das Mülleimer-Symbol löschen. Wenn Sie alle Anwendungsprotokolle löschen möchten, können Sie Ihre Einstellungen exportieren und importieren.
+
+Ein weiterer Grund, warum Sie keine Benachrichtigungen erhalten, könnte ein aktivierter Energiesparmodus sein, z. B. bei Samsung-Geräten. Auch wenn Sie die CPU-Frequenz in diesem Modus nicht einschränken.
+
+(45) Verarbeitet NetGuard eingehende Verbindungen?
+
+Der Android VPN-Dienst behandelt nur ausgehende Verbindungen (von Anwendungen zum Internet), eingehende Verbindungen werden also normalerweise nicht behandelt.
+
+Wenn Sie eine Serveranwendung auf Android ausführen möchten, sollten Sie beachten, dass die Verwendung von Portnummern unter 1024 Root-Berechtigungen erfordert und dass einige Android-Versionen Routing-Fehler enthalten, die dazu führen, dass eingehender Datenverkehr fälschlicherweise in das VPN geleitet wird.
+
+(46) Kann ich eine Rückerstattung erhalten?
+
+Wenn eine gekaufte Pro-Funktion nicht wie beschrieben funktioniert und dies nicht durch ein Problem in den kostenlosen Funktionen verursacht wird und ich das Problem nicht zeitnah beheben kann, können Sie eine Rückerstattung erhalten. In allen anderen Fällen ist eine Rückerstattung nicht möglich. In keinem Fall kann es eine Rückerstattung für ein Problem im Zusammenhang mit den kostenlosen Funktionen geben, da für diese nichts bezahlt wurde und sie ohne Einschränkung bewertet werden können. Ich übernehme die Verantwortung als Verkäufer, das zu liefern, was versprochen wurde, und ich erwarte, dass Sie die Verantwortung übernehmen, sich über das zu informieren, was Sie kaufen.
+
+(48) Warum werden einige Domänennamen blockiert, obwohl sie als erlaubt eingestellt sind?
+
+NetGuard blockiert den Datenverkehr auf der Grundlage der IP-Adressen, mit denen eine Anwendung versucht, eine Verbindung herzustellen. Wenn mehr als ein Domänenname auf dieselbe IP-Adresse verweist, können sie nicht unterschieden werden. Wenn Sie für 2 Domänen, die auf dieselbe IP-Adresse aufgelöst werden, unterschiedliche Regeln festlegen, werden beide blockiert.
+
+Danke @pulser
+
+Ein weiteres mögliches Problem ist, dass Android den DNS-TTL-Wert nicht beachtet und seine eigenen Caching-Regeln anwendet. Dies könnte dazu führen, dass NetGuard einen DNS-Eintrag zu früh oder zu spät aus seinem eigenen Cache löscht, was dazu führt, dass eine IP-Adresse nicht oder falsch erkannt wird. Sie können versuchen, dieses Problem zu umgehen, indem Sie den DNS-TTL-Wert von NetGuard ändern. Dieser Wert wird als minimaler DNS TTL-Wert verwendet, um das Verhalten von Android zu imitieren.
+
+NetGuard blockiert den Datenverkehr auch, wenn der Android-VPN-Dienst neu gestartet wird, um neue Regeln anzuwenden, z. B. wenn sich die Konnektivität ändert oder wenn der Bildschirm ein- oder ausgeschaltet wird.
+
+(49) Verschlüsselt NetGuard meinen Internetverkehr / verbirgt es meine IP-Adresse?
+
+NetGuard ist eine Firewall-Anwendung, die den Internetverkehr auf Ihrem Gerät filtert (siehe auch diese Frage). Sie ist also nicht dazu gedacht - und tut es auch nicht -, Ihren Internetverkehr zu verschlüsseln oder Ihre IP-Adresse zu verbergen.
+
+(50) Wird NetGuard beim Booten automatisch gestartet?
+
+Ja, NetGuard wird beim Hochfahren automatisch gestartet, wenn Sie Ihr Gerät mit aktiviertem NetGuard ausgeschaltet haben und NetGuard nicht auf einem externen Speicher installiert ist.
+
+Einige Geräte, z. B. OnePlus- und Mi-Geräte, können verhindern, dass bestimmte Apps nach dem Neustart automatisch gestartet werden. Dies kann in den Android-Einstellungen deaktiviert werden.
+
+(51) Warum blockiert der NetGuard den gesamten Internetverkehr?
+
+Vergewissern Sie sich, dass Sie NetGuard auf die Doze-Ausnahmeliste gesetzt haben (Android 6 Marshmallow oder höher) und dass Android NetGuard erlaubt, das Internet im Hintergrund zu nutzen (siehe auch diese Frage).
+
+Stellen Sie sicher, dass Sie NetGuard nicht im Erlaubnismodus (Whitelist) betreiben (überprüfen Sie die Standardeinstellungen von NetGuard).
+
+Stellen Sie sicher, dass Sie die Always-On-VPN-Unteroption "Verbindungen ohne VPN blockieren" nicht aktiviert haben (Android 8 Oreo oder höher). Dadurch wird auch die Auflösung von Domainnamen blockiert (ist das ein Fehler oder eine Funktion?).
+
+Einige Internetanbieter blockieren alle DNS-Anfragen, außer über ihre eigenen DNS-Server. Wenn Sie also benutzerdefinierte DNS-Server konfiguriert haben, versuchen Sie, dies rückgängig zu machen.
+
+Einige Android-Versionen, darunter LineageOS und /e/ für einige Geräte, enthalten einen Fehler, der dazu führt, dass der gesamte Internetverkehr blockiert wird. Meistens können Sie diesen Fehler umgehen, indem Sie die Filterung in den erweiterten Optionen von NetGuard aktivieren. Wenn dies das Problem nicht löst, kann es leider nicht von NetGuard behoben oder umgangen werden. Bitte schauen Sie hier für eine Lösung.
+
+(52) Was ist der Lockdown-Modus?
+
+Im Sperrmodus wird der gesamte Datenverkehr für alle Anwendungen blockiert, mit Ausnahme von Anwendungen, für die die Bedingung "Im Sperrmodus zulassen" aktiviert ist. Sie können diesen Modus verwenden, um die Nutzung des Akkus oder des Netzes einzuschränken, z. B. wenn Ihr Akku fast leer ist oder Ihr Datenkontingent fast erschöpft ist.
+
+Beachten Sie, dass der Sperrmodus nur angewendet werden kann, wenn die entsprechende Option auch unter "Netzwerkoptionen" eingestellt ist (eine für den Wi-Fi-Modus, eine für mobile Daten), so dass die Sperrung nur in einem der beiden Netzwerkmodi und nicht im anderen erfolgen kann (z. B. Sperren, wenn mobile Daten aktiv sind, aber nicht, wenn Wi-Fi gerade verwendet wird).
+
+Beachten Sie auch, dass Systemanwendungen in diesem Modus nur blockiert werden, wenn die Verwaltung von Systemanwendungen in den erweiterten Einstellungen aktiviert ist.
+
+Sie können den Sperrmodus im Hauptmenü, über ein Widget oder über eine Einstellungs-Kachel aktivieren/deaktivieren (Android 7 Nougat oder höher).
+
+(53) Die Übersetzung in meiner Sprache fehlt / ist falsch / unvollständig
+
+Sie können hier Übersetzungen beisteuern (die Registrierung ist kostenlos). Wenn deine Sprache fehlt, kontaktiere mich bitte, damit ich sie hinzufügen kann.
+
+(54) Wie kann ich alle TCP-Verbindungen durch das Tor-Netzwerk tunneln?
+
+Tor mit NetGuard wird nur im XDA NetGuard Forum unterstützt. Es gibt keinen persönlichen Support für Tor mit NetGuard, da ich Tor selbst nicht benutze.
+
+Installiere zunächst Orbot, den Android-Client für Tor, starte ihn, drücke auf Start, während er sich verbindet, öffne die Einstellungen und stelle sicher, dass er so eingestellt ist, dass er beim Start des Gerätes automatisch startet.
+
+In den Netzwerkoptionen von NetGuard aktiviere Subnetz-Routing und in den erweiterten Optionen SOCKS5-Proxy verwenden mit der Adresse 127.0.0.1 und dem Port 9050 (das ist der Standard-Port, wenn du ihn in Orbot geändert hast, dann ändere ihn auch hier).
+
+Das sollte ausreichen. Wenn der Test fehlschlägt (z.B. keine Verbindung), können Sie die App-Details von Orbot öffnen, das Häkchen bei Regeln und Bedingungen anwenden entfernen und es erneut versuchen.
+
+Wie man testet: Öffne Firefox (oder einen anderen nicht-proxyfähigen Browser) mit der Adresse https://ipleak.net/ und du solltest eine andere IP-Adresse als deine normale sehen, und unten im Feld Tor Exit Node etwas anderes als Unknown.
+
+Sei dir bewusst, dass alle anderen Tor-Hinweise (https://www.torproject.org/docs/faq.html.en) immer noch gelten, wie z.B. dass das Tor-Netzwerk nicht erreichbar ist, deine Aktivitäten in deinem Land aktiv überwacht/gezielt werden, Online-Dienste (z.B. Gmail, Google Play Store) sich nicht anmelden können oder du gezwungen bist, endlose Capchas zu lösen, wenn du auf Seiten zugreifst, die Cloudflare's CDN-Dienste nutzen.
+
+(55) Warum verbindet sich NetGuard mit Amazon / ipinfo.io / 216.239.34.21?
+
+NetGuard stellt eine Verbindung zu Amazon / ipinfo.io her, um die Namen und Organisationen für IP-Adressen anzuzeigen. Wenn Sie dies nicht wünschen, deaktivieren Sie einfach die Anzeige von Namen und Organisationen über das Drei-Punkte-Menü in der globalen Protokollansicht.
+
+(56) Warum lässt der NetGuard den gesamten Internetverkehr zu?
+
+NetGuard kann jede einzelne Anwendung blockieren, sogar Systemanwendungen und -komponenten.
+
+NetGuard lässt standardmäßig jeglichen Datenverkehr zu, um schwer zu findende Probleme zu vermeiden. Sie müssen den Datenverkehr selbst selektiv blockieren, indem Sie auf das Mobil- oder Wi-Fi-Symbol tippen.
+
+Beachten Sie, dass NetGuard den Datenverkehr zu einer Anwendung zulässt, wenn der Bildschirm eingeschaltet ist und die Bedingung "wenn Bildschirm eingeschaltet" aktiviert ist.
+
+(57) Warum verbraucht der NetGuard so viele Daten?
+
+Im Grunde genommen verbraucht NetGuard selbst keine Daten. Bei vielen Android-Versionen werden jedoch die Daten anderer Anwendungen, die durch NetGuard fließen, fälschlicherweise dem NetGuard statt den Anwendungen zugerechnet. In diesem Fall ist der Datenverbrauch anderer Anwendungen bei aktiviertem NetGuard gleich Null.
+
+Der gesamte Datenverbrauch Ihres Geräts ist mit und ohne NetGuard gleich.
+
+(58) Warum dauert das Laden der Anwendungsliste so lange?
+
+Die Anwendungsliste wird von Android bereitgestellt, daher hängt die Ladegeschwindigkeit hauptsächlich von der Leistung Ihres Geräts und der Effizienz Ihrer Android-Version ab. So kann z. B. Speicherknappheit zu längeren Ladezeiten führen, da Speicher freigegeben werden muss, z. B. durch das Pausieren anderer Anwendungen.
+
+Es ist bekannt, dass die Einschränkung von Systemanwendungen und Systemkomponenten unter bestimmten Umständen dazu führt, dass die Anwendungsliste langsam oder gar nicht geladen wird. Die genauen Umstände sind nicht bekannt.
+
+(59) Können Sie mir helfen, meinen Kauf wiederherzustellen?
+
+Google verwaltet alle Käufe, so dass ich als Entwickler keine Kontrolle über die Käufe habe. Daher kann ich Ihnen nur einige Ratschläge geben:
+
+    Stellen Sie sicher, dass Sie eine aktive Internetverbindung haben.
+    Stellen Sie sicher, dass Sie den Google Play Store / die Play-Dienste nicht blockiert haben.
+    Vergewissern Sie sich, dass Sie mit dem richtigen Google-Konto angemeldet sind und dass mit Ihrem Google-Konto alles in Ordnung ist.
+    Stellen Sie sicher, dass Sie NetGuard über das richtige Google-Konto installiert haben, wenn Sie mehrere Google-Konten auf Ihrem Gerät eingerichtet haben
+    Öffnen Sie die Play Store-App und warten Sie mindestens eine Minute, um ihr Zeit zu geben, sich mit den Google-Servern zu synchronisieren.
+    Öffnen Sie NetGuard und navigieren Sie zum Bildschirm mit den Profi-Funktionen; NetGuard wird die Einkäufe erneut überprüfen
+
+Sie können auch versuchen, den Cache der Play Store-App über die Einstellungen der Android-Apps zu löschen.
+
+Beachten Sie dies:
+
+    Einkäufe werden in der Google-Cloud gespeichert und können nicht verloren gehen.
+    Es gibt keine zeitliche Begrenzung für Einkäufe, sie können also nicht verfallen
+    Google gibt keine Details (Name, E-Mail, etc.) über Käufer an Entwickler weiter.
+    Eine Anwendung wie NetGuard kann nicht auswählen, welches Google-Konto verwendet werden soll.
+    Es kann eine Weile dauern, bis die Play Store-App einen Kauf mit einem anderen Gerät synchronisiert hat
+    Play Store-Einkäufe können nicht ohne den Play Store verwendet werden, was nach den Play Store-Regeln ebenfalls nicht zulässig ist
+
+Wenn Sie das Problem mit dem Kauf nicht lösen können, müssen Sie sich mit Google in Verbindung setzen.
+
+(60) Warum funktionieren IP (Wi-Fi) Anrufe/SMS/MMS nicht?
+
+Bitte lesen Sie dazu den Abschnitt über die Kompatibilität (wenn Sie ein mobiles Gerät verwenden, müssen Sie möglicherweise die Desktop-Version anfordern, um diesen Abschnitt zu sehen).
+
+(61) Hilfe, NetGuard ist abgestürzt!
+
+NetGuard stürzt selten ab ("unerwartet gestoppt"), aber wenn es abgestürzt ist (was etwas anderes ist, als von Android gestoppt zu werden, siehe diese FAQ), dann liegt es meist an Fehlern in Ihrer Android-Version (entweder in der Implementierung des Android-VPN-Dienstes oder im Android-Linux-Kernel). Ich bin gerne bereit, die Ursache eines Absturzes zu überprüfen und wenn möglich zu beheben, aber dazu benötige ich ein Logcat, das von Ihrem PC mit dem Absturzprotokoll aufgezeichnet wurde. Da Logcats meist recht umfangreich sind, benötige ich auch den genauen Zeitpunkt des Absturzes. Wenn Sie nicht wissen, wie Sie ein Logcat von Ihrem PC erfassen können, verwenden Sie bitte Ihre Lieblingssuchmaschine, um eine der zahlreichen Anleitungen zu finden.
+
+(62) Wie kann ich das Problem "Es gab ein Problem beim Parsen des Pakets" lösen?
+
+Wahrscheinliche Ursachen sind, dass die heruntergeladene APK-Datei beschädigt ist (was durch einen Virenscanner verursacht werden könnte) oder dass Sie versuchen, NetGuard auf einer nicht unterstützten Android-Version zu installieren.
+
+(63) Warum ist der gesamte DNS-Verkehr erlaubt?
+
+NetGuard blockiert im Gegensatz zu allen anderen Android-Firewalls echte Domainnamen. Hierfür muss eine Liste von Domainnamen und IP-Adressen erstellt werden. Zu diesem Zweck lässt NetGuard jeglichen DNS-Verkehr zu, auch wenn der Domainname in der Hosts-Datei aufgeführt ist. Das bedeutet jedoch nicht, dass der Verkehr zur aufgelösten IP-Adresse erlaubt ist.
+
+Wenn Sie dem System (Google) oder den DNS-Servern Ihres Providers nicht trauen, können Sie in den erweiterten Einstellungen alternative DNS-Server festlegen. Achten Sie darauf, die Adressen einzugeben und zu bestätigen und zwei DNS-Serveradressen festzulegen. Wenn Sie nur eine DNS-Serveradresse eingeben, wird diese zusätzlich zu den Standard-DNS-Serveradressen verwendet.
+
+(64) Können Sie DNS über TLS/HTTP hinzufügen?
+
+Wenn Sie DNS-over-HTTP- (DoH) oder DNS-over-TLS- (DoT) Anfragen abfangen wollen, um Domänennamen aufzulösen, ist dies nicht möglich, da der DoH/DoT-Verkehr verschlüsselt ist, was ja der Sinn von DoH/DoT ist.
+
+Bitte lesen Sie hier, wie Sie DoH/DoT trotzdem mit NetGuard nutzen können.
+
+(65) Warum kann sich NetGuard nicht selbst blockieren?
+
+Zunächst einmal, wenn NetGuard sich selbst blockieren kann, sollten Sie darauf vertrauen, dass NetGuard sich wirklich selbst blockiert, was im Grunde dasselbe ist, wie darauf zu vertrauen, dass NetGuard sich nicht mit dem Internet verbindet, wenn es nicht benötigt wird.
+
+Beachten Sie, dass NetGuard sich mit dem Internet verbinden muss, um den Datenverkehr anderer Anwendungen an das Internet weiterzuleiten und um Informationen über IP-Adressen nachzuschlagen, siehe auch diese FAQ.
+
+NetGuard konnte sich in älteren Versionen selbst blockieren, aber das erforderte den Aufruf von VpnService.protect für jede einzelne Verbindung. Da es in einer typischen Android-Umgebung viele Verbindungen von vielen Apps gibt, führte dies zu einer Verschwendung von Batteriestrom und zu Abstürzen auf einigen Android-Versionen mit Fehlern in dieser Funktion.
+
+Da das Blockieren von NetGuard mit sich selbst nichts Nützliches gebracht hat, wurde das Blockieren von NetGuard mit sich selbst entfernt, um Batteriestrom zu sparen und Abstürze zu vermeiden.
+
+(66) Warum greift eine blockierte App trotzdem auf das Internet zu?
+
+Gesperrte Anwendungen können nicht auf das Internet zugreifen. Hierfür gibt es keine Ausnahmen. Der gesamte App- und Systemverkehr fließt durch den Android-VPN-Dienst, was für Unternehmen mit hohen Sicherheitsanforderungen ein Muss ist. Das bedeutet auch, dass alle Apps gleich behandelt werden und dass das globale Zugriffsprotokoll (Protokoll anzeigen im Drei-Punkte-Überlaufmenü) den gesamten Datenverkehr anzeigt.
+
+Allerdings:
+
+    Apps können lokal zwischengespeicherte Inhalte anzeigen
+    Eingehende (Push-)Nachrichten werden von der Systemkomponente Google Play-Dienste und nicht von Apps empfangen, insbesondere wenn die App im Hintergrund läuft oder der Bildschirm ausgeschaltet ist.
+    Ebenso wird Werbung meist von der Systemkomponente Google Play-Dienste empfangen.
+    Downloads werden oft durch den Download-Manager und nicht durch Apps durchgeführt.
+
+Wenn Sie Google Play-Dienste oder den Download-Manager blockieren möchten, müssen Sie die Verwaltung von System-Apps in den erweiterten Einstellungen aktivieren.
+
+Wenn Sie sicherstellen möchten, dass Push-Nachrichten immer empfangen werden, können Sie Regeln und Bedingungen für Google Play-Dienste anwenden deaktivieren.
+
+Um es klar zu sagen: In den meisten Fällen können Sie Anzeigen nicht durch das Blockieren von Apps blockieren. Sie können jedoch mit NetGuard Werbung für alle Apps blockieren, wie das geht, erfahren Sie hier.
+
+(67) Wer ist "nobody"?
+
+"nobody" ist die übliche Bezeichnung für ein Benutzerkonto, das keine Dateien besitzt, in keiner privilegierten Gruppe ist und keine anderen Fähigkeiten hat als die, die jeder andere Benutzer hat.
+
+NetGuard wird nur für Telefone und Tablets unterstützt, also nicht für andere Gerätetypen wie Fernsehgeräte oder Fahrzeuge.
+
+Wenn Sie die Antwort auf Ihre Frage nicht gefunden haben, können Sie Ihre Fragen in diesem Forum stellen oder mich über dieses Kontaktformular kontaktieren.
+

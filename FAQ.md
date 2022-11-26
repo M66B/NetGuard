@@ -3,6 +3,8 @@ NetGuard
 
 Please scroll down if you want to ask a question, request a feature, or report a bug.
 
+[Deutsche Übersetzung](https://raw.githubusercontent.com/M66B/NetGuard/master/FAQ-de.txt)
+
 Frequently Asked Questions (FAQ)
 --------------------------------
 
