@@ -112,10 +112,6 @@ Deaktivierte Anwendungen und Anwendungen ohne Internetzugang werden abgeblendet 
 
 Das tut er nicht. NetGuard weist keinen Speicher zu, außer ein wenig für die Anzeige der Elemente der Benutzeroberfläche und für die Pufferung des Datenverkehrs. Bei einigen Android-Varianten scheint die Verbindung mit der Google Play™ Store-App fast 150 MB zu verbrauchen. Sie wird für In-App-Spenden benötigt und wird fälschlicherweise NetGuard statt der Google Play™ Store-App zugewiesen.
 
-(18) Warum kann ich NetGuard nicht in der Google Play™-Store-App finden?
-
-NetGuard erfordert mindestens Android 5.1 und ist daher in der Google Play™ Store-App auf Geräten mit früheren Android-Versionen nicht verfügbar.
-
 (18) Warum kann ich NetGuard nicht in der Google Play™ Store-App finden?
 
 NetGuard erfordert mindestens Android 5.1 und ist daher in der Google Play™ Store-App auf Geräten mit früheren Android-Versionen nicht verfügbar.
