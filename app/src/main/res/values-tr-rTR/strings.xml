@@ -271,8 +271,8 @@ Bu yüzden bir sonraki diyalogda lütfen VPN bağlantısına izin verin.
     <string name="title_pro_bought">Etkin</string>
     <string name="title_pro_unavailable">Mevcut değil</string>
     <string name="title_pro_details">Daha fazla bilgi için başlığa dokunun</string>
-    <string name="title_pro_challenge">Challenge</string>
-    <string name="title_pro_reponse">Response</string>
+    <string name="title_pro_challenge">Soru</string>
+    <string name="title_pro_reponse">Yanıt</string>
     <string name="title_pro_feature">Bu bir pro özelliğidir</string>
     <string name="title_pro_subscription">        Aylık 1 veya 2 euroluk abonelik (vergiler hariç) tüm pro özelliklerini etkinleştirir.
         Aboneliği yönetmek için Play store uygulamasındaki abonelikler sekmesini kullanabilirsini.

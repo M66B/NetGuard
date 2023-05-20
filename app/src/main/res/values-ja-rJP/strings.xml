@@ -29,14 +29,14 @@
     <string name="menu_about">アプリについて</string>
     <string name="menu_apps">他のアプリ</string>
     <string name="menu_protocol_other">その他</string>
-    <string name="menu_traffic_allowed">許可</string>
-    <string name="menu_traffic_blocked">ブロック</string>
+    <string name="menu_traffic_allowed">許可されたもの</string>
+    <string name="menu_traffic_blocked">ブロックされたもの</string>
     <string name="menu_live">自動更新</string>
     <string name="menu_refresh">更新</string>
     <string name="menu_resolve">ホスト名で表示</string>
     <string name="menu_organization">組織を表示</string>
-    <string name="menu_pcap_enabled">PCAP を有効</string>
-    <string name="menu_pcap_export">PCAP をエクスポート</string>
+    <string name="menu_pcap_enabled">PCAP を使用</string>
+    <string name="menu_pcap_export">PCAP のエクスポート</string>
     <string name="menu_clear">消去</string>
     <string name="menu_export">エクスポート</string>
     <string name="menu_reset">リセット</string>
@@ -47,9 +47,9 @@
     <string name="title_dport">送信元ポート</string>
     <string name="title_raddr">宛先アドレス</string>
     <string name="title_rport">宛先ポート</string>
-    <string name="title_ruid">送信先アプリ</string>
-    <string name="title_external">外部サーバーは \'nobody\' を選択してください</string>
-    <string name="setting_defaults">デフォルト</string>
+    <string name="title_ruid">宛先アプリ</string>
+    <string name="title_external">外部サーバーの場合は「nobody」を選択してください</string>
+    <string name="setting_defaults">デフォルト (ホワイト/ブラックリスト)</string>
     <string name="setting_whitelist_wifi">既定で Wi-Fi をブロック</string>
     <string name="setting_whitelist_other">既定でモバイルをブロック</string>
     <string name="setting_screen_wifi">既定で画面点灯中 Wi-Fi を許可</string>
@@ -151,7 +151,7 @@
     <string name="summary_watchdog">NetGuard が実行されているかどうかを定期的にチェックします (0 を入力すると、このオプションを無効にします)。余分にバッテリーを使用することがあります。</string>
     <string name="summary_stats">通知領域にネットワーク速度のグラフを表示します</string>
     <string name="msg_sure">よろしいですか?</string>
-    <string name="msg_started">ルールを執行します</string>
+    <string name="msg_started">ルールを適用中です</string>
     <string name="msg_packages">許可 %1$d、ブロック %2$d</string>
     <string name="msg_hosts">許可 %1$d、ブロック %2$d、ホスト %3$d</string>
     <string name="msg_waiting">イベントの待機中</string>
@@ -268,7 +268,7 @@
     <string name="title_pro_unavailable">利用不可</string>
     <string name="title_pro_details">詳細情報はタイトルをタップします</string>
     <string name="title_pro_challenge">チャレンジ</string>
-    <string name="title_pro_reponse">応答</string>
+    <string name="title_pro_reponse">レスポンス</string>
     <string name="title_pro_feature">これはプロ版の機能です</string>
     <string name="title_pro_subscription">1 または 2 ユーロ (地方税を除く) の月額サブスクリプションで、すべてのプロ版の機能を有効にします。
 Play ストアアプリの定期購入タブから、定期購入をキャンセルまたは管理できます。    </string>

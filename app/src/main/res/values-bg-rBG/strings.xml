@@ -2,9 +2,10 @@
 <resources>
     <string name="app_description">NetGuard предоставя прост, а също така и по-задълбочен начини за блокиране достъпа до интернет - без нужда от ROOT права. Достъпът на приложенията и адресите чрез Wi-Fi или мобилни данни, могат да се разрешават и забраняват по отделно.</string>
     <string name="app_android">NetGuard изисква Android 5.1 или по-нова версия</string>
+    <string name="app_xposed">Xposed причинява твърде много сривове, което може да доведе до премахване на NetGuard от Google Play Store, поради което NetGuard не се поддържа, докато е инсталиран Xposed</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Политика за личните данни</a></string>
     <string name="app_first">NetGuard се разраборва и изпитва с голямо внимание, но е невъзможно да бъде дадена гаранция, че ще функционира правилно на всяко устройство.</string>
-    <string name="app_agree">Приемам</string>
+    <string name="app_agree">Съгласявам се</string>
     <string name="app_disagree">Не съм съгласен</string>
     <string name="app_support">FairEmail се нуждае от вашата подкрепа. Докоснете, за да закупите допълнителните възможности така проектът ще продължи да се развива.</string>
     <string name="channel_foreground">Работещи услуги</string>
@@ -84,6 +85,7 @@
     <string name="setting_access">Известие при достъп до интернет</string>
     <string name="setting_filter">Филтриране на трафика</string>
     <string name="setting_filter_udp">Филтриране на трафика по UDP</string>
+    <string name="setting_handover">Безпроблемно предаване на VPN при презареждане</string>
     <string name="setting_clear_onreload">Прекъсване на връзката при презареждане</string>
     <string name="setting_lockdown">Заключване на трафика</string>
     <string name="setting_track_usage">Следене на достъпа до мрежа</string>
@@ -136,6 +138,7 @@
     <string name="summary_metered_4g">Прилагане на правилата за Wi-Fi при връзка за мобилни данни на LTE</string>
     <string name="summary_national_roaming">Да не се прилагат правилата при роуминг, когато СИМ картата и операторът са от една и съща държава</string>
     <string name="summary_eu_roaming">Да не се прилагат правилата при роуминг, когато СИМ картата и операторът са в ЕС</string>
+    <string name="summary_call">Деактивиране на NetGuard при входящо или изходящо телефонно повикване. Това може да се използва за заобикаляне на проблеми с IP/Wi-Fi разговори.</string>
     <string name="summary_system">Задаване на правила за системни приложения (за напреднали потребители)</string>
     <string name="summary_log_app">Регистриране на опитите за достъп до интернет на приложенията. Това може да доведе до допълнително използване на батерията.</string>
     <string name="summary_access">Показва се известие при опит на приложение за достъп до нов интернет адрес (при изключено филтриране, ще се показват само блокираните опити)</string>
@@ -196,8 +199,12 @@
     <string name="msg_push">\"Push\" съобщенията се обработват предимно от системния комонент \"Play services\", който по подразбиране е с разрешен достъп до интернет</string>
     <string name="msg_system">Управляване на всички (системни) приложения може да бъде включено в настройките</string>
     <string name="msg_issue">Моля, опишете проблема и отбележете часа на възникването му:</string>
+    <string name="msg_vpn_cancelled">VPN връзката е отменена\nКонфигурирали ли сте друга VPN услуга като \"Винаги включена VPN услуга\"?</string>
     <string name="msg_on">Ако изключите устройството докато NetGuard е включен, когато го включите NetGuard автоматично ще стартира</string>
     <string name="msg_unavailable">Тази възможност не се поддържа от това издание на Андроид</string>
+    <string name="msg_always_on">Друга VPN услуга е настроена като \"Винаги включена VPN услуга\"</string>
+    <string name="msg_always_on_lockdown">Изключете \"Блокиране на връзки без VPN\" в настройките на Android VPN, за да използвате NetGuard в режим на филтриране</string>
+    <string name="msg_private_dns">Изключете \"Private DNS\" в мрежовите настройки на Android, за да използвате NetGuard в режим на филтриране</string>
     <string name="title_lockdown_enabled">Трафикът е заключен</string>
     <string name="title_unmetered_allowed">Неограниченият трафик е разрешен</string>
     <string name="title_unmetered_blocked">Неограниченият трафик е блокиран</string>
@@ -212,6 +219,8 @@
     <string name="title_metered">По подразбиране, връзката по Wi-Fi се счита за неограничен трафик, а мобилна връзка за ограничен</string>
     <string name="title_internet">няма разрешение за интернет достъп</string>
     <string name="title_disabled">е изключен</string>
+    <string name="title_messaging">Входящите съобщения се получават от услугите на Google Play, а не от това приложение, и следователно не могат да бъдат блокирани чрез блокиране на това приложение</string>
+    <string name="title_download">Изтеглянията се извършват от мениджъра за изтегляне, а не от това приложение, и следователно не могат да бъдат блокирани чрез блокиране на това приложение</string>
     <string name="title_apply">Прилагане на павилата и условията</string>
     <string name="title_conditions">Условия</string>
     <string name="title_screen_wifi">Позволяване на  Wi-Fi, когато екранът е включен</string>

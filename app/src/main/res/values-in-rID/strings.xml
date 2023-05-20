@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">NetGuard menyediakan cara sederhana dan canggih untuk memblokir akses internet - tidak membutuhkan root. Izinkan atau tolak koneksi Wi-Fi dan/atau seluler untuk setiap apl dan alamat situs.</string>
+    <string name="app_description">NetGuard menyediakan cara sederhana dan canggih untuk memblokir akses internet — root tidak dibutuhkan. Izinkan atau tolak koneksi Wi-Fi dan/atau seluler untuk setiap apl dan alamat situs.</string>
     <string name="app_android">NetGuard membutuhkan Android 5.1 atau lebih baru</string>
     <string name="app_xposed">Xposed menyebabkan terlalu banyak crash, yang mungkin menyebabkan NetGuard dihapus dari Google Play Store, oleh karena itu NetGuard tidak didukung saat Xposed terpasang</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Kebijakan privasi</a></string>
@@ -16,7 +16,7 @@
     <string name="menu_app_user">Tampilkan apl pengguna</string>
     <string name="menu_app_system">Tampilkan apl sistem</string>
     <string name="menu_app_nointernet">Tampilkan apl tanpa akses internet</string>
-    <string name="menu_app_disabled">Tampilkan apl yang dinonaktifkan</string>
+    <string name="menu_app_disabled">Tampilkan aplikasi yang dinonaktifkan</string>
     <string name="menu_sort">Urutkan apl</string>
     <string name="menu_sort_name">Urutkan berdasarkan nama</string>
     <string name="menu_sort_uid">Urutkan berdasarkan uid</string>
@@ -150,7 +150,7 @@
     <string name="summary_socks5_enabled">Hanya lalu lintas TCP yang akan dikirim ke server proksi</string>
     <string name="summary_watchdog">Periksa secara berkala apakah NetGuard masih berjalan (masukkan nol untuk menonaktifkan opsi ini). Hal ini mungkin menyebabkan penggunaan baterai ekstra.</string>
     <string name="summary_stats">Tampilkan grafik kecepatan jaringan di notifikasi bilah status</string>
-    <string name="msg_sure">Apakah anda yakin?</string>
+    <string name="msg_sure">Apakah Anda yakin?</string>
     <string name="msg_started">Memaksa aturan</string>
     <string name="msg_packages">%1$d diizinkan, %2$d diblokir</string>
     <string name="msg_hosts">%1$d diizinkan, %2$d diblokir, %3$d hos</string>
@@ -164,13 +164,13 @@
     <string name="msg_completed">Tindakan selesai</string>
     <string name="msg_vpn">NetGuard menggunakan VPN lokal untuk menyaring lalu lintas internet.
 Untuk alasan ini, silakan izinkan koneksi VPN di dialog berikutnya.
-Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
-    <string name="msg_autostart">NetGuard tidak bisa memulai secara otomatis. Hal ini mungkin karena adanya bug di versi Android anda.</string>
+Lalu lintas internet Anda tidak akan dikirim ke server VPN eksternal.</string>
+    <string name="msg_autostart">NetGuard tidak bisa memulai secara otomatis. Hal ini mungkin karena adanya bug di versi Android Anda.</string>
     <string name="msg_error">Terjadi kesalahan tak terduga: \'%s\'</string>
-    <string name="msg_start_failed">Android menolak untuk memulai layanan VPN saat ini. Hal ini mungkin karena adanya bug di versi Android anda.</string>
+    <string name="msg_start_failed">Android menolak untuk memulai layanan VPN saat ini. Hal ini mungkin karena adanya bug di versi Android Anda.</string>
     <string name="msg_try">Coba NetGuard</string>
-    <string name="msg_terms">Dengan donasi anda setuju dengan <a href="http://www.netguard.me/#terms">syarat &amp; kondisi</a></string>
-    <string name="msg_dimming">Jika anda tidak bisa menekan OKE pada dialog berikutnya, apl (peredup layar) mungkin sedang memanipulasi layar.</string>
+    <string name="msg_terms">Dengan menyumbang Anda setuju dengan <a href="http://www.netguard.me/#terms"> persyaratan &amp; kondisi</a></string>
+    <string name="msg_dimming">Jika Anda tidak bisa menekan OKE pada dialog berikutnya, apl (peredup layar) lain mungkin sedang memanipulasi layar.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/hari</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
@@ -195,14 +195,14 @@ Lalu lintas internet anda tidak akan dikirim ke server VPN eksternal.</string>
     <string name="msg_inactive">Tidak ada koneksi internet aktif</string>
     <string name="msg_queue">NetGuard sedang sibuk</string>
     <string name="msg_update">Pembaruan tersedia, ketuk untuk mengunduh</string>
-    <string name="msg_usage">Anda bisa izinkan (kehijauan) atau tolak (kemerahan) akses internet Wi-Fi atau seluler dengan mengetuk ikon di sebelah apl</string>
-    <string name="msg_fairemail">Jika anda memasang NetGuard untuk melindungi privasi anda, anda mungkin juga tertarik dengan <a href="https://email.faircode.eu/">FairEmail</a>, aplikasi email sumber terbuka, ramah privasi</string>
+    <string name="msg_usage">Anda dapat mengizinkan (hijau kehijauan) atau menolak (kemerahan) Wi-Fi atau akses internet seluler dengan mengetuk ikon di sebelah aplikasi</string>
+    <string name="msg_fairemail">Jika Anda memasang NetGuard untuk melindungi privasi Anda, Anda mungkin juga tertarik dengan <a href="https://email.faircode.eu/">FairEmail</a>, aplikasi surel sumber terbuka ramah privasi</string>
     <string name="msg_whitelist">Akses internet diizinkan secara bawaan (mode daftar hitam), ini bisa diubah di pengaturan</string>
     <string name="msg_push">Pesan masuk (push) umumnya ditangani oleh komponen sistem layanan Play, yang secara bawaan diizinkan mengakses internet</string>
     <string name="msg_system">Mengelola semua apl (sistem) bisa diaktifkan di pengaturan</string>
     <string name="msg_issue">Silakan jelaskan masalahnya dan waktu terjadinya masalah:</string>
-    <string name="msg_vpn_cancelled">Koneksi VPN dibatalkan\nApakah anda mengkonfigurasi VPN lain untuk tetap nyala?</string>
-    <string name="msg_on">Mematikan perangkat anda dengan NetGuard aktif, akan secara otomatis memulai NetGuard saat menyalakan perangkat anda</string>
+    <string name="msg_vpn_cancelled">Koneksi VPN dibatalkan\nApakah Anda mengonfigurasi VPN lain untuk tetap nyala?</string>
+    <string name="msg_on">Mematikan perangkat Anda dengan NetGuard aktif, akan secara otomatis memulai NetGuard saat menyalakan perangkat Anda</string>
     <string name="msg_unavailable">Fitur ini tidak tersedia pada versi Android ini</string>
     <string name="msg_always_on">VPN lain diatur untuk tetap nyala</string>
     <string name="msg_always_on_lockdown">Nonaktifkan \"Blokir koneksi tanpa VPN\" di pengaturan VPN Android untuk menggunakan NetGuard dalam mode penyaringan</string>

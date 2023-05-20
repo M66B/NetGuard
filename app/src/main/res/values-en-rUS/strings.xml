@@ -10,4 +10,6 @@
     <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
     <string name="channel_foreground">Running services</string>
     <string name="channel_notify">General notifications</string>
+    <string name="channel_access">Access notifications</string>
+    <string name="menu_search">Search for app</string>
 </resources>
