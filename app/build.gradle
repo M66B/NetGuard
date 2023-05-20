@@ -12,7 +12,7 @@ android {
         versionName = "2.304"
         minSdkVersion 22
         targetSdkVersion 31
-        versionCode = 2022111001
+        versionCode = 2023052001
         archivesBaseName = "NetGuard-v$versionName"
 
         externalNativeBuild {
