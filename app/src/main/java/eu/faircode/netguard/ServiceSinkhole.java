@@ -3293,14 +3293,32 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.run);
         intent.putExtra(EXTRA_REASON, reason);
-        ContextCompat.startForegroundService(context, intent);
+        try {
+            ContextCompat.startForegroundService(context, intent);
+        } catch (Throwable ex) {
+            // ForegroundServiceStartNotAllowedException
+            try {
+                context.startService(intent);
+            } catch (Throwable exex) {
+                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+            }
+        }
     }
 
     public static void start(String reason, Context context) {
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.start);
         intent.putExtra(EXTRA_REASON, reason);
-        ContextCompat.startForegroundService(context, intent);
+        try {
+            ContextCompat.startForegroundService(context, intent);
+        } catch (Throwable ex) {
+            // ForegroundServiceStartNotAllowedException
+            try {
+                context.startService(intent);
+            } catch (Throwable exex) {
+                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+            }
+        }
     }
 
     public static void reload(String reason, Context context, boolean interactive) {
@@ -3310,7 +3328,16 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             intent.putExtra(EXTRA_COMMAND, Command.reload);
             intent.putExtra(EXTRA_REASON, reason);
             intent.putExtra(EXTRA_INTERACTIVE, interactive);
-            ContextCompat.startForegroundService(context, intent);
+            try {
+                ContextCompat.startForegroundService(context, intent);
+            } catch (Throwable ex) {
+                // ForegroundServiceStartNotAllowedException
+                try {
+                    context.startService(intent);
+                } catch (Throwable exex) {
+                    Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+                }
+            }
         }
     }
 
@@ -3319,13 +3346,31 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         intent.putExtra(EXTRA_COMMAND, Command.stop);
         intent.putExtra(EXTRA_REASON, reason);
         intent.putExtra(EXTRA_TEMPORARY, vpnonly);
-        ContextCompat.startForegroundService(context, intent);
+        try {
+            ContextCompat.startForegroundService(context, intent);
+        } catch (Throwable ex) {
+            // ForegroundServiceStartNotAllowedException
+            try {
+                context.startService(intent);
+            } catch (Throwable exex) {
+                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+            }
+        }
     }
 
     public static void reloadStats(String reason, Context context) {
         Intent intent = new Intent(context, ServiceSinkhole.class);
         intent.putExtra(EXTRA_COMMAND, Command.stats);
         intent.putExtra(EXTRA_REASON, reason);
-        ContextCompat.startForegroundService(context, intent);
+        try {
+            ContextCompat.startForegroundService(context, intent);
+        } catch (Throwable ex) {
+            // ForegroundServiceStartNotAllowedException
+            try {
+                context.startService(intent);
+            } catch (Throwable exex) {
+                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+            }
+        }
     }
 }
