@@ -316,7 +316,7 @@ Frequently Asked Questions (FAQ)
 Support
 -------
 
-For questions, feature requests and bug reports, please [use this XDA-Developers forum thread](http://forum.xda-developers.com/showthread.php?t=3233012).
+For questions, feature requests and bug reports, please [use this form](https://contact.faircode.eu/?product=netguard%2B).
 
 There is support on the latest version of NetGuard only.
 
