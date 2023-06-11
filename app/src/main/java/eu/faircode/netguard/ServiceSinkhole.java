@@ -21,6 +21,7 @@ package eu.faircode.netguard;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
+import android.app.ForegroundServiceStartNotAllowedException;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -3296,12 +3297,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         try {
             ContextCompat.startForegroundService(context, intent);
         } catch (Throwable ex) {
-            // ForegroundServiceStartNotAllowedException
-            try {
-                context.startService(intent);
-            } catch (Throwable exex) {
-                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                    ex instanceof ForegroundServiceStartNotAllowedException)
+                try {
+                    context.startService(intent);
+                } catch (Throwable exex) {
+                    Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+                }
         }
     }
 
@@ -3312,12 +3314,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         try {
             ContextCompat.startForegroundService(context, intent);
         } catch (Throwable ex) {
-            // ForegroundServiceStartNotAllowedException
-            try {
-                context.startService(intent);
-            } catch (Throwable exex) {
-                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                    ex instanceof ForegroundServiceStartNotAllowedException)
+                try {
+                    context.startService(intent);
+                } catch (Throwable exex) {
+                    Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+                }
         }
     }
 
@@ -3331,12 +3334,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             try {
                 ContextCompat.startForegroundService(context, intent);
             } catch (Throwable ex) {
-                // ForegroundServiceStartNotAllowedException
-                try {
-                    context.startService(intent);
-                } catch (Throwable exex) {
-                    Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
-                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                        ex instanceof ForegroundServiceStartNotAllowedException)
+                    try {
+                        context.startService(intent);
+                    } catch (Throwable exex) {
+                        Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+                    }
             }
         }
     }
@@ -3349,12 +3353,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         try {
             ContextCompat.startForegroundService(context, intent);
         } catch (Throwable ex) {
-            // ForegroundServiceStartNotAllowedException
-            try {
-                context.startService(intent);
-            } catch (Throwable exex) {
-                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                    ex instanceof ForegroundServiceStartNotAllowedException)
+                try {
+                    context.startService(intent);
+                } catch (Throwable exex) {
+                    Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+                }
         }
     }
 
@@ -3365,12 +3370,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         try {
             ContextCompat.startForegroundService(context, intent);
         } catch (Throwable ex) {
-            // ForegroundServiceStartNotAllowedException
-            try {
-                context.startService(intent);
-            } catch (Throwable exex) {
-                Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
-            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                    ex instanceof ForegroundServiceStartNotAllowedException)
+                try {
+                    context.startService(intent);
+                } catch (Throwable exex) {
+                    Log.e(TAG, exex + "\n" + Log.getStackTraceString(exex));
+                }
         }
     }
 }
