@@ -118,7 +118,7 @@ If you disable this package, you can enable it with this command again:
 adb shell pm enable --user 0 com.android.vpndialogs
 ```
 
-NetGuard is supported on phones and tablets with a true-coler screen only, so not for other device types like on a television or in a car.
+NetGuard is supported on phones and tablets with a true-color screen only, so not for other device types like on a television or in a car.
 
 Android does not allow incoming connections (not the same as incoming traffic) and the Android VPN service has no support for this either.
 Therefore managing incoming connections for servers running on your device is not supported.

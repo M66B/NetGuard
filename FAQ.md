@@ -252,7 +252,7 @@ You can't disable this notification, but you can remove the icon from the status
 **(25) Can you add a 'Select All' function?**
 
 There is no need for a 'Select All' function
-because you can switch from block (blacklist) to allow (whitelist) mode using Netguard's settings.
+because you can switch from block (blacklist) to allow (whitelist) mode using NetGuard's settings.
 See also [question 0](#user-content-faq0).
 
 <a name="faq27"></a>
@@ -587,7 +587,7 @@ and you should see a different IP address from your regular one, and below in th
 field something else besides _Unknown_.
 
 **Be aware** that all the other Tor caveats (https://www.torproject.org/docs/faq.html.en) still apply,
-like having the Tor network unreacheable, your activity actively monitored/targeted in your country,
+like having the Tor network unreachable, your activity actively monitored/targeted in your country,
 online services (eg. Gmail, Google Play store) failing to login or being forced to solve endless capchas
 when accessing sites that use Cloudflare's CDN services.
 
