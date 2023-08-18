@@ -1200,27 +1200,28 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Handle logcat
-        view.setOnClickListener(new View.OnClickListener() {
-            private short tap = 0;
-            private Toast toast = Toast.makeText(ActivityMain.this, "", Toast.LENGTH_SHORT);
+        if (!Util.isPlayStoreInstall(this))
+            view.setOnClickListener(new View.OnClickListener() {
+                private short tap = 0;
+                private Toast toast = Toast.makeText(ActivityMain.this, "", Toast.LENGTH_SHORT);
 
-            @Override
-            public void onClick(View view) {
-                tap++;
-                if (tap == 7) {
-                    tap = 0;
-                    toast.cancel();
+                @Override
+                public void onClick(View view) {
+                    tap++;
+                    if (tap == 7) {
+                        tap = 0;
+                        toast.cancel();
 
-                    Intent intent = getIntentLogcat();
-                    if (intent.resolveActivity(getPackageManager()) != null)
-                        startActivityForResult(intent, REQUEST_LOGCAT);
+                        Intent intent = getIntentLogcat();
+                        if (intent.resolveActivity(getPackageManager()) != null)
+                            startActivityForResult(intent, REQUEST_LOGCAT);
 
-                } else if (tap > 3) {
-                    toast.setText(Integer.toString(7 - tap));
-                    toast.show();
+                    } else if (tap > 3) {
+                        toast.setText(Integer.toString(7 - tap));
+                        toast.show();
+                    }
                 }
-            }
-        });
+            });
 
         // Handle rate
         btnRate.setVisibility(getIntentRate(this).resolveActivity(getPackageManager()) == null ? View.GONE : View.VISIBLE);
