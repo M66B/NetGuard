@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingEnd="@dimen/activity_horizontal_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ActivityMain">
 
     <LinearLayout
@@ -26,6 +26,15 @@
             android:textAppearance="@style/TextMedium"
             android:textColor="?attr/colorOff"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvEol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/msg_eol"
+            android:textAppearance="@style/TextSmall"
+            android:textColor="?attr/colorOff" />
 
         <LinearLayout
             android:id="@+id/llUsage"
@@ -48,8 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@android:string/ok"
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
@@ -76,8 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@android:string/ok"
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
@@ -117,8 +126,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@android:string/ok"
                 android:textAppearance="@style/TextMedium" />
         </LinearLayout>
@@ -144,8 +153,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@android:string/ok"
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
@@ -171,8 +180,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
                 android:text="@android:string/ok"
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
@@ -206,8 +215,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
                     android:text="@string/app_support"
                     android:textAppearance="@style/TextSmall"
                     android:textColor="?attr/colorOff"
@@ -220,7 +229,7 @@
         android:id="@+id/vwPopupAnchor"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

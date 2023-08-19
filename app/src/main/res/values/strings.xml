@@ -180,6 +180,12 @@
     <string name="msg_hosts">%1$d allowed, %2$d blocked, %3$d hosts</string>
     <string name="msg_waiting">Waiting for event</string>
     <string name="msg_disabled">NetGuard is disabled, use the switch above to enable NetGuard</string>
+    <string name="msg_eol">
+        Google forces me to state that the app collects and shares email addresses when it does not.
+        I refuse to make false statements.
+        A meaningful discussion with Google appears to be impossible, and therefore this problem remains unsolved.
+        Google will soon remove the app from the Play Store and after that, there will be no point in maintaining and supporting this app anymore.
+    </string>
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based app</string>
     <string name="msg_installed">\'%1$s\' installed</string>
     <string name="msg_installed_n">Has been installed</string>
