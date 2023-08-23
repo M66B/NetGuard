@@ -93,8 +93,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_INVITE = 2;
-    private static final int REQUEST_LOGCAT = 3;
-    public static final int REQUEST_ROAMING = 4;
+    public static final int REQUEST_ROAMING = 3;
 
     private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP_MR1;
 
@@ -104,7 +103,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public static final String EXTRA_SEARCH = "Search";
     public static final String EXTRA_RELATED = "Related";
     public static final String EXTRA_APPROVE = "Approve";
-    public static final String EXTRA_LOGCAT = "Logcat";
     public static final String EXTRA_CONNECTED = "Connected";
     public static final String EXTRA_METERED = "Metered";
     public static final String EXTRA_SIZE = "Size";
@@ -592,16 +590,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         } else if (requestCode == REQUEST_INVITE) {
             // Do nothing
 
-        } else if (requestCode == REQUEST_LOGCAT) {
-            // Send logcat by e-mail
-            if (resultCode == RESULT_OK) {
-                Uri target = data.getData();
-                if (data.hasExtra("org.openintents.extra.DIR_PATH"))
-                    target = Uri.parse(target + "/logcat.txt");
-                Log.i(TAG, "Export URI=" + target);
-                Util.sendLogcat(target, this);
-            }
-
         } else {
             Log.w(TAG, "Unknown activity result request=" + requestCode);
             super.onActivityResult(requestCode, resultCode, data);
@@ -973,13 +961,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             Log.i(TAG, "Requesting VPN approval");
             swEnabled.toggle();
         }
-
-        if (intent.hasExtra(EXTRA_LOGCAT)) {
-            Log.i(TAG, "Requesting logcat");
-            Intent logcat = getIntentLogcat();
-            if (logcat.resolveActivity(getPackageManager()) != null)
-                startActivityForResult(logcat, REQUEST_LOGCAT);
-        }
     }
 
     private void updateApplicationList(final String search) {
@@ -1199,30 +1180,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         tvEula.setMovementMethod(LinkMovementMethod.getInstance());
         tvPrivacy.setMovementMethod(LinkMovementMethod.getInstance());
 
-        // Handle logcat
-        if (!Util.isPlayStoreInstall(this))
-            view.setOnClickListener(new View.OnClickListener() {
-                private short tap = 0;
-                private Toast toast = Toast.makeText(ActivityMain.this, "", Toast.LENGTH_SHORT);
-
-                @Override
-                public void onClick(View view) {
-                    tap++;
-                    if (tap == 7) {
-                        tap = 0;
-                        toast.cancel();
-
-                        Intent intent = getIntentLogcat();
-                        if (intent.resolveActivity(getPackageManager()) != null)
-                            startActivityForResult(intent, REQUEST_LOGCAT);
-
-                    } else if (tap > 3) {
-                        toast.setText(Integer.toString(7 - tap));
-                        toast.show();
-                    }
-                }
-            });
-
         // Handle rate
         btnRate.setVisibility(getIntentRate(this).resolveActivity(getPackageManager()) == null ? View.GONE : View.VISIBLE);
         btnRate.setOnClickListener(new View.OnClickListener() {
@@ -1282,24 +1239,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static Intent getIntentSupport() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://github.com/M66B/NetGuard/blob/master/FAQ.md"));
-        return intent;
-    }
-
-    private Intent getIntentLogcat() {
-        Intent intent;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            if (Util.isPackageInstalled("org.openintents.filemanager", this)) {
-                intent = new Intent("org.openintents.action.PICK_DIRECTORY");
-            } else {
-                intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=org.openintents.filemanager"));
-            }
-        } else {
-            intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TITLE, "logcat.txt");
-        }
         return intent;
     }
 }

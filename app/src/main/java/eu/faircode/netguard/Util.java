@@ -39,13 +39,9 @@ import android.net.ConnectivityManager;
 import android.net.LinkProperties;
 import android.net.Network;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.net.VpnService;
 import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -62,10 +58,7 @@ import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -77,7 +70,6 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -852,135 +844,6 @@ public class Util {
         return (cm.getRestrictBackgroundStatus() == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED);
     }
 
-    public static void sendLogcat(final Uri uri, final Context context) {
-        AsyncTask task = new AsyncTask<Object, Object, Intent>() {
-            @Override
-            protected Intent doInBackground(Object... objects) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(context.getString(R.string.msg_issue));
-                sb.append("\r\n\r\n\r\n\r\n");
-
-                // Get version info
-                String version = getSelfVersionName(context);
-                sb.append(String.format("NetGuard: %s/%d\r\n", version, getSelfVersionCode(context)));
-                sb.append(String.format("Android: %s (SDK %d)\r\n", Build.VERSION.RELEASE, Build.VERSION.SDK_INT));
-                sb.append("\r\n");
-
-                // Get device info
-                sb.append(String.format("Brand: %s\r\n", Build.BRAND));
-                sb.append(String.format("Manufacturer: %s\r\n", Build.MANUFACTURER));
-                sb.append(String.format("Model: %s\r\n", Build.MODEL));
-                sb.append(String.format("Product: %s\r\n", Build.PRODUCT));
-                sb.append(String.format("Device: %s\r\n", Build.DEVICE));
-                sb.append(String.format("Host: %s\r\n", Build.HOST));
-                sb.append(String.format("Display: %s\r\n", Build.DISPLAY));
-                sb.append(String.format("Id: %s\r\n", Build.ID));
-                sb.append(String.format("Fingerprint: %B\r\n", hasValidFingerprint(context)));
-
-                String abi;
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-                    abi = Build.CPU_ABI;
-                else
-                    abi = (Build.SUPPORTED_ABIS.length > 0 ? Build.SUPPORTED_ABIS[0] : "?");
-                sb.append(String.format("ABI: %s\r\n", abi));
-
-                Runtime rt = Runtime.getRuntime();
-                long hused = (rt.totalMemory() - rt.freeMemory()) / 1024L;
-                long hmax = rt.maxMemory() / 1024L;
-                long nheap = Debug.getNativeHeapAllocatedSize() / 1024L;
-                NumberFormat nf = NumberFormat.getIntegerInstance();
-                sb.append(String.format("Heap usage: %s/%s KiB native: %s KiB\r\n",
-                        nf.format(hused), nf.format(hmax), nf.format(nheap)));
-
-                sb.append("\r\n");
-
-                sb.append(String.format("VPN dialogs: %B\r\n", isPackageInstalled("com.android.vpndialogs", context)));
-                try {
-                    sb.append(String.format("Prepared: %B\r\n", VpnService.prepare(context) == null));
-                } catch (Throwable ex) {
-                    sb.append("Prepared: ").append((ex.toString())).append("\r\n").append(Log.getStackTraceString(ex));
-                }
-                sb.append("\r\n");
-
-                sb.append(getGeneralInfo(context));
-                sb.append("\r\n\r\n");
-                sb.append(getNetworkInfo(context));
-                sb.append("\r\n\r\n");
-
-                // Get DNS
-                sb.append("DNS system:\r\n");
-                for (String dns : getDefaultDNS(context))
-                    sb.append("- ").append(dns).append("\r\n");
-                sb.append("DNS VPN:\r\n");
-                for (InetAddress dns : ServiceSinkhole.getDns(context))
-                    sb.append("- ").append(dns).append("\r\n");
-                sb.append("\r\n");
-
-                // Get TCP connection info
-                String line;
-                BufferedReader in;
-                try {
-                    sb.append("/proc/net/tcp:\r\n");
-                    in = new BufferedReader(new FileReader("/proc/net/tcp"));
-                    while ((line = in.readLine()) != null)
-                        sb.append(line).append("\r\n");
-                    in.close();
-                    sb.append("\r\n");
-
-                    sb.append("/proc/net/tcp6:\r\n");
-                    in = new BufferedReader(new FileReader("/proc/net/tcp6"));
-                    while ((line = in.readLine()) != null)
-                        sb.append(line).append("\r\n");
-                    in.close();
-                    sb.append("\r\n");
-
-                } catch (IOException ex) {
-                    sb.append(ex.toString()).append("\r\n");
-                }
-
-                // Get settings
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-                Map<String, ?> all = prefs.getAll();
-                for (String key : all.keySet())
-                    sb.append("Setting: ").append(key).append('=').append(all.get(key)).append("\r\n");
-                sb.append("\r\n");
-
-                // Write logcat
-                dump_memory_profile();
-                OutputStream out = null;
-                try {
-                    Log.i(TAG, "Writing logcat URI=" + uri);
-                    out = context.getContentResolver().openOutputStream(uri);
-                    out.write(getLogcat().toString().getBytes());
-                    out.write(getTrafficLog(context).toString().getBytes());
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    sb.append(ex.toString()).append("\r\n").append(Log.getStackTraceString(ex)).append("\r\n");
-                } finally {
-                    if (out != null)
-                        try {
-                            out.close();
-                        } catch (IOException ignored) {
-                        }
-                }
-
-                // Build intent
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Intent sendEmail) {
-                if (sendEmail != null)
-                    try {
-                        context.startActivity(sendEmail);
-                    } catch (Throwable ex) {
-                        Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    }
-            }
-        };
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
     private static StringBuilder getTrafficLog(Context context) {
         StringBuilder sb = new StringBuilder();
 
@@ -1024,46 +887,5 @@ public class Util {
         }
 
         return sb;
-    }
-
-    private static StringBuilder getLogcat() {
-        StringBuilder builder = new StringBuilder();
-        Process process1 = null;
-        Process process2 = null;
-        BufferedReader br = null;
-        try {
-            String[] command1 = new String[]{"logcat", "-d", "-v", "threadtime"};
-            process1 = Runtime.getRuntime().exec(command1);
-            br = new BufferedReader(new InputStreamReader(process1.getInputStream()));
-            int count = 0;
-            String line;
-            while ((line = br.readLine()) != null) {
-                count++;
-                builder.append(line).append("\r\n");
-            }
-            Log.i(TAG, "Logcat lines=" + count);
-
-        } catch (IOException ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        } finally {
-            if (br != null)
-                try {
-                    br.close();
-                } catch (IOException ignored) {
-                }
-            if (process2 != null)
-                try {
-                    process2.destroy();
-                } catch (Throwable ex) {
-                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-            if (process1 != null)
-                try {
-                    process1.destroy();
-                } catch (Throwable ex) {
-                    Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                }
-        }
-        return builder;
     }
 }
