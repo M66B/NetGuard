@@ -31,10 +31,13 @@
             android:id="@+id/tvEol"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/twotone_info_outline_24"
+            android:drawableTint="?attr/colorError"
+            android:drawablePadding="8dp"
             android:padding="8dp"
             android:text="@string/msg_eol"
             android:textAppearance="@style/TextSmall"
-            android:textColor="?attr/colorOff" />
+            android:textColor="?attr/colorError" />
 
         <LinearLayout
             android:id="@+id/llUsage"
