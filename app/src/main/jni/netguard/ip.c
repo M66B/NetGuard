@@ -292,6 +292,20 @@ void handle_ip(const struct arguments *args,
             uid = get_uid_q(args, version, protocol, source, sport, dest, dport);
     }
 
+    // Get server name
+    if (protocol == IPPROTO_TCP) {
+        const struct tcphdr *tcphdr = (struct tcphdr *) payload;
+        const uint8_t tcpoptlen = (uint8_t) ((tcphdr->doff - 5) * 4);
+        const uint8_t *data = payload + sizeof(struct tcphdr) + tcpoptlen;
+        const uint16_t datalen = (const uint16_t) (length - (data - pkt));
+
+        char server_name[TLS_SNI_LENGTH + 1];
+        if (get_sni(data, datalen, server_name)) {
+            log_android(ANDROID_LOG_INFO, "TLS server name: %s", server_name);
+            dns_resolved(args, server_name, server_name, dest, -1);
+        }
+    }
+
     log_android(ANDROID_LOG_DEBUG,
                 "Packet v%d %s/%u > %s/%u proto %d flags %s uid %d",
                 version, source, sport, dest, dport, protocol, flags, uid);

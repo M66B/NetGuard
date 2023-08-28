@@ -253,6 +253,18 @@ typedef struct pcaprec_hdr_s {
 
 #define LINKTYPE_RAW 101
 
+// TLS
+
+#define TLS_SNI_LENGTH 255
+#define TLS_HANDSHAKE_RECORD 22
+#define TLS_MESSAGE_CLIENTHELLO 1
+#define TLS_EXTENSION_TYPE_SERVER_NAME 0
+
+int get_sni(
+        const uint8_t *data,
+        const uint16_t datalen,
+        char *server_name);
+
 // DNS
 
 #define DNS_QCLASS_IN 1
