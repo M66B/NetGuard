@@ -79,6 +79,7 @@ android {
     lint {
         disable 'MissingTranslation'
     }
+    namespace 'eu.faircode.netguard'
 }
 
 dependencies {
