@@ -629,7 +629,7 @@ In some circumstances, restricting system apps and system components is known to
 Google manages all purchases, so as a developer I have no control over purchases.
 So, the only thing I can do, is give some advice:
 
-* Make sure you have an active internet connection
+* Make sure you have an active, working internet connection, and turn off any VPN based app because it might prevent the Play store from checking purchases
 * Make sure you didn't block Google Play store / Play services
 * Make sure you are logged in with the right Google account and that there is nothing wrong with your Google account
 * Make sure you installed NetGuard via the right Google account if you configured multiple Google accounts on your device
