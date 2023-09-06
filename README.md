@@ -11,6 +11,18 @@ This app is probably malicious and was reported to Samsung on December 8, 2021.*
 
 <br>
 
+## NetGuard isn't supported anymore
+
+I've stopped supporting all my Android apps for several reasons.
+Google can block developers accounts and remove apps from the Play Store for random reasons, and practically seen there is no support for developers.
+Since 99% of the app installations are via the Play Store, this is not workable.
+Moreover, I am tired of being harassed non-stop with unreasonable reviews and hate email.
+Summarized, the stress level is higher than the fun level.
+If you are angry about this, please redirect your anger to Google.
+Note that you either paid nothing or a one-time fee, for which you can't expect things to go on endlessly.
+
+<br>
+
 Blocking access to the internet can help:
 
 * reduce your data usage
