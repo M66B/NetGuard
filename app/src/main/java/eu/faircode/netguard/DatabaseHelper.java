@@ -369,8 +369,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             db.beginTransactionNonExclusive();
             try {
-                if (false &&
-                        packet.protocol == 6 /* TCP */ &&
+                if (packet.protocol == 6 /* TCP */ &&
                         packet.daddr != null &&
                         packet.dport > 0 &&
                         packet.uid > 0 &&
