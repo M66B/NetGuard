@@ -28,6 +28,19 @@
             android:visibility="gone" />
 
         <TextView
+            android:id="@+id/tvNotifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/twotone_notifications_24"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorError"
+            android:padding="8dp"
+            android:text="@string/msg_notifications"
+            android:textAppearance="@style/TextSmall"
+            android:textColor="?attr/colorOff"
+            android:visibility="visible" />
+
+        <TextView
             android:id="@+id/tvEol"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

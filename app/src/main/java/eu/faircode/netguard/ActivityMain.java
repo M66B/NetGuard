@@ -19,6 +19,7 @@ package eu.faircode.netguard;
     Copyright 2015-2019 by Marcel Bokhorst (M66B)
 */
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -63,6 +64,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceManager;
@@ -94,6 +97,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     private static final int REQUEST_VPN = 1;
     private static final int REQUEST_INVITE = 2;
     public static final int REQUEST_ROAMING = 3;
+    private static final int REQUEST_NOTIFICATIONS = 4;
 
     private static final int MIN_SDK = Build.VERSION_CODES.LOLLIPOP_MR1;
 
@@ -306,6 +310,17 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         TextView tvDisabled = findViewById(R.id.tvDisabled);
         tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
 
+        // Notification permissions
+        TextView tvNotifications = findViewById(R.id.tvNotifications);
+        tvNotifications.setVisibility(View.GONE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            tvNotifications.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATIONS);
+                }
+            });
+
         // Application list
         RecyclerView rvApplication = findViewById(R.id.rvApplication);
         rvApplication.setHasFixedSize(false);
@@ -511,6 +526,15 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
                 IAB.isPurchasedAny(this) || getIntentPro(this).resolveActivity(pm) == null
                         ? View.GONE : View.VISIBLE);
 
+        boolean canNotify =
+                (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                        (ContextCompat.checkSelfPermission(this,
+                                android.Manifest.permission.POST_NOTIFICATIONS) ==
+                                PackageManager.PERMISSION_GRANTED));
+        TextView tvNotifications = findViewById(R.id.tvNotifications);
+        if (tvNotifications != null)
+            tvNotifications.setVisibility(canNotify ? View.GONE : View.VISIBLE);
+
         super.onResume();
     }
 
@@ -612,9 +636,23 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_ROAMING)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_ROAMING) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 ServiceSinkhole.reload("permission granted", this, false);
+        } else if (requestCode == REQUEST_NOTIFICATIONS) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED &&
+                    !ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.POST_NOTIFICATIONS))
+                try {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                } catch (Throwable ex) {
+                    Log.e(TAG, ex + "\n" + ex.getStackTrace());
+                }
+        }
     }
 
     @Override
