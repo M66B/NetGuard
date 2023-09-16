@@ -292,20 +292,6 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(actionView);
 
-        TextView tvEol = findViewById(R.id.tvEol);
-        tvEol.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://www.reddit.com/r/Android/comments/15y7g70/")));
-                } catch (Throwable ex) {
-                    Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-                    Toast.makeText(view.getContext(), ex.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
         // Disabled warning
         TextView tvDisabled = findViewById(R.id.tvDisabled);
         tvDisabled.setVisibility(enabled ? View.GONE : View.VISIBLE);
