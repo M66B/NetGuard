@@ -62,6 +62,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final static int MSG_ACCESS = 2;
     private final static int MSG_FORWARD = 3;
 
+    private final static long SYN_SNI_DELAY = 5000L;
+
     private SharedPreferences prefs;
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
 
@@ -382,7 +384,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                                     " AND dport = ?" +
                                     " AND uid = ?",
                             new String[]{
-                                    Long.toString(packet.time - 2000L),
+                                    Long.toString(packet.time - SYN_SNI_DELAY),
                                     Integer.toString(packet.protocol),
                                     Integer.toString(packet.version),
                                     "S", // SYN
