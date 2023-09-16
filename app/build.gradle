@@ -80,6 +80,9 @@ android {
         disable 'MissingTranslation'
     }
     namespace 'eu.faircode.netguard'
+    buildFeatures {
+        aidl true
+    }
 }
 
 dependencies {
