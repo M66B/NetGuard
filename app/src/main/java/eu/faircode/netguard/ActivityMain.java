@@ -377,7 +377,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         intentFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
         intentFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
         intentFilter.addDataScheme("package");
-        registerReceiver(packageChangedReceiver, intentFilter);
+        ContextCompat.registerReceiver(this, packageChangedReceiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
 
         // First use
         if (!initialized) {

@@ -347,7 +347,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     ifInteractive.addAction(Intent.ACTION_SCREEN_ON);
                     ifInteractive.addAction(Intent.ACTION_SCREEN_OFF);
                     ifInteractive.addAction(ACTION_SCREEN_OFF_DELAYED);
-                    registerReceiver(interactiveStateReceiver, ifInteractive);
+                    ContextCompat.registerReceiver(ServiceSinkhole.this, interactiveStateReceiver, ifInteractive, ContextCompat.RECEIVER_NOT_EXPORTED);
                     registeredInteractiveState = true;
                 }
             } else {
@@ -2440,7 +2440,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             IntentFilter ifUser = new IntentFilter();
             ifUser.addAction(Intent.ACTION_USER_BACKGROUND);
             ifUser.addAction(Intent.ACTION_USER_FOREGROUND);
-            registerReceiver(userReceiver, ifUser);
+            ContextCompat.registerReceiver(this, userReceiver, ifUser, ContextCompat.RECEIVER_NOT_EXPORTED);
             registeredUser = true;
         }
 
@@ -2448,7 +2448,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             IntentFilter ifIdle = new IntentFilter();
             ifIdle.addAction(PowerManager.ACTION_DEVICE_IDLE_MODE_CHANGED);
-            registerReceiver(idleStateReceiver, ifIdle);
+            ContextCompat.registerReceiver(this, idleStateReceiver, ifIdle, ContextCompat.RECEIVER_NOT_EXPORTED);
             registeredIdleState = true;
         }
 
@@ -2457,7 +2457,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         ifPackage.addAction(Intent.ACTION_PACKAGE_ADDED);
         ifPackage.addAction(Intent.ACTION_PACKAGE_REMOVED);
         ifPackage.addDataScheme("package");
-        registerReceiver(packageChangedReceiver, ifPackage);
+        ContextCompat.registerReceiver(this, packageChangedReceiver, ifPackage, ContextCompat.RECEIVER_NOT_EXPORTED);
         registeredPackageChanged = true;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -2589,7 +2589,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         Log.i(TAG, "Starting listening to connectivity changes");
         IntentFilter ifConnectivity = new IntentFilter();
         ifConnectivity.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(connectivityChangedReceiver, ifConnectivity);
+        ContextCompat.registerReceiver(this, connectivityChangedReceiver, ifConnectivity, ContextCompat.RECEIVER_NOT_EXPORTED);
         registeredConnectivityChanged = true;
 
         // Listen for phone state changes
