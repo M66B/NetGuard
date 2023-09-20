@@ -12,4 +12,7 @@
     <string name="channel_notify">General notifications</string>
     <string name="channel_access">Access notifications</string>
     <string name="menu_search">Search for app</string>
+    <string name="menu_app_system">Show system apps</string>
+    <string name="menu_app_nointernet">Show apps without internet</string>
+    <string name="menu_app_disabled">Show disabled apps</string>
 </resources>

@@ -156,6 +156,7 @@
     <string name="msg_hosts">%1$d건 허용됨, %2$d건 차단됨, 호스트 %3$d개</string>
     <string name="msg_waiting">이벤트를 기다리는 중</string>
     <string name="msg_disabled">넷가드가 해제되어 있습니다. 상단 스위치를 사용해 넷가드를 활성화하세요.</string>
+    <string name="msg_notifications">눌러서 알림 권한을 부여합니다 (접근 시도 알림, 오류 메시지 등을 표시할 때 필요)</string>
     <string name="msg_revoked">다른 VPN 기반 앱이 사용 중이라 NetGuard가 꺼졌습니다</string>
     <string name="msg_installed">\'%1$s\' 설치됨</string>
     <string name="msg_installed_n">설치되었습니다</string>

@@ -156,6 +156,7 @@
     <string name="msg_hosts">%1$d разрешени, %2$d забранени, %3$d хостове</string>
     <string name="msg_waiting">Изчакване за събитие</string>
     <string name="msg_disabled">NetGuard е изключен, използвайте превключвателя горе, за да включите NetGuard</string>
+    <string name="msg_notifications">За да разрешите известията, докоснете (за питане за достъп, съобщения за грешка и др.)</string>
     <string name="msg_revoked">NetGuard се изключи, най-вероятно използвате друго VPN базирано приложение</string>
     <string name="msg_installed">\"%1$s\" инсталирани</string>
     <string name="msg_installed_n">Е инсталиран</string>

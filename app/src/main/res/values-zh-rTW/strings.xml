@@ -156,6 +156,7 @@
     <string name="msg_hosts">已允許 %1$d，已封鎖 %2$d，%3$d hosts</string>
     <string name="msg_waiting">等待事件</string>
     <string name="msg_disabled">NetGuard 已停用，請透過上方開關切換成啟用 NetGuard</string>
+    <string name="msg_notifications">輕觸以授與「通知」權限（以利存取嘗試通知、錯誤訊息等）。</string>
     <string name="msg_revoked">NetGuard 已停用，很可能是使用其他具 VPN 功能的 app 所致</string>
     <string name="msg_installed">已安裝 \'%1$s\'</string>
     <string name="msg_installed_n">已經安裝了</string>

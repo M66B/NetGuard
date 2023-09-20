@@ -156,6 +156,7 @@
     <string name="msg_hosts">%1$d дозволено, %2$d заблоковано, хостів - %3$d</string>
     <string name="msg_waiting">Очікування події</string>
     <string name="msg_disabled">NetGuard вимкнено. Для увімкнення скористайтеся перемикачем, розташованим вище</string>
+    <string name="msg_notifications">Торкніться, щоб надати дозволи на сповіщення (щоб отримати доступ до спроб, повідомлень про помилки тощо)</string>
     <string name="msg_revoked">NetGuard було вимкнено, найімовірніше, через використання іншого VPN-підключення</string>
     <string name="msg_installed">%1$s встановлено</string>
     <string name="msg_installed_n">Було встановлено</string>

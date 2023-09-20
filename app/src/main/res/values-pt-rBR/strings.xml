@@ -157,6 +157,7 @@
     <string name="msg_hosts">%1$d permitido, %2$d bloqueado, %3$d hosts</string>
     <string name="msg_waiting">Aguardando evento</string>
     <string name="msg_disabled">NetGuard desativado, use o interruptor acima para ativá-lo</string>
+    <string name="msg_notifications">Toque em garantir permissão a notificações (para ser notificado de tentativas de acesso, mensagens de erro, etc.)</string>
     <string name="msg_revoked">NetGuard foi desativado, provavelmente outro aplicativo baseado em VPN esta sendo usado</string>
     <string name="msg_installed">\'%1$s\' instalado</string>
     <string name="msg_installed_n">Foi instalado</string>

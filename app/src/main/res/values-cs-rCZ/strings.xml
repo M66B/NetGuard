@@ -156,6 +156,7 @@
     <string name="msg_hosts">povoleno: %1$d | blokováno: %2$d | hosts: %3$d</string>
     <string name="msg_waiting">Čekání na událost</string>
     <string name="msg_disabled">NetGuard je deaktivován, použijte přepínač výše pro jeho aktivaci</string>
+    <string name="msg_notifications">Klepnutím udělíte oprávnění oznámení (pro přístup k oznámením pokusů, chybovým zprávám atd.)</string>
     <string name="msg_revoked">NetGuard byl deaktivován, pravděpodobně jinou aplikací používající VPN rozhraní</string>
     <string name="msg_installed">\'%1$s\' nainstalováno</string>
     <string name="msg_installed_n">Instalace dokončena</string>

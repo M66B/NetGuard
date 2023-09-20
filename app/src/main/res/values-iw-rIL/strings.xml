@@ -157,6 +157,7 @@
     <string name="msg_hosts">%1$d אושרו, %2$d נחסמו, %3$d שרתים</string>
     <string name="msg_waiting">ממתין לאירוע</string>
     <string name="msg_disabled">NetGuard מנוטרל, השתמש במתג שמעל כדי לאפשר את NetGuard</string>
+    <string name="msg_notifications">נגיעה תעניק הרשאות להתראות (להתראות על ניסיון גישה, הודעות שגיאה וכו׳)</string>
     <string name="msg_revoked">NetGuard מנוטרל, ככל הנראה בגלל שימוש ביישום מבוסס VPN אחר</string>
     <string name="msg_installed">\'%1$s\' מותקן</string>
     <string name="msg_installed_n">הותקן</string>
