@@ -521,7 +521,7 @@ void log_android(int prio, const char *fmt, ...);
 void log_packet(const struct arguments *args, jobject jpacket);
 
 void dns_resolved(const struct arguments *args,
-                  const char *qname, const char *aname, const char *resource, int ttl);
+                  const char *qname, const char *aname, const char *resource, int ttl, jint uid);
 
 jboolean is_domain_blocked(const struct arguments *args, const char *name);
 

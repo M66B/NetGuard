@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "NetGuard.Database";
 
     private static final String DB_NAME = "Netguard";
-    private static final int DB_VERSION = 21;
+    private static final int DB_VERSION = 22;
 
     private static boolean once = true;
     private static List<LogChangedListener> logChangedListeners = new ArrayList<>();
@@ -190,6 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ", aname TEXT NOT NULL" +
                 ", resource TEXT NOT NULL" +
                 ", ttl INTEGER" +
+                ", uid INTEGER" +
                 ");");
         db.execSQL("CREATE UNIQUE INDEX idx_dns ON dns(qname, aname, resource)");
         db.execSQL("CREATE INDEX idx_dns_resource ON dns(resource)");
@@ -347,6 +348,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (oldVersion < 21) {
                 createTableApp(db);
                 oldVersion = 21;
+            }
+
+            if (oldVersion < 22) {
+                if (!columnExists(db, "dns", "uid"))
+                    db.execSQL("ALTER TABLE dns ADD COLUMN uid INTEGER");
+                oldVersion = 22;
             }
 
             if (oldVersion == DB_VERSION) {
@@ -828,6 +835,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cv.put("qname", rr.QName);
                     cv.put("aname", rr.AName);
                     cv.put("resource", rr.Resource);
+                    cv.put("uid", rr.uid);
 
                     if (db.insert("dns", null, cv) == -1)
                         Log.e(TAG, "Insert dns failed");
@@ -892,7 +900,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String query = "SELECT d.qname";
             query += " FROM dns AS d";
             query += " WHERE d.resource = '" + ip.replace("'", "''") + "'";
-            query += " ORDER BY d.qname";
+            query += " ORDER BY (d.uid = " + uid + ") DESC, d.qname";
             query += " LIMIT 1";
             // There is no way to known for sure which domain name an app used, so just pick the first one
             return db.compileStatement(query).simpleQueryForString();

@@ -62,5 +62,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextSmall" />
+
+        <TextView
+            android:id="@+id/tvUid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextSmall" />
     </LinearLayout>
 </LinearLayout>

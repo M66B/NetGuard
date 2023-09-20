@@ -29,6 +29,7 @@ public class ResourceRecord {
     public String AName;
     public String Resource;
     public int TTL;
+    public int uid;
 
     private static DateFormat formatter = SimpleDateFormat.getDateTimeInstance();
 
@@ -42,6 +43,7 @@ public class ResourceRecord {
                 " A " + AName +
                 " R " + Resource +
                 " TTL " + TTL +
+                " uid " + uid +
                 " " + formatter.format(new Date(Time + TTL * 1000L).getTime());
     }
 }

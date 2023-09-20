@@ -42,6 +42,7 @@ public class AdapterDns extends CursorAdapter {
     private int colAName;
     private int colResource;
     private int colTTL;
+    private int colUid;
 
     public AdapterDns(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -58,6 +59,7 @@ public class AdapterDns extends CursorAdapter {
         colAName = cursor.getColumnIndex("aname");
         colResource = cursor.getColumnIndex("resource");
         colTTL = cursor.getColumnIndex("ttl");
+        colUid = cursor.getColumnIndex("uid");
     }
 
     @Override
@@ -73,6 +75,7 @@ public class AdapterDns extends CursorAdapter {
         String aname = cursor.getString(colAName);
         String resource = cursor.getString(colResource);
         int ttl = cursor.getInt(colTTL);
+        int uid = cursor.getInt(colUid);
 
         long now = new Date().getTime();
         boolean expired = (time + ttl < now);
@@ -84,6 +87,7 @@ public class AdapterDns extends CursorAdapter {
         TextView tvAName = view.findViewById(R.id.tvAName);
         TextView tvResource = view.findViewById(R.id.tvResource);
         TextView tvTTL = view.findViewById(R.id.tvTTL);
+        TextView tvUid = view.findViewById(R.id.tvUid);
 
         // Set values
         tvTime.setText(new SimpleDateFormat("dd HH:mm").format(time));
@@ -91,5 +95,6 @@ public class AdapterDns extends CursorAdapter {
         tvAName.setText(aname);
         tvResource.setText(resource);
         tvTTL.setText("+" + Integer.toString(ttl / 1000));
+        tvUid.setText(uid > 0 ? Integer.toString(uid) : null);
     }
 }

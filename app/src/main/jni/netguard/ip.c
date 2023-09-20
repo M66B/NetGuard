@@ -281,6 +281,8 @@ void handle_ip(const struct arguments *args,
         }
     }
 
+    jint uid = -1;
+
     // Get server name
     char server_name[TLS_SNI_LENGTH + 1];
     *server_name = 0;
@@ -292,7 +294,8 @@ void handle_ip(const struct arguments *args,
 
         if (get_sni(data, datalen, server_name)) {
             log_android(ANDROID_LOG_INFO, "TLS server name: %s", server_name);
-            dns_resolved(args, server_name, server_name, dest, -1);
+            uid = get_uid(version, protocol, saddr, sport, daddr, dport);
+            dns_resolved(args, server_name, server_name, dest, -1, uid);
         }
     }
 
@@ -300,10 +303,9 @@ void handle_ip(const struct arguments *args,
         strcpy(data, "sni");
 
     // Get uid
-    jint uid = -1;
     if (protocol == IPPROTO_ICMP || protocol == IPPROTO_ICMPV6 ||
         (protocol == IPPROTO_UDP && !has_udp_session(args, pkt, payload)) ||
-        (protocol == IPPROTO_TCP && (syn || *server_name != 0))) {
+        (protocol == IPPROTO_TCP && syn)) {
         if (args->ctx->sdk <= 28) // Android 9 Pie
             uid = get_uid(version, protocol, saddr, sport, daddr, dport);
         else
