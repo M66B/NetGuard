@@ -392,9 +392,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 watchdogIntent.setAction(ACTION_WATCHDOG);
                 PendingIntent pi;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    pi = PendingIntent.getForegroundService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+                    pi = PendingIntentCompat.getForegroundService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 else
-                    pi = PendingIntent.getService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+                    pi = PendingIntentCompat.getService(ServiceSinkhole.this, 1, watchdogIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                 AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 am.cancel(pi);
@@ -1103,7 +1103,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             // Show notification
             Intent main = new Intent(ServiceSinkhole.this, ActivityMain.class);
-            PendingIntent pi = PendingIntent.getActivity(ServiceSinkhole.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+            PendingIntent pi = PendingIntentCompat.getActivity(ServiceSinkhole.this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
@@ -1451,7 +1451,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         // Build configure intent
         Intent configure = new Intent(this, ActivityMain.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, 0, configure, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setConfigureIntent(pi);
 
         return builder;
@@ -2016,7 +2016,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                     Intent i = new Intent(ACTION_SCREEN_OFF_DELAYED);
                     i.setPackage(context.getPackageName());
-                    PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+                    PendingIntent pi = PendingIntentCompat.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
                     am.cancel(pi);
 
                     try {
@@ -2317,7 +2317,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Intent main = new Intent(this, ActivityMain.class);
             main.putExtra(ActivityMain.EXTRA_REFRESH, true);
             main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
-            PendingIntent pi = PendingIntent.getActivity(this, uid, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+            PendingIntent pi = PendingIntentCompat.getActivity(this, uid, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
@@ -2352,7 +2352,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             riWifi.putExtra(ServiceSinkhole.EXTRA_PACKAGE, packages[0]);
             riWifi.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !wifi);
 
-            PendingIntent piWifi = PendingIntent.getService(this, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+            PendingIntent piWifi = PendingIntentCompat.getService(this, uid, riWifi, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action wAction = new NotificationCompat.Action.Builder(
                     wifi ? R.drawable.wifi_on : R.drawable.wifi_off,
                     getString(wifi ? R.string.title_allow_wifi : R.string.title_block_wifi),
@@ -2367,7 +2367,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             riOther.putExtra(ServiceSinkhole.EXTRA_UID, uid);
             riOther.putExtra(ServiceSinkhole.EXTRA_PACKAGE, packages[0]);
             riOther.putExtra(ServiceSinkhole.EXTRA_BLOCKED, !other);
-            PendingIntent piOther = PendingIntent.getService(this, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+            PendingIntent piOther = PendingIntentCompat.getService(this, uid + 10000, riOther, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Action oAction = new NotificationCompat.Action.Builder(
                     other ? R.drawable.other_on : R.drawable.other_off,
                     getString(other ? R.string.title_allow_other : R.string.title_block_other),
@@ -2482,9 +2482,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         alarmIntent.setAction(ACTION_HOUSE_HOLDING);
         PendingIntent pi;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            pi = PendingIntent.getForegroundService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+            pi = PendingIntentCompat.getForegroundService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         else
-            pi = PendingIntent.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+            pi = PendingIntentCompat.getService(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         am.setInexactRepeating(AlarmManager.RTC, SystemClock.elapsedRealtime() + 60 * 1000, AlarmManager.INTERVAL_HALF_DAY, pi);
@@ -2801,7 +2801,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private Notification getEnforcingNotification(int allowed, int blocked, int hosts) {
         Intent main = new Intent(this, ActivityMain.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
@@ -2865,7 +2865,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private Notification getWaitingNotification() {
         Intent main = new Intent(this, ActivityMain.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
@@ -2892,7 +2892,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private void showDisabledNotification() {
         Intent main = new Intent(this, ActivityMain.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
@@ -2917,7 +2917,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private void showLockdownNotification() {
         Intent intent = new Intent(Settings.ACTION_VPN_SETTINGS);
-        PendingIntent pi = PendingIntent.getActivity(this, NOTIFY_LOCKDOWN, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, NOTIFY_LOCKDOWN, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
@@ -2948,7 +2948,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private void showAutoStartNotification() {
         Intent main = new Intent(this, ActivityMain.class);
         main.putExtra(ActivityMain.EXTRA_APPROVE, true);
-        PendingIntent pi = PendingIntent.getActivity(this, NOTIFY_AUTOSTART, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, NOTIFY_AUTOSTART, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
@@ -2973,7 +2973,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private void showErrorNotification(String message) {
         Intent main = new Intent(this, ActivityMain.class);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, 0, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOff, tv, true);
@@ -3002,7 +3002,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         Intent main = new Intent(ServiceSinkhole.this, ActivityMain.class);
         main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
-        PendingIntent pi = PendingIntent.getActivity(ServiceSinkhole.this, uid + 10000, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(ServiceSinkhole.this, uid + 10000, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorOn, tv, true);
@@ -3084,7 +3084,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
     private void showUpdateNotification(String name, String url) {
         Intent download = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        PendingIntent pi = PendingIntent.getActivity(this, 0, download, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(this, 0, download, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);

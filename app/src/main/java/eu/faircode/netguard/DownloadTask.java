@@ -157,7 +157,7 @@ public class DownloadTask extends AsyncTask<Object, Integer, Object> {
 
     private void showNotification(int progress) {
         Intent main = new Intent(context, ActivitySettings.class);
-        PendingIntent pi = PendingIntent.getActivity(context, ServiceSinkhole.NOTIFY_DOWNLOAD, main, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        PendingIntent pi = PendingIntentCompat.getActivity(context, ServiceSinkhole.NOTIFY_DOWNLOAD, main, PendingIntent.FLAG_UPDATE_CURRENT);
 
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorOff, tv, true);
