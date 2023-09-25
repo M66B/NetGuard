@@ -73,6 +73,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -110,6 +113,8 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
     public static final String EXTRA_CONNECTED = "Connected";
     public static final String EXTRA_METERED = "Metered";
     public static final String EXTRA_SIZE = "Size";
+
+    private static final String MALWARE_URL = "https://urlhaus.abuse.ch/downloads/hostfile/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -858,6 +863,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             menu.findItem(R.id.menu_sort_name).setChecked(true);
 
         menu.findItem(R.id.menu_lockdown).setChecked(prefs.getBoolean("lockdown", false));
+        menu.findItem(R.id.menu_malware).setChecked(prefs.getBoolean("malware", false));
 
         return super.onPrepareOptionsMenu(menu);
     }
@@ -901,6 +907,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
             case R.id.menu_lockdown:
                 menu_lockdown(item);
+                return true;
+
+            case R.id.menu_malware:
+                menu_malware(item);
                 return true;
 
             case R.id.menu_log:
@@ -1196,6 +1206,42 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         prefs.edit().putBoolean("lockdown", item.isChecked()).apply();
         ServiceSinkhole.reload("lockdown", this, false);
         WidgetLockdown.updateWidgets(this);
+    }
+
+    private void menu_malware(MenuItem item) {
+        item.setChecked(!item.isChecked());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().putBoolean("malware", item.isChecked()).apply();
+        if (item.isChecked())
+            try {
+                final File file = new File(getFilesDir(), "malware.txt");
+                new DownloadTask(this, new URL(MALWARE_URL), file, new DownloadTask.Listener() {
+                    @Override
+                    public void onCompleted() {
+                        prefs.edit().putBoolean("filter", true).apply();
+                        ServiceSinkhole.reload("malware download", ActivityMain.this, false);
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        prefs.edit().putBoolean("malware", false).apply();
+                    }
+
+                    @Override
+                    public void onException(Throwable ex) {
+                        Toast.makeText(ActivityMain.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            } catch (MalformedURLException ex) {
+                Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show();
+            }
+        else {
+            SharedPreferences.Editor editor = prefs.edit();
+            for (String key : prefs.getAll().keySet())
+                if (key.startsWith("malware."))
+                    editor.remove(key);
+            editor.apply();
+        }
     }
 
     private void menu_about() {

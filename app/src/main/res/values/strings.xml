@@ -102,6 +102,7 @@
     <string name="setting_handover">Seamless VPN handover on reload</string>
     <string name="setting_clear_onreload">Close connections on reload</string>
     <string name="setting_lockdown">Lockdown traffic</string>
+    <string name="setting_malware">Malware protection</string>
     <string name="setting_track_usage">Track network usage</string>
     <string name="setting_reset_usage">Reset network usage</string>
     <string name="setting_show_resolved">Show resolved domain names</string>
@@ -184,6 +185,7 @@
     <string name="msg_revoked">NetGuard has been disabled, likely by using another VPN based app</string>
     <string name="msg_installed">\'%1$s\' installed</string>
     <string name="msg_installed_n">Has been installed</string>
+    <string name="msg_malware">Possible malware: \'%1$s\'</string>
     <string name="msg_access">%1$s attempted internet access</string>
     <string name="msg_access_n">Attempted internet access</string>
     <string name="msg_completed">Action completed</string>

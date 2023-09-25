@@ -144,7 +144,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     private boolean temporarilyStopped = false;
 
     private long last_hosts_modified = 0;
+    private long last_malware_modified = 0;
     private Map<String, Boolean> mapHostsBlocked = new HashMap<>();
+    private Map<String, Boolean> mapMalware = new HashMap<>();
     private Map<Integer, Boolean> mapUidAllowed = new HashMap<>();
     private Map<Integer, Integer> mapUidKnown = new HashMap<>();
     private final Map<IPKey, Map<InetAddress, IPRule>> mapUidIPFilters = new HashMap<>();
@@ -1471,6 +1473,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (filter) {
             prepareUidAllowed(listAllowed, listRule);
             prepareHostsBlocked();
+            prepareMalwareList();
             prepareUidIPFilters(null);
             prepareForwarding();
         } else {
@@ -1478,6 +1481,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             mapUidAllowed.clear();
             mapUidKnown.clear();
             mapHostsBlocked.clear();
+            mapMalware.clear();
             mapUidIPFilters.clear();
             mapForward.clear();
             lock.writeLock().unlock();
@@ -1555,6 +1559,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         mapUidAllowed.clear();
         mapUidKnown.clear();
         mapHostsBlocked.clear();
+        mapMalware.clear();
         mapUidIPFilters.clear();
         mapForward.clear();
         mapNotify.clear();
@@ -1619,6 +1624,63 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
             mapHostsBlocked.put("test.netguard.me", true);
             Log.i(TAG, count + " hosts read");
+        } catch (IOException ex) {
+            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+        } finally {
+            if (br != null)
+                try {
+                    br.close();
+                } catch (IOException exex) {
+                    Log.e(TAG, exex.toString() + "\n" + Log.getStackTraceString(exex));
+                }
+        }
+
+        lock.writeLock().unlock();
+    }
+
+    private void prepareMalwareList() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
+        boolean malware = prefs.getBoolean("filter", false) && prefs.getBoolean("malware", false);
+        File file = new File(getFilesDir(), "malware.txt");
+        if (!malware || !file.exists() || !file.canRead()) {
+            Log.i(TAG, "Malware use=" + malware + " exists=" + file.exists());
+            lock.writeLock().lock();
+            mapMalware.clear();
+            lock.writeLock().unlock();
+            return;
+        }
+
+        boolean changed = (file.lastModified() != last_malware_modified);
+        if (!changed && mapMalware.size() > 0) {
+            Log.i(TAG, "Malware unchanged");
+            return;
+        }
+        last_malware_modified = file.lastModified();
+
+        lock.writeLock().lock();
+
+        mapMalware.clear();
+
+        int count = 0;
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                int hash = line.indexOf('#');
+                if (hash >= 0)
+                    line = line.substring(0, hash);
+                line = line.trim();
+                if (line.length() > 0) {
+                    String[] words = line.split("\\s+");
+                    if (words.length > 1) {
+                        count++;
+                        mapMalware.put(words[1], true);
+                    } else
+                        Log.i(TAG, "Invalid malware file line: " + line);
+                }
+            }
+            Log.i(TAG, count + " malware read");
         } catch (IOException ex) {
             Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
         } finally {
@@ -1883,6 +1945,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (DatabaseHelper.getInstance(ServiceSinkhole.this).insertDns(rr)) {
             Log.i(TAG, "New IP " + rr);
             prepareUidIPFilters(rr.QName);
+        }
+        if (rr.uid > 0 && !TextUtils.isEmpty(rr.AName)) {
+            lock.readLock().lock();
+            boolean malware = (mapMalware.containsKey(rr.AName) && mapMalware.get(rr.AName));
+            lock.readLock().unlock();
+
+            if (malware) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+                boolean notified = prefs.getBoolean("malware." + rr.uid, false);
+                if (!notified) {
+                    prefs.edit().putBoolean("malware." + rr.uid, true).apply();
+                    notifyNewApplication(rr.uid, true);
+                }
+            }
         }
     }
 
@@ -2257,7 +2333,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                         if (IAB.isPurchased(ActivityPro.SKU_NOTIFY, context) && prefs.getBoolean("install", true)) {
                             int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
-                            notifyNewApplication(uid);
+                            notifyNewApplication(uid, false);
                         }
                     }
 
@@ -2299,7 +2375,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
     };
 
-    public void notifyNewApplication(int uid) {
+    public void notifyNewApplication(int uid, boolean malware) {
         if (uid < 0)
             return;
 
@@ -2323,18 +2399,24 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             TypedValue tv = new TypedValue();
             getTheme().resolveAttribute(R.attr.colorPrimary, tv, true);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notify");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this,
+                    malware ? "malware" : "notify");
             builder.setSmallIcon(R.drawable.ic_security_white_24dp)
                     .setContentIntent(pi)
                     .setColor(tv.data)
                     .setAutoCancel(true);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            if (malware)
                 builder.setContentTitle(name)
-                        .setContentText(getString(R.string.msg_installed_n));
-            else
-                builder.setContentTitle(getString(R.string.app_name))
-                        .setContentText(getString(R.string.msg_installed, name));
+                        .setContentText(getString(R.string.msg_malware, name));
+            else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    builder.setContentTitle(name)
+                            .setContentText(getString(R.string.msg_installed_n));
+                else
+                    builder.setContentTitle(getString(R.string.app_name))
+                            .setContentText(getString(R.string.msg_installed, name));
+            }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 builder.setCategory(NotificationCompat.CATEGORY_STATUS)
@@ -2696,7 +2778,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         ServiceSinkhole.reload("notification", ServiceSinkhole.this, false);
 
         // Update notification
-        notifyNewApplication(uid);
+        notifyNewApplication(uid, false);
 
         // Update UI
         Intent ruleset = new Intent(ActivityMain.ACTION_RULES_CHANGED);

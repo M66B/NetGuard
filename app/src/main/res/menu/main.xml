@@ -52,6 +52,10 @@
         android:checkable="true"
         android:title="@string/setting_lockdown"/>
     <item
+        android:id="@+id/menu_malware"
+        android:checkable="true"
+        android:title="@string/setting_malware"/>
+    <item
         android:id="@+id/menu_log"
         android:title="@string/menu_log"/>
     <item

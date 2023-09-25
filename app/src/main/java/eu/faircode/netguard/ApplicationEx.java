@@ -74,5 +74,10 @@ public class ApplicationEx extends Application {
         access.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
         access.setBypassDnd(true);
         nm.createNotificationChannel(access);
+
+        NotificationChannel malware = new NotificationChannel("malware", getString(R.string.setting_malware), NotificationManager.IMPORTANCE_HIGH);
+        malware.setSound(null, Notification.AUDIO_ATTRIBUTES_DEFAULT);
+        malware.setBypassDnd(true);
+        nm.createNotificationChannel(malware);
     }
 }
