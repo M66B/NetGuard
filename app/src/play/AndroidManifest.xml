@@ -17,13 +17,15 @@
     <!-- http://developer.android.com/guide/topics/security/permissions.html#normal-dangerous -->
 
     <!-- https://developer.android.com/preview/privacy/package-visibility -->
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-    <!--queries>
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:node="remove" />
+    <queries>
         <intent>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
-    </queries-->
+    </queries>
 
     <permission
         android:name="eu.faircode.netguard.permission.ADMIN"
