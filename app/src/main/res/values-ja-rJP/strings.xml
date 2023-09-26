@@ -156,6 +156,7 @@
     <string name="msg_hosts">許可 %1$d、ブロック %2$d、ホスト %3$d</string>
     <string name="msg_waiting">イベントの待機中</string>
     <string name="msg_disabled">NetGuard は無効です。有効にするには上のスイッチを使用してください</string>
+    <string name="msg_notifications">タップすると通知の権限を付与します (アクセス試行通知、エラーメッセージなど)</string>
     <string name="msg_revoked">NetGuard が無効にされました。別の VPN ベースのアプリケーションを使用した可能性があります</string>
     <string name="msg_installed">\'%1$s\' がインストールされました</string>
     <string name="msg_installed_n">インストールされています</string>
