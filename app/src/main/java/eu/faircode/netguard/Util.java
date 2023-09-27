@@ -406,9 +406,7 @@ public class Util {
         else {
             PackageManager pm = context.getPackageManager();
             String[] pkgs = pm.getPackagesForUid(uid);
-            if (pkgs == null)
-                listResult.add(Integer.toString(uid));
-            else
+            if (pkgs != null)
                 for (String pkg : pkgs)
                     try {
                         ApplicationInfo info = pm.getApplicationInfo(pkg, 0);

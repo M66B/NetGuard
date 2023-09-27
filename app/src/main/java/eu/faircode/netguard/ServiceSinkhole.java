@@ -3089,7 +3089,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private void showAccessNotification(int uid) {
-        String name = TextUtils.join(", ", Util.getApplicationNames(uid, ServiceSinkhole.this));
+        List<String> apps = Util.getApplicationNames(uid, ServiceSinkhole.this);
+        if (apps.size() == 0)
+            return;
+        String name = TextUtils.join(", ", apps);
 
         Intent main = new Intent(ServiceSinkhole.this, ActivityMain.class);
         main.putExtra(ActivityMain.EXTRA_SEARCH, Integer.toString(uid));
