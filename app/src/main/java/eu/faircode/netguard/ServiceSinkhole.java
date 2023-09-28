@@ -2014,9 +2014,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 // Allow system applications in disconnected state
                 packet.allowed = true;
                 Log.w(TAG, "Allowing disconnected system " + packet);
-            } else if (packet.uid < 2000 &&
+            } else if ((packet.uid < 2000 || BuildConfig.PLAY_STORE_RELEASE) &&
                     !mapUidKnown.containsKey(packet.uid) && isSupported(packet.protocol)) {
-                // Allow unknown system traffic
+                // Allow unknown (system) traffic
                 packet.allowed = true;
                 Log.w(TAG, "Allowing unknown system " + packet);
             } else if (packet.uid == Process.myUid()) {
