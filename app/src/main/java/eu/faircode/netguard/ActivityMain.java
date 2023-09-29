@@ -527,6 +527,21 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
             tvNotifications.setVisibility(canNotify ? View.GONE : View.VISIBLE);
 
         super.onResume();
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R && Util.isPlayStoreInstall(this)) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            if (!prefs.getBoolean("qap", false)) {
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.app_qap)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                prefs.edit().putBoolean("qap", true).apply();
+                            }
+                        })
+                        .show();
+            }
+        }
     }
 
     @Override

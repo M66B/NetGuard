@@ -10,6 +10,15 @@
     <string name="app_agree">I agree</string>
     <string name="app_disagree">I disagree</string>
     <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+    <string name="app_qap">
+        Google was going to remove the app from the Play Store because it requested permission to query all apps.
+        Five appeals and providing a good justification about why this permission is needed were rejected.
+        This version of the app does not request this permission anymore,
+        and despite that, almost all apps will still be listed,
+        except some (system) apps which cannot be started manually from the Android app list.
+        The internet traffic of these apps will always be allowed to make sure your device keeps working correctly.
+        If you think this is a problem, you can update to the GitHub version of the app and manage all (system) apps again.
+    </string>
 
     <string name="channel_foreground">Running services</string>
     <string name="channel_notify">General notifications</string>
