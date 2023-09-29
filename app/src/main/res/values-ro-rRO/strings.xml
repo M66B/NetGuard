@@ -8,6 +8,14 @@
     <string name="app_agree">Accept</string>
     <string name="app_disagree">Nu accept</string>
     <string name="app_support">NetGuard are nevoie de ajutorul dumneavoastră. Atingeți pentru a achiziționa funcții Pro și a susține proiectul.</string>
+    <string name="app_qap">        Google avea de gând să elimine aplicația din Play Store, deoarece aceasta solicita permisiunea de a interoga lista de aplicații.
+        Cinci apeluri și furnizarea unei justificări bune despre motivul pentru care este nevoie de această permisiune au fost respinse.
+        Această versiune a aplicației nu mai solicită această permisiune,
+        și, în ciuda acestui fapt, aproape toate aplicațiile vor fi în continuare listate,
+        cu excepția unor aplicații (de sistem) care nu pot fi lansate manual din lista de aplicații Android.
+        Traficul de internet al acestor aplicații va fi întotdeauna permis pentru a vă asigura că dispozitivul dvs. continuă să funcționeze corect.
+        Dacă credeți că aceasta este o problemă, puteți actualiza la versiunea GitHub a aplicației și puteți gestiona din nou toate aplicațiile (de sistem).
+    </string>
     <string name="channel_foreground">Serviciile care rulează</string>
     <string name="channel_notify">Notificări generale</string>
     <string name="channel_access">Notificări acces</string>
