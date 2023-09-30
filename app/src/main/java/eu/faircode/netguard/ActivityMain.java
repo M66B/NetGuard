@@ -528,7 +528,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
 
         super.onResume();
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R && false) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             if (!prefs.getBoolean("qap", false))
                 if (Util.isPlayStoreInstall(this)) {
