@@ -8,6 +8,12 @@
     <string name="app_agree">Acconsento</string>
     <string name="app_disagree">Nego il consenso</string>
     <string name="app_support">NetGuard ha bisogno del tuo aiuto. Tocca per acquistare le funzionalità pro per sostenere il progetto.</string>
+    <string name="app_qap">Google aveva intenzione di rimuovere l\'app dal Play Store, perché richiedeva i permessi di investigare tutte le app.
+Cinque appelli e aver fornito una buona giustificazione sul perché questo permesso è necessario sono stati respinti.
+Questa versione dell\'app non richiede più questo permesso, e, nonostante ciò, quasi tutte le app sono ancora elencate,
+ad eccezione di alcune app (di sitema) che non possono essere avviate manualmente dalla lista delle app di Android.
+Il traffico internet di queste app sarà sempre permesso per assicurare che il tuo dispositivo continui a funzionare correttamente.
+Se pensi che questo sia un problema,  potrai fare l\'update  alla versione GitHub dell\'app e gestire ancora tutte le app (di sistema).    </string>
     <string name="channel_foreground">Servizi in esecuzione</string>
     <string name="channel_notify">Notifiche generali</string>
     <string name="channel_access">Notifiche d\'accesso</string>

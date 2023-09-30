@@ -8,6 +8,14 @@
     <string name="app_agree">Zustimmen</string>
     <string name="app_disagree">Ablehnen</string>
     <string name="app_support">NetGuard braucht Ihre Hilfe. Tippen Sie auf Pro-Funktion kaufen, um das Projekt weiterentwickeln zu können.</string>
+    <string name="app_qap">        Google hat die App aus dem Play Store entfernt, da es die Berechtigung zum Abfragen aller Apps angefordert hat.
+        Fünf Appelle und eine gute Rechtfertigung dafür, warum diese Genehmigung benötigt wird, wurden abgelehnt.
+        Diese Version der App fordert diese Berechtigung nicht mehr an
+        und trotzdem werden fast alle Apps noch aufgelistet,
+        außer einigen (System-) Apps, die nicht von der Android-App-Liste manuell gestartet werden können.
+        Der Internetverkehr dieser Apps wird immer erlaubt sein, um sicherzustellen, dass Ihr Gerät korrekt funktioniert.
+        Wenn Sie denken, dass dies ein Problem ist, dann können Sie auf die GitHub-Version der App umsteigen und alle (System-) Apps weiter verwalten.
+    </string>
     <string name="channel_foreground">Aktive Dienste</string>
     <string name="channel_notify">Allgemeine Benachrichtigungen</string>
     <string name="channel_access">Auf Benachrichtigungen zugreifen</string>

@@ -8,6 +8,13 @@
     <string name="app_agree">Eu concordo</string>
     <string name="app_disagree">Eu discordo</string>
     <string name="app_support">NetGuard precisa da sua ajuda. Toque para comprar Recursos Pro para manter o projeto.</string>
+    <string name="app_qap">A Google tinha intenção de remover o app da Play Store porque ele requisita permissão para buscar a lista de todos os aplicativos.
+Cinco apelos e uma boa justificativa do porquê essa permissão é necessária foram rejeitados.
+Esta versão do aplicativo não requer mais esta permissão,
+e apesar disso quase todos os apps ainda serão listados,
+exceto alguns apps (de sistema) que não podem ser iniciados manualmente da lista de apps do Android.
+O tráfego de internet para esses apps será sempre permitido a fim de garantir que seu dispositivo continue funcionando corretamente.
+Se acredita que isso é um problema, você pode atualizar para a versão do app hospedada no GitHub e voltar a gerenciar todos os apps (de sistema).    </string>
     <string name="channel_foreground">Serviços em execução</string>
     <string name="channel_notify">Notificações Gerais</string>
     <string name="channel_access">Acessar notificações</string>

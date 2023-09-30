@@ -8,6 +8,14 @@
     <string name="app_agree">J\'accepte</string>
     <string name="app_disagree">Je refuse</string>
     <string name="app_support">NetGuard a besoin de votre aide. Appuyez pour acheter des fonctionnalités Pro pour continuer à faire avancer le projet.</string>
+    <string name="app_qap">        Google voulait retirer l\'application du Play Store parce qu\'elle nécessitait une autorisation pour lister toutes les applications.
+        Cinq requêtes assorties d\'une justification valable à propos du besoin de cette autorisation, ont été rejetées.
+        Cette version de l\'application n\'utilise plus cette autorisation,
+        et malgré cela, presque toutes les applications seront toujours listées,
+        à l\'exception de certaines applications (système) qui ne peuvent pas être démarrées manuellement depuis la liste des applications d\'Android.
+        Le trafic Internet de ces applications sera toujours autorisé afin de s\'assurer que votre appareil fonctionne correctement.
+        Si ceci vous pose problème, vous pouvez mettre à jour l\'application en utilisant la version sur GitHub et gérer de nouveau toutes les applications (système).
+    </string>
     <string name="channel_foreground">Services en cours d\'exécution</string>
     <string name="channel_notify">Notifications générales</string>
     <string name="channel_access">Accéder aux notifications</string>

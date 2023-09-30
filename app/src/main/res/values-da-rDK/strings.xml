@@ -8,6 +8,14 @@
     <string name="app_agree">Jeg accepterer</string>
     <string name="app_disagree">Jeg accepterer ikke</string>
     <string name="app_support">NetGuard behøver din hjælp. Tryk for at købe pro funktioner for at holde projektet igang.</string>
+    <string name="app_qap">        Google agtede at fjerne appen fra Play Butik, fordi den anmodede om tilladelse til at forespørge alle apps.
+         Fem appeller og en god begrundelse for, hvorfor denne tilladelse er nødvendig, blev afvist.
+         Denne version af appen anmoder ikke længere om denne tilladelse,
+         og trods det vil næsten alle apps stadig være på listen,
+         undtagen visse (system-)apps, som ikke kan startes manuelt fra Android-app-listen.
+         Internettrafik i disse apps vil altid være tilladt for at sikre, at enheden fortsat fungerer korrekt.
+         Anses dette som et problem, kan man opdatere til GitHub-versionen af appen for igen at kunne håndtere alle (system-)apps.
+    </string>
     <string name="channel_foreground">Aktive tjenester</string>
     <string name="channel_notify">Generelle notifikationer</string>
     <string name="channel_access">Adgangsnotifikationer</string>
