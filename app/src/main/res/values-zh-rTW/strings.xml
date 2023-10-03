@@ -8,6 +8,14 @@
     <string name="app_agree">我同意</string>
     <string name="app_disagree">我不同意</string>
     <string name="app_support">NetGuard 需要您的協助。請點選購買 Pro 版本，使這個專案能繼續開發下去。</string>
+    <string name="app_qap">        Google 本來要從 Play Store 上移除本應用程式，因為它要求能夠查詢所有應用程式的權限。
+        儘管我們已經提出了五次申訴，並清楚說明需要此權限的理由，但仍然遭到拒絕。
+        在目前這個版本中，我們將不再要求這項權限，
+        儘管如此，除了那些無法從 Android 應用程式清單中點選執行的（系統）應用程式以外，
+        其他應用程式都能夠正常列出。
+        這些（系統）應用程式的網路流量將一直維持通過，以確保您的裝置能正常運作。
+        如果您覺得這樣會造成困擾，可將此應用程式更新成 GitHub 版本，以重新獲得管理所有（系統）應用程式的權限。
+    </string>
     <string name="channel_foreground">正在運行的服務</string>
     <string name="channel_notify">一般通知</string>
     <string name="channel_access">存取通知</string>

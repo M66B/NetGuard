@@ -8,7 +8,7 @@
     <string name="app_agree">J\'accepte</string>
     <string name="app_disagree">Je refuse</string>
     <string name="app_support">NetGuard a besoin de votre aide. Appuyez pour acheter des fonctionnalités Pro pour continuer à faire avancer le projet.</string>
-    <string name="app_qap">        Google voulait retirer l\'application du Play Store parce qu\'elle nécessitait une autorisation pour lister toutes les applications.
+    <string name="app_qap">        Google avait l\'intention de retirer l\'application du Play Store parce qu\'elle nécessitait une autorisation pour lister toutes les applications.
         Cinq requêtes assorties d\'une justification valable à propos du besoin de cette autorisation, ont été rejetées.
         Cette version de l\'application n\'utilise plus cette autorisation,
         et malgré cela, presque toutes les applications seront toujours listées,

@@ -8,6 +8,14 @@
     <string name="app_agree">Razıyam</string>
     <string name="app_disagree">Razı deyiləm</string>
     <string name="app_support">NetGuard-ın köməyinizə ehtiyacı var. Pro özəllikləri satın alaraq layihəni davam etdirmək üçün toxunun.</string>
+    <string name="app_qap">        Google, bütün tətbiqləri sorğulamaq məqsədilə icazə istədiyi üçün tətbiqi Play Store-dan siləcəkdi.
+        Bu icazənin nə üçün lazım olduğuna dair yaxşı bir əsaslandırma təqdim edən beş etiraz rədd edildi.
+        Tətbiqin bu versiyası artıq bu icazəni tələb etmir, buna baxmayaraq
+        Android tətbiq siyahısından əllə başladıla bilməyən bəzi (sistem) tətbiqlər istisna olmaqla
+        demək olar ki, bütün tətbiqlər sadalanmağa davam edəcək.
+        Cihazınızın düzgün işləməyə davam etməsini təmin etmək üçün bu tətbiqlərin internet trafikinə həmişə icazə veriləcək.
+        Bunun bir problem olduğunu fikirləşirsinizsə, tətbiqi GitHub versiyasına güncəlləyə və bütün (sistem) tətbiqlərini yenidən idarə edə bilərsiniz.
+    </string>
     <string name="channel_foreground">İşləyən xidmətlər</string>
     <string name="channel_notify">Ümumi bildirişlər</string>
     <string name="channel_access">Bildirişlərə müraciət</string>
