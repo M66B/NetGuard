@@ -104,7 +104,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
@@ -2600,7 +2599,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         builder.addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
 
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
-            private Network last_active = null;
             private Boolean last_connected = null;
             private Boolean last_unmetered = null;
             private String last_generation = null;
@@ -2635,32 +2633,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
                 Log.i(TAG, "Changed capabilities=" + network + " caps=" + networkCapabilities);
 
-                Network active = (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? null : cm.getActiveNetwork());
                 boolean connected = Util.isConnected(ServiceSinkhole.this);
                 boolean unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
                 String generation = Util.getNetworkGeneration(ServiceSinkhole.this);
-                Log.i(TAG, "Active=" + network +
-                        " connected=" + connected + "/" + last_connected +
+                Log.i(TAG, "Connected=" + connected + "/" + last_connected +
                         " unmetered=" + unmetered + "/" + last_unmetered +
                         " generation=" + generation + "/" + last_generation);
 
-                boolean reloading = false;
-                if (!Objects.equals(active, last_active)) {
-                    reloading = true;
-                    reload("Active network changed", ServiceSinkhole.this, false);
-                }
-
-                if (last_connected != null && !last_connected.equals(connected) && !reloading) {
-                    reloading = true;
+                if (last_connected != null && !last_connected.equals(connected))
                     reload("Connected state changed", ServiceSinkhole.this, false);
-                }
 
-                if (last_unmetered != null && !last_unmetered.equals(unmetered) && !reloading) {
-                    reloading = true;
+                if (last_unmetered != null && !last_unmetered.equals(unmetered))
                     reload("Unmetered state changed", ServiceSinkhole.this, false);
-                }
 
-                if (last_generation != null && !last_generation.equals(generation) && !reloading) {
+                if (last_generation != null && !last_generation.equals(generation)) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                     if (prefs.getBoolean("unmetered_2g", false) ||
                             prefs.getBoolean("unmetered_3g", false) ||
@@ -2668,7 +2654,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         reload("Generation changed", ServiceSinkhole.this, false);
                 }
 
-                last_active = active;
                 last_connected = connected;
                 last_unmetered = unmetered;
                 last_generation = generation;
