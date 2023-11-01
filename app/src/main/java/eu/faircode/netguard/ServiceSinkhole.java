@@ -60,6 +60,7 @@ import android.os.Process;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.telephony.PhoneStateListener;
+import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -2327,6 +2328,29 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         reload("data connection state changed", ServiceSinkhole.this, false);
                 }
             }
+        }
+
+        @Override
+        public void onServiceStateChanged(ServiceState serviceState) {
+            String state;
+            switch (serviceState.getState()) {
+                case ServiceState.STATE_IN_SERVICE:
+                    state = "IN_SERVICE";
+                    break;
+                case ServiceState.STATE_OUT_OF_SERVICE:
+                    state = "OUT_OF_SERVICE";
+                    break;
+                case ServiceState.STATE_EMERGENCY_ONLY:
+                    state = "EMERGENCY_ONLY";
+                    break;
+                case ServiceState.STATE_POWER_OFF:
+                    state = "POWER_OFF";
+                    break;
+                default:
+                    state = Integer.toString(serviceState.getState());
+            }
+            Log.i(TAG, "Service state=" + state);
+            reload("service state changed", ServiceSinkhole.this, false);
         }
     };
 
