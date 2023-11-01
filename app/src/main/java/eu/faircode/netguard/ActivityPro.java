@@ -279,13 +279,18 @@ public class ActivityPro extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (IAB.isPurchased(SKU_DONATION, this) || Util.isPlayStoreInstall(this))
+        if (Util.isPlayStoreInstall(this))
             menu.removeItem(R.id.menu_challenge);
 
         return super.onPrepareOptionsMenu(menu);
     }
 
     private void menu_challenge() {
+        if (IAB.isPurchased(SKU_DONATION, this)) {
+            Toast.makeText(this, getString(R.string.title_pro_already), Toast.LENGTH_LONG).show();
+            return;
+        }
+
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.challenge, null, false);
 
