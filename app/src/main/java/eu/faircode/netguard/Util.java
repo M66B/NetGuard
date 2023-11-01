@@ -410,7 +410,8 @@ public class Util {
                 for (String pkg : pkgs)
                     try {
                         ApplicationInfo info = pm.getApplicationInfo(pkg, 0);
-                        listResult.add(pm.getApplicationLabel(info).toString());
+                        String name = pm.getApplicationLabel(info).toString();
+                        listResult.add(TextUtils.isEmpty(name) ? pkg : name);
                     } catch (PackageManager.NameNotFoundException ignored) {
                     }
             Collections.sort(listResult);

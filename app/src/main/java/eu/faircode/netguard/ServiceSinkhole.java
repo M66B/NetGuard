@@ -2391,11 +2391,14 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     public void notifyNewApplication(int uid, boolean malware) {
         if (uid < 0)
             return;
+        if (uid == Process.myUid())
+            return;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         try {
             // Get application name
-            String name = TextUtils.join(", ", Util.getApplicationNames(uid, this));
+            List<String> names = Util.getApplicationNames(uid, this);
+            String name = (names.size() == 0 ? Integer.toString(uid) : TextUtils.join(", ", names));
 
             // Get application info
             PackageManager pm = getPackageManager();
