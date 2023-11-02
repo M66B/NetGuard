@@ -2603,7 +2603,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
             private Boolean last_connected = null;
-            private Boolean last_unmetered = null;
+            private Boolean last_metered = null;
             private String last_generation = null;
             private List<InetAddress> last_dns = null;
 
@@ -2611,6 +2611,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             public void onAvailable(Network network) {
                 Log.i(TAG, "Available network=" + network);
                 last_connected = Util.isConnected(ServiceSinkhole.this);
+                last_metered = Util.isMeteredNetwork(ServiceSinkhole.this);
                 reload("network available", ServiceSinkhole.this, false);
             }
 
@@ -2637,10 +2638,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 Log.i(TAG, "Changed capabilities=" + network + " caps=" + networkCapabilities);
 
                 boolean connected = Util.isConnected(ServiceSinkhole.this);
-                boolean unmetered = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED);
+                boolean metered = Util.isMeteredNetwork(ServiceSinkhole.this);
                 String generation = Util.getNetworkGeneration(ServiceSinkhole.this);
                 Log.i(TAG, "Connected=" + connected + "/" + last_connected +
-                        " unmetered=" + unmetered + "/" + last_unmetered +
+                        " unmetered=" + metered + "/" + last_metered +
                         " generation=" + generation + "/" + last_generation);
 
                 String reason = null;
@@ -2648,7 +2649,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 if (reason == null && last_connected != null && !last_connected.equals(connected))
                     reason = "Connected state changed";
 
-                if (reason == null && last_unmetered != null && !last_unmetered.equals(unmetered))
+                if (reason == null && last_metered != null && !last_metered.equals(metered))
                     reason = "Unmetered state changed";
 
                 if (reason == null && last_generation != null && !last_generation.equals(generation)) {
@@ -2663,7 +2664,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     reload(reason, ServiceSinkhole.this, false);
 
                 last_connected = connected;
-                last_unmetered = unmetered;
+                last_metered = metered;
                 last_generation = generation;
             }
 
