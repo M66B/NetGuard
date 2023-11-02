@@ -2603,7 +2603,6 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
             private Boolean last_connected = null;
-            private Boolean last_foreground = null;
             private Boolean last_unmetered = null;
             private String last_generation = null;
             private List<InetAddress> last_dns = null;
