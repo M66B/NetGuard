@@ -402,7 +402,8 @@ public class Util {
                     try {
                         ApplicationInfo info = pm.getApplicationInfo(pkg, 0);
                         String name = pm.getApplicationLabel(info).toString();
-                        listResult.add(TextUtils.isEmpty(name) ? pkg : name);
+                        if (!TextUtils.isEmpty(name))
+                            listResult.add(name);
                     } catch (PackageManager.NameNotFoundException ignored) {
                     }
             Collections.sort(listResult);
