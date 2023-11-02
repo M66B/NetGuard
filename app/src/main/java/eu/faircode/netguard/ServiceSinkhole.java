@@ -2627,6 +2627,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
             private Boolean last_connected = null;
+            private Boolean last_foreground = null;
             private Boolean last_unmetered = null;
             private String last_generation = null;
             private List<InetAddress> last_dns = null;
@@ -2667,19 +2668,24 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         " unmetered=" + unmetered + "/" + last_unmetered +
                         " generation=" + generation + "/" + last_generation);
 
-                if (last_connected != null && !last_connected.equals(connected))
-                    reload("Connected state changed", ServiceSinkhole.this, false);
+                String reason = null;
 
-                if (last_unmetered != null && !last_unmetered.equals(unmetered))
-                    reload("Unmetered state changed", ServiceSinkhole.this, false);
+                if (reason == null && last_connected != null && !last_connected.equals(connected))
+                    reason = "Connected state changed";
 
-                if (last_generation != null && !last_generation.equals(generation)) {
+                if (reason == null && last_unmetered != null && !last_unmetered.equals(unmetered))
+                    reason = "Unmetered state changed";
+
+                if (reason == null && last_generation != null && !last_generation.equals(generation)) {
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ServiceSinkhole.this);
                     if (prefs.getBoolean("unmetered_2g", false) ||
                             prefs.getBoolean("unmetered_3g", false) ||
                             prefs.getBoolean("unmetered_4g", false))
-                        reload("Generation changed", ServiceSinkhole.this, false);
+                        reason = "Generation changed";
                 }
+
+                if (reason != null)
+                    reload(reason, ServiceSinkhole.this, false);
 
                 last_connected = connected;
                 last_unmetered = unmetered;
