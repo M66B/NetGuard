@@ -201,6 +201,10 @@ public class Rule {
     }
 
     public static List<Rule> getRules(final boolean all, Context context) {
+        return getRules(all, false, context);
+    }
+
+    public static List<Rule> getRules(final boolean all, boolean self, Context context) {
         synchronized (context.getApplicationContext()) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
@@ -340,15 +344,15 @@ public class Rule {
             for (PackageInfo info : listPI)
                 try {
                     // Skip self
-                    if (info.applicationInfo.uid == Process.myUid())
+                    if (!self && info.applicationInfo.uid == Process.myUid())
                         continue;
 
                     Rule rule = new Rule(dh, info, context);
 
                     if (pre_system.containsKey(info.packageName))
                         rule.system = pre_system.get(info.packageName);
-                    if (info.applicationInfo.uid == Process.myUid())
-                        rule.system = true;
+                    //if (info.applicationInfo.uid == Process.myUid())
+                    //    rule.system = true;
 
                     if (all ||
                             ((rule.system ? show_system : show_user) &&
