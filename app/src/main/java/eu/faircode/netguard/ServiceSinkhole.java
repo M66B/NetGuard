@@ -1094,7 +1094,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 remoteViews.setTextViewText(R.id.tvMax, getString(R.string.msg_mbsec, max / 2 / 1000 / 1000));
 
             // Show session/file count
-            if (filter && loglevel > Log.WARN) {
+            if (BuildConfig.DEBUG) {
                 int[] count = jni_get_stats(jni_context);
                 remoteViews.setTextViewText(R.id.tvSessions, count[0] + "/" + count[1] + "/" + count[2]);
                 remoteViews.setTextViewText(R.id.tvFiles, count[3] + "/" + count[4]);
