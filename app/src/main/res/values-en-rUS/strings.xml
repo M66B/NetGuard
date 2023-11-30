@@ -8,10 +8,12 @@
     <string name="app_agree">I agree</string>
     <string name="app_disagree">I disagree</string>
     <string name="app_support">NetGuard needs your help. Tap to purchase pro features to keep the project going.</string>
+    <string name="app_qap">.</string>
     <string name="channel_foreground">Running services</string>
     <string name="channel_notify">General notifications</string>
     <string name="channel_access">Access notifications</string>
     <string name="menu_search">Search for app</string>
+    <string name="menu_filter">Menu_filtro</string>
     <string name="menu_app_system">Show system apps</string>
     <string name="menu_app_nointernet">Show apps without internet</string>
     <string name="menu_app_disabled">Show disabled apps</string>

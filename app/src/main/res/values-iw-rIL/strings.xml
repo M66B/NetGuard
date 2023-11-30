@@ -52,7 +52,7 @@
     <string name="title_external">עבור שרת חיצוני בחר \'ללא\'</string>
     <string name="setting_defaults">ברירות מחדל</string>
     <string name="setting_whitelist_wifi">חסום Wi-Fi</string>
-    <string name="setting_whitelist_other">חסום נייד</string>
+    <string name="setting_whitelist_other">חסימת תקשורת סלולרית</string>
     <string name="setting_screen_wifi">אפשר גישה לרשתות Wi-Fi כאשר המסך פועל</string>
     <string name="setting_screen_other">אפשר גישה לרשתות סלולריות כאשר המסך פועל</string>
     <string name="setting_whitelist_roaming">חסום נדידה</string>

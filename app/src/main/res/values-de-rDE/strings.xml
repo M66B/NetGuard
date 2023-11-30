@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">NetGuard bietet einfache und erweiterte Möglichkeiten, um Zugriffe auf das Internet zu blockieren - keine Root-Rechte erforderlich! Anwendungen und Adressen kann der Zugriff auf die WLAN- und/oder mobile Datenverbindung einzeln erlaubt oder verweigert werden.</string>
+    <string name="app_description">NetGuard bietet einfache und erweiterte Möglichkeiten, um Zugriffe auf das Internet zu blockieren – keine Root-Rechte erforderlich! Der Zugriff auf die WLAN- und/oder mobile Datenverbindung kann einzeln pro App und Internetadresse erlaubt oder blockiert werden.</string>
     <string name="app_android">NetGuard erfordert Android 5.1 oder höher</string>
     <string name="app_xposed">Xposed verursacht sehr viele Abstürze, was dazu führen kann, dass NetGuard aus dem Google Play Store entfernt werden könnte. Deshalb wird NetGuard nicht unterstützt, solange Xposed installiert ist</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Datenschutzerklärung</a></string>
@@ -12,20 +12,21 @@
         Fünf Appelle und eine gute Rechtfertigung dafür, warum diese Genehmigung benötigt wird, wurden abgelehnt.
         Diese Version der App fordert diese Berechtigung nicht mehr an
         und trotzdem werden fast alle Apps noch aufgelistet,
-        außer einigen (System-) Apps, die nicht von der Android-App-Liste manuell gestartet werden können.
+        außer einigen (System-)Apps, die nicht von der Android-App-Liste manuell gestartet werden können.
         Der Internetverkehr dieser Apps wird immer erlaubt sein, um sicherzustellen, dass Ihr Gerät korrekt funktioniert.
-        Wenn Sie denken, dass dies ein Problem ist, dann können Sie auf die GitHub-Version der App umsteigen und alle (System-) Apps weiter verwalten.
+        Wenn Sie denken, dass dies ein Problem ist, dann können Sie auf die GitHub-Version der App umsteigen und alle
+        (System-)Apps weiter verwalten.
     </string>
     <string name="channel_foreground">Aktive Dienste</string>
     <string name="channel_notify">Allgemeine Benachrichtigungen</string>
     <string name="channel_access">Auf Benachrichtigungen zugreifen</string>
     <string name="menu_search">Nach App suchen</string>
-    <string name="menu_filter">Anwendungen filtern</string>
-    <string name="menu_app_user">Benutzeranwendungen anzeigen</string>
-    <string name="menu_app_system">Systemanwendungen anzeigen</string>
-    <string name="menu_app_nointernet">Anwendungen ohne Internet anzeigen</string>
-    <string name="menu_app_disabled">Deaktivierte Anwendungen anzeigen</string>
-    <string name="menu_sort">Anwendungen sortieren</string>
+    <string name="menu_filter">Apps filtern</string>
+    <string name="menu_app_user">Benutzer-Apps anzeigen</string>
+    <string name="menu_app_system">System-Apps anzeigen</string>
+    <string name="menu_app_nointernet">Apps ohne Internet anzeigen</string>
+    <string name="menu_app_disabled">Deaktivierte Apps anzeigen</string>
+    <string name="menu_sort">Apps sortieren</string>
     <string name="menu_sort_name">Nach Namen sortieren</string>
     <string name="menu_sort_uid">Nach UID sortieren</string>
     <string name="menu_sort_data">Nach Datennutzung sortieren</string>
@@ -55,21 +56,21 @@
     <string name="title_dport">Quellport</string>
     <string name="title_raddr">Zieladresse</string>
     <string name="title_rport">Zielport</string>
-    <string name="title_ruid">Zielanwendung</string>
-    <string name="title_external">Für einen externen Server wählen Sie \'Keiner\' aus</string>
+    <string name="title_ruid">Ziel-App</string>
+    <string name="title_external">Für einen externen Server wählen Sie »Keiner« aus</string>
     <string name="setting_defaults">Standardeinstellungen</string>
     <string name="setting_whitelist_wifi">WLAN blockieren</string>
-    <string name="setting_whitelist_other">Mobilfunk blockieren</string>
+    <string name="setting_whitelist_other">Mobile Daten blockieren</string>
     <string name="setting_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
-    <string name="setting_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
+    <string name="setting_screen_other">Mobile Daten erlauben, wenn Bildschirm eingeschaltet ist</string>
     <string name="setting_whitelist_roaming">Roaming blockieren</string>
     <string name="setting_options">Optionen</string>
     <string name="setting_theme">Design: %1$s</string>
     <string name="setting_dark">Dunkles Design verwenden</string>
     <string name="setting_install">Benachrichtigung bei neuer Installation</string>
-    <string name="setting_screen_on">\'Wenn Bildschirm an\' Regeln anwenden</string>
-    <string name="setting_auto">Automatisch nach %1$s-Minuten aktivieren</string>
-    <string name="setting_delay">Bildschirmabschaltung um %1$s Minuten verzögern</string>
+    <string name="setting_screen_on">»Wenn Bildschirm eingeschaltet«-Regeln anwenden</string>
+    <string name="setting_auto">Automatisch nach %1$s Minuten aktivieren</string>
+    <string name="setting_delay">Ausschalten um %1$s Minuten verzögern</string>
     <string name="setting_update">Nach Aktualisierungen suchen</string>
     <string name="setting_network_options">Netzwerkoptionen</string>
     <string name="setting_subnet">Subnet-Routing</string>
@@ -88,7 +89,7 @@
     <string name="setting_lockdown_other">Mobile Daten-Zugriffsbeschränkung</string>
     <string name="setting_reload_onconnectivity">Erneut laden bei jeder Verbindungsänderung</string>
     <string name="setting_advanced_options">Erweiterte Optionen</string>
-    <string name="setting_system">System-Apps anzeigen</string>
+    <string name="setting_system">System-Apps verwalten</string>
     <string name="setting_log_app">Internetzugriff protokollieren</string>
     <string name="setting_access">Bei Internetzugriff benachrichtigen</string>
     <string name="setting_filter">Datenverkehr filtern</string>
@@ -113,11 +114,11 @@
     <string name="setting_socks5_username">SOCKS5-Benutzername: %s</string>
     <string name="setting_socks5_password">SOCKS5-Passwort: %s</string>
     <string name="setting_pcap_record_size">PCAP-Datensatzgröße: %s B</string>
-    <string name="setting_pcap_file_size">PCAP-Dateigröße (max): %s MB</string>
+    <string name="setting_pcap_file_size">Maximale PCAP-Dateigröße: %s MB</string>
     <string name="setting_watchdog">Watchdog: alle %s Minuten</string>
     <string name="setting_stats_category">Geschwindigkeitsbenachrichtigung</string>
     <string name="setting_stats">Netzwerkgeschwindigkeit anzeigen</string>
-    <string name="setting_stats_top">Top-Anwendungen anzeigen</string>
+    <string name="setting_stats_top">Top-Apps anzeigen</string>
     <string name="setting_stats_frequency">Abtastfrequenz: %s ms</string>
     <string name="setting_stats_samples">Abtastanzahl: %s s</string>
     <string name="setting_backup">Sicherung</string>
@@ -131,14 +132,14 @@
     <string name="setting_technical_general">Allgemein</string>
     <string name="setting_technical_networks">Netzwerke</string>
     <string name="setting_technical_subscription">Abos</string>
-    <string name="summary_install">Statusleisten-Benachrichtigung anzeigen, um neu installierte Anwendungen direkt zu konfigurieren (Pro-Funktion)</string>
-    <string name="summary_auto">Nach dem Deaktivieren über das Widget wird NetGuard nach einer festgelegten Anzahl von Minuten automatisch wieder aktiviert (Null eingeben zum Deaktivieren dieser Option)</string>
-    <string name="summary_delay">Nach Ausschalten des Bildschirms diesen während der festgelegten Minuten aktiviert lassen (Null eingeben zum Deaktivieren dieser Option)</string>
+    <string name="summary_install">Benachrichtigung in der Statusleiste anzeigen, um neu installierte Apps direkt zu konfigurieren (Pro-Funktion)</string>
+    <string name="summary_auto">Nach dem Deaktivieren über das Widget wird NetGuard nach der festgelegten Anzahl von Minuten automatisch wieder aktiviert (Null eingeben zum Deaktivieren dieser Option)</string>
+    <string name="summary_delay">Nach Ausschalten des Bildschirms diesen während der festgelegten Anzahl von Minuten aktiviert lassen (Null eingeben zum Deaktivieren dieser Option)</string>
     <string name="summary_update">Es wird auf GitHub zweimal täglich nach neuen Versionen gesucht</string>
-    <string name="summary_tethering">Abhängig von der Android Version kann Tethering funktionieren. Dieser Verkehr kann nicht gefiltert werden.</string>
-    <string name="summary_subnet">Subnet-Routing aktivieren ermöglicht möglicherweise das Telefonieren über WLAN, triggert aber auch das Auftreten von Fehler in Android und lässt den Batterieverbrauch steigen</string>
+    <string name="summary_tethering">Abhängig von der Android-Version kann Tethering funktionieren. Dieser Datenverkehr kann nicht gefiltert werden.</string>
+    <string name="summary_subnet">Subnet-Routing aktivieren; kann WLAN-Anrufe aktivieren, aber auch Fehler in Android auslösen und den Akkuverbrauch erhöhen</string>
     <string name="summary_lan">Apps den Zugriff auf lokale Netzwerkadressen wie 10.0.0.0/8, 172.16.0.0/12 und 192.168.0.0/16 erlauben.</string>
-    <string name="summary_ip6">IP6-Datenverkehr an NetGuard weiterleiten, so dass es selektiv zugelassen oder blockiert werden kann</string>
+    <string name="summary_ip6">IPv6-Datenverkehr an NetGuard weiterleiten, sodass er selektiv zugelassen oder blockiert werden kann</string>
     <string name="summary_wifi_home">WLAN-Regeln nur für ausgewähltes Netzwerk anwenden (Mobilfunknetz-Regeln für andere WLAN-Netzwerke anwenden)</string>
     <string name="summary_metered">Mobilfunk-Regeln auf volumenbeschränkte (kostenpflichtige, Tethering-) WLAN-Netzwerke anwenden</string>
     <string name="summary_metered_2g">WLAN-Regeln für 2G-Datenverbindungen anwenden</string>
@@ -148,12 +149,12 @@
     <string name="summary_eu_roaming">Roaming-Regeln nicht anwenden, wenn sich die Nationalitäten für SIM und mobiles Netzwerk innerhalb der EU befinden (Roaming wie Zuhause)</string>
     <string name="summary_call">NetGuard bei ein- oder ausgehenden Anrufen deaktivieren. Dadurch können Probleme bei IP-/WLAN-Telefonie gelöst werden.</string>
     <string name="summary_system">Regeln für System-Apps definieren (für Experten)</string>
-    <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Anwendungen auf (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
-    <string name="summary_access">Benachrichtigungsleiste anzeigen, wenn eine Anwendung versucht, auf eine neue Internetadresse zuzugreifen (bei deaktivierter Filterung werden nur blockierte Internet-Zugriffsversuche angezeigt)</string>
-    <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
-    <string name="summary_track_usage">Anzahl der gesendeten und empfangenen Bytes für jede Anwendung und Adresse verfolgen. (Dadurch kann ein zusätzlicher Batterieverbrauch entstehen)</string>
+    <string name="summary_log_app">Protokoll zeichnet den Internetzugriff von Apps auf. Das kann den Akkuverbrauch erhöhen!</string>
+    <string name="summary_access">Benachrichtigung in der Statusleiste anzeigen, wenn eine App versucht, auf eine neue Internetadresse zuzugreifen (wenn das Filtern deaktiviert ist, werden nur blockierte Versuche auf den Internetzugriff angezeigt)</string>
+    <string name="summary_filter">IP-Pakete filtern, die den VPN-Tunnel verlassen. Das kann den Akkuverbrauch erhöhen!</string>
+    <string name="summary_track_usage">Anzahl der gesendeten und empfangenen Bytes für jede App und Adresse verfolgen. Das kann den Akkuverbrauch erhöhen!</string>
     <string name="summary_block_domains">Mit dem festgelegten DNS-Rückantwortcode auf blockierte Domainnamen antworten. Diese Option ist deaktiviert, wenn keine Hosts-Datei zur Verfügung steht.</string>
-    <string name="summary_rcode">Der Standardwert ist 3 (NXDOMAIN) und bedeutet \'Nicht vorhandene Domain\'.</string>
+    <string name="summary_rcode">Der Standardwert ist 3 (NXDOMAIN) und bedeutet »Nicht existierende Domain«.</string>
     <string name="summary_validate">Domainname, der verwendet wird, um die Internetverbindung unter Port 443 (HTTPS) zu validieren.</string>
     <string name="summary_socks5_enabled">Nur TCP-Datenverkehr wird an den Proxyserver gesendet</string>
     <string name="summary_watchdog">In regelmäßigen Abständen überprüfen, ob NetGuard noch läuft (Null, um diese Option zu deaktivieren). Das kann den Akkuverbrauch erhöhen!</string>
@@ -164,8 +165,8 @@
     <string name="msg_hosts">%1$d erlaubt, %2$d blockiert, %3$d Hosts</string>
     <string name="msg_waiting">Auf Ereignis warten</string>
     <string name="msg_disabled">NetGuard ist deaktiviert. Verwenden Sie den Schalter, um NetGuard zu aktivieren.</string>
-    <string name="msg_notifications">Tippen, um Benachrichtigungsberechtigungen zu erteilen (für Zugriffsversuchs-Benachrichtigungen, Fehlermeldungen, usw.)</string>
-    <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch Verwendung einer anderen VPN-Anwendung</string>
+    <string name="msg_notifications">Tippen, um Benachrichtigungsberechtigungen zu erteilen (für Zugriffsversuchs-Benachrichtigungen, Fehlermeldungen usw.)</string>
+    <string name="msg_revoked">NetGuard wurde deaktiviert. Wahrscheinlich durch das Verwenden einer anderen VPN-App</string>
     <string name="msg_installed">\'%1$s\' installiert</string>
     <string name="msg_installed_n">Wurde installiert</string>
     <string name="msg_access">%1$s versucht Internetzugriff</string>
@@ -177,17 +178,18 @@
     <string name="msg_start_failed">Android verhinderte den Start des VPN-Dienstes. Der Grund ist wahrscheinlich ein Fehler in der aktuellen Android-Version.</string>
     <string name="msg_try">NetGuard ausprobieren</string>
     <string name="msg_terms">Durch eine Spende stimmen Sie den <a href="http://www.netguard.me/#terms">AGB</a> zu.</string>
-    <string name="msg_dimming">Falls Sie nicht auf OK im nächsten Fenster tippen können, manipuliert eine andere Anwendung Ihren Bildschirm.</string>
+    <string name="msg_dimming">Falls Sie im nächsten Fenster nicht auf OK tippen können, manipuliert eine andere App Ihren Bildschirm.</string>
     <string name="msg_mbday">± %1$.3f▲ %2$.3f▼ MB/Tag</string>
     <string name="msg_kb">%1$7.3f▲ %2$7.3f▼ KB</string>
     <string name="msg_mb">%1$7.3f▲ %2$7.3f▼ MB</string>
     <string name="msg_gb">%1$7.3f▲ %2$7.3f▼ GB</string>
     <string name="msg_count">%dx</string>
-    <string name="msg_doze">Für konsistente Ergebnisse sollten für NetGuard die Android-Batterie-Optimierungen deaktiviert werden.\n\nIm nächsten Dialogfenster wählen Sie ganz oben \"Alle Apps\", tippen auf NetGuard in der Liste und wählen und bestätigen \"Nicht optimieren\".</string>
-    <string name="msg_datasaving">Für konsistente Ergebnisse sollten die Android-Datenspeicheroptionen für NetGuard deaktiviert werden.\n\nIm nächsten Fenster aktivieren Sie die Optionen \"Hintergrunddaten\" und \"Uneingeschränkte Datennutzung\".</string>
-    <string name="msg_filter">Bei Verwendung von Filtern werden Daten- und Energiewerte erfasst und Android nimmt an, dass Daten und Energie von NetGuard statt von den ursprünglichen Anwendungen verbraucht werden</string>
-    <string name="msg_filter4">Android 4 erfordert die Aktivierung der Filterung.</string>
-    <string name="msg_log_disabled">Datenverkehrprotokollierung ist deaktiviert. Zum Aktivieren den Schalter oben verwenden. Die Protokollierung kann zu höherem Batterieverbrauch führen.</string>
+    <string name="msg_doze">Für konsistente Ergebnisse sollten für NetGuard die Android-Akkuoptimierungen deaktiviert werden.
+\n\nIm nächsten Dialog wählen Sie ganz oben »Alle Apps«, tippen auf NetGuard in der Liste und wählen »Nicht optimieren«. Anschließend bestätigen.</string>
+    <string name="msg_datasaving">Für konsistente Ergebnisse sollten die Android-Datenspeicheroptionen für NetGuard deaktiviert werden.\n\nIm nächsten Fenster aktivieren Sie die Optionen »Hintergrunddaten« und »Uneingeschränkte Datennutzung«.</string>
+    <string name="msg_filter">Das Verwenden von Filtern führt dazu, dass Android den Daten- und Akkuverbrauch NetGuard zuordnet. Android geht davon aus, dass die Daten und der Akku von NetGuard statt von den jeweiligen Apps verbraucht werden</string>
+    <string name="msg_filter4">Android 4 erfordert das Aktivieren der Filterung.</string>
+    <string name="msg_log_disabled">Der Datenverkehr wird nicht protokolliert. Zum Aktivieren den Schalter oben verwenden. Das Protokollieren kann den Akkuverbrauch erhöhen.</string>
     <string name="msg_clear_rules">Dadurch werden die Regeln und Bedingungen auf ihre Standardwerte zurückgesetzt</string>
     <string name="msg_reset_access">Dadurch werden die Zugriffsversuche im Protokoll ohne Erlaubt-/Blockier-Regeln gelöscht</string>
     <string name="msg_import_last">Letzter Import: %s</string>
@@ -195,23 +197,23 @@
     <string name="msg_downloaded">Hosts-Datei heruntergeladen</string>
     <string name="msg_download_last">Letztes Herunterladen: %s</string>
     <string name="msg_start_forward">Weiterleitung von %2$d Port %1$s nach %3$s:%4$d von \'%5$s\' starten?</string>
-    <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d stoppen?</string>
+    <string name="msg_stop_forward">Weiterleitung von %1$s Port %2$d anhalten?</string>
     <string name="msg_metered">Volumenbeschränktes Netzwerk</string>
     <string name="msg_inactive">Keine aktive Internetverbindung</string>
     <string name="msg_queue">NetGuard ist beschäftigt</string>
     <string name="msg_update">Neue Version verfügbar, zum Herunterladen tippen</string>
-    <string name="msg_usage">Sie können den Wi-Fi- oder mobilen Internet-Zugang zulassen (grünlich) oder verweigern (rötlich), indem Sie auf die Symbole neben einer Anwendung tippen</string>
-    <string name="msg_fairemail">Falls Sie NetGuard installiert haben, um Ihre Privatsphäre zu schützen, könnten Sie auch an <a href="https://email.faircode.eu/">FairEmail</a>, einer Open-Source- und privatsphärenfreundlichen E-Mail-App, interessiert sein</string>
-    <string name="msg_whitelist">Internet-Zugang ist standardmäßig erlaubt. Das kann in den Einstellungen geändert werden</string>
+    <string name="msg_usage">Sie können den WLAN- oder mobilen Internetzugang erlauben (grünlich) oder blockieren (rötlich), indem Sie auf die Symbole neben einer App tippen</string>
+    <string name="msg_fairemail">Falls Sie NetGuard installiert haben, um Ihre Privatsphäre zu schützen, könnten Sie auch an <a href="https://email.faircode.eu/">FairEmail</a>, einer quelloffenen und datenschutzfreundlichen E-Mail-App, interessiert sein</string>
+    <string name="msg_whitelist">Internetzugang ist standardmäßig erlaubt. Das kann in den Einstellungen geändert werden</string>
     <string name="msg_push">Push-Nachrichten werden normalerweise durch die Systemkomponente Play-Dienste gesteuert, dieser ist standardmäßig der Internetzugang erlaubt</string>
-    <string name="msg_system">Verwalten von Systemanwendungen kann in den erweiterten Optionen aktiviert werden</string>
+    <string name="msg_system">Verwalten von System-Apps kann in den erweiterten Optionen aktiviert werden</string>
     <string name="msg_issue">Bitte beschreiben Sie Ihr Problem und geben Sie den Zeitpunkt an:</string>
-    <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie eine anderes VPN für die Funktion \'VPN immer eingeschaltet\' konfiguriert?</string>
+    <string name="msg_vpn_cancelled">VPN-Verbindung abgebrochen\nHaben Sie ein anderes VPN für die Funktion »Durchgehend aktives VPN« konfiguriert?</string>
     <string name="msg_on">Wenn NetGuard beim Ausschalten aktiv war, dann startet NetGuard beim Einschalten automatisch wieder.</string>
     <string name="msg_unavailable">Diese Funktion ist in dieser Android-Version nicht verfügbar</string>
-    <string name="msg_always_on">Ein anderes VPN ist als \'VPN immer eingeschaltet\' festgelegt</string>
-    <string name="msg_always_on_lockdown">Um NetGuard im Filtermodus benutzen zu können, deaktivieren Sie in den Android-VPN-Einstellungen \"Verbindungen ohne VPN blockieren\"</string>
-    <string name="msg_private_dns">\"Private DNS\" unter Android-Netzwerkeinstellungen deaktivieren, um NetGuard im Filtermodus zu verwenden</string>
+    <string name="msg_always_on">Ein anderes VPN ist als »Durchgehend aktives VPN« festgelegt</string>
+    <string name="msg_always_on_lockdown">Um NetGuard im Filtermodus verwenden zu können, deaktivieren Sie in den Android-VPN-Einstellungen »Verbindungen ohne VPN blockieren«</string>
+    <string name="msg_private_dns">»Privates DNS« in den Android-Netzwerkeinstellungen deaktivieren, um NetGuard im Filtermodus zu verwenden</string>
     <string name="title_lockdown_enabled">Datenverkehr ist eingeschränkt</string>
     <string name="title_unmetered_allowed">Netzwerkverkehr ohne Volumenbeschränkung ist erlaubt</string>
     <string name="title_unmetered_blocked">Nicht volumenbeschränkter Verkehr ist blockiert</string>
@@ -221,7 +223,7 @@
     <string name="title_metered_disabled">Beschränkte Regeln wurden nicht angewendet</string>
     <string name="title_host_allowed">Adresse ist erlaubt</string>
     <string name="title_host_blocked">Adresse ist blockiert</string>
-    <string name="title_interactive_allowed">Erlauben, wenn Bildschirm an</string>
+    <string name="title_interactive_allowed">Erlauben, wenn Bildschirm eingeschaltet ist</string>
     <string name="title_roaming_blocked">Bei Roaming blockieren</string>
     <string name="title_metered">Standardmäßig wird eine WLAN-Verbindung als nicht volumenbeschränkt und eine mobile Verbindung als volumenbeschränkt betrachtet.</string>
     <string name="title_internet">hat keine Internet-Berechtigung</string>
@@ -231,27 +233,27 @@
     <string name="title_apply">Regeln und Bedingungen anwenden</string>
     <string name="title_conditions">Bedingungen</string>
     <string name="title_screen_wifi">WLAN erlauben, wenn Bildschirm eingeschaltet ist</string>
-    <string name="title_screen_other">Mobilfunk erlauben, wenn Bildschirm eingeschaltet ist</string>
+    <string name="title_screen_other">Mobile Daten erlauben, wenn Bildschirm eingeschaltet ist</string>
     <string name="title_roaming_symbol">R</string>
     <string name="title_roaming">Bei Roaming blockieren</string>
-    <string name="title_lockdown">Im Zugriffsbeschränkungsmodus erlauben</string>
+    <string name="title_lockdown">Im zugriffsbeschränkten Modus erlauben</string>
     <string name="title_related">Filterabhängig</string>
     <string name="title_access">Zugriffsversuche</string>
     <string name="title_precedence">Zugriffsregeln haben vor anderen Regeln Vorrang</string>
     <string name="title_options">Optionen</string>
     <string name="title_notify">Bei Internetzugriffsversuchen benachrichtigen</string>
-    <string name="title_logging_disabled">Protokollierung oder Filterung ist nicht aktiviert</string>
-    <string name="title_logging_enabled">Protokollierung und Filterung sind aktiviert</string>
+    <string name="title_logging_disabled">Protokollieren oder Filtern ist nicht aktiviert</string>
+    <string name="title_logging_enabled">Protokollieren und Filtern ist aktiviert</string>
     <string name="title_logging_configure">Konfigurieren</string>
-    <string name="title_enable_logging">Nur die Protokollierung für blockierte Adressen aktivieren</string>
-    <string name="title_enable_filtering">Auch die Filterung für die Protokollierung erlaubter Adressen aktivieren</string>
-    <string name="title_enable_notify">Zugriffsbenachrichtigungen für kürzlich protokollierte Adressen aktivieren</string>
+    <string name="title_enable_logging">Das Protokollieren nur für blockierte Adressen aktivieren</string>
+    <string name="title_enable_filtering">Filtern aktivieren, um auch erlaubte Adressen zu protokollieren</string>
+    <string name="title_enable_notify">Zugriffsbenachrichtigungen für neu protokollierte Adressen aktivieren</string>
     <string name="title_enable_help0">Diese Einstellungen sind globale Einstellungen, die für alle Apps gelten.</string>
-    <string name="title_enable_help1">Die Filterung ist auch für das Zulassen oder Blockieren einzelner Adressen erforderlich.</string>
-    <string name="title_enable_help2">Die Protokollierung (weniger) oder Filterung (mehr) kann den Batterieverbrauch erhöhen und die Netzwerkgeschwindigkeit beeinflussen.</string>
+    <string name="title_enable_help1">Das ist auch für das Zulassen oder Blockieren einzelner Adressen erforderlich</string>
+    <string name="title_enable_help2">Das Protokollieren (weniger) oder Filtern (mehr) kann den Akkuverbrauch erhöhen und die Netzwerkgeschwindigkeit beeinflussen</string>
     <string name="title_rate">Bewerten</string>
     <string name="title_allow">Erlauben</string>
-    <string name="title_block">Sperren</string>
+    <string name="title_block">Blockieren</string>
     <string name="title_allow_wifi">WLAN erlauben</string>
     <string name="title_block_wifi">WLAN blockieren</string>
     <string name="title_allow_other">Mobile Daten erlauben</string>
@@ -269,7 +271,7 @@
     <string name="title_pro_filter">Netzwerkverkehr filtern</string>
     <string name="title_pro_notify">Benachrichtigung über neue App</string>
     <string name="title_pro_speed">Benachrichtigung mit Netzwerkgeschwindigkeitsgrafik</string>
-    <string name="title_pro_theme">Aussehen (Design, Farben)</string>
+    <string name="title_pro_theme">Erscheinungsbild (Design, Farben)</string>
     <string name="title_pro_all">Alle oben stehenden Pro-Funktionen</string>
     <string name="title_pro_dev">Entwicklung unterstützen</string>
     <string name="title_pro_buy">Kaufen</string>
