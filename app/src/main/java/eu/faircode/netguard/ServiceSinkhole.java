@@ -1291,6 +1291,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 }
             }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            try {
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                Network active = (cm == null ? null : cm.getActiveNetwork());
+                LinkProperties props = (active == null ? null : cm.getLinkProperties(active));
+                String domain = (props == null ? null : props.getDomains());
+                if (domain != null) {
+                    Log.i(TAG, "Using search domain=" + domain);
+                    builder.addSearchDomain(domain);
+                }
+            } catch (Throwable ex) {
+                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
+            }
+
         // Subnet routing
         if (subnet) {
             // Exclude IP ranges
