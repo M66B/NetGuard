@@ -46,6 +46,13 @@
         package="com.google.android.apps.gcs"
         roaming="false" />
 
+    <wifi
+        blocked="false"
+        package="com.samsung.android.fmm" />
+    <other
+        blocked="false"
+        package="com.samsung.android.fmm" />
+
     <relation
         package="com.android.vending"
         related="com.google.android.gms,com.android.providers.downloads" />
