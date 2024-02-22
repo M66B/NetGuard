@@ -1243,7 +1243,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 Network active = (cm == null ? null : cm.getActiveNetwork());
                 if (active != null) {
-                    Log.i(TAG, "Setting underlying network=" + cm.getNetworkInfo(active));
+                    Log.i(TAG, "Setting underlying network=" + active + " " + cm.getNetworkInfo(active));
                     setUnderlyingNetworks(new Network[]{active});
                 }
             }
