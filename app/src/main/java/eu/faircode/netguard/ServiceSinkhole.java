@@ -104,6 +104,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
@@ -3245,6 +3246,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
     }
 
     private class Builder extends VpnService.Builder {
+        private Network activeNetwork;
         private NetworkInfo networkInfo;
         private int mtu;
         private List<String> listAddress = new ArrayList<>();
@@ -3256,6 +3258,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         private Builder() {
             super();
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            activeNetwork = (Build.VERSION.SDK_INT < Build.VERSION_CODES.M ? null : cm.getActiveNetwork());
             networkInfo = cm.getActiveNetworkInfo();
         }
 
@@ -3312,6 +3315,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             Builder other = (Builder) obj;
 
             if (other == null)
+                return false;
+
+            if (!Objects.equals(this.activeNetwork, other.activeNetwork))
                 return false;
 
             if (this.networkInfo == null || other.networkInfo == null ||
