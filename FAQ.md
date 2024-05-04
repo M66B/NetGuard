@@ -37,6 +37,8 @@ However, this does not work properly on all Android versions/variants causing Ne
 On Android N and later NetGuard can be configured as [Always-On VPN](https://developer.android.com/guide/topics/connectivity/vpn#always-on).
 On Android O **do not** enable the sub option '*Block connections without VPN*', see [question 51](#user-content-faq51)) for more information on this.
 
+The app obviously can't protect you from bugs in Android, such a documented [here](https://mullvad.net/en/blog/dns-traffic-can-leak-outside-the-vpn-tunnel-on-android).
+
 To protect yourself more, remember to disable Wi-Fi and mobile data before rebooting,
 and only enable them on reboot, after the firewall service has started (and the key icon is visible in the status bar).
 
