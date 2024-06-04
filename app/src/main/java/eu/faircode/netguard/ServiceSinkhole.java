@@ -2619,6 +2619,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         builder.addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
 
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
+            private Network last_network = null;
             private Boolean last_connected = null;
             private Boolean last_metered = null;
             private String last_generation = null;
@@ -2663,6 +2664,9 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
                 String reason = null;
 
+                if (reason == null && !Objects.equals(network, last_network))
+                    reason = "Network changed";
+
                 if (reason == null && last_connected != null && !last_connected.equals(connected))
                     reason = "Connected state changed";
 
@@ -2680,6 +2684,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                 if (reason != null)
                     reload(reason, ServiceSinkhole.this, false);
 
+                last_network = network;
                 last_connected = connected;
                 last_metered = metered;
                 last_generation = generation;
