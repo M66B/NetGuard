@@ -29,7 +29,7 @@
                 android:key="screen_other"
                 android:title="@string/setting_screen_other" />
             <CheckBoxPreference
-                android:defaultValue="false"
+                android:defaultValue="true"
                 android:key="whitelist_roaming"
                 android:title="@string/setting_whitelist_roaming" />
         </PreferenceCategory>
