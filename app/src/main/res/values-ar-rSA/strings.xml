@@ -8,6 +8,7 @@
     <string name="app_agree">أنا أوافق</string>
     <string name="app_disagree">لا أوافق</string>
     <string name="app_support">NetGuard يحتاج لدعمكم. اضغط لشراء الخصائص المتقدمة ودعم استمرارية المشروع.</string>
+    <string name="app_qap">.</string>
     <string name="channel_foreground">الخدمات قيد التشغيل</string>
     <string name="channel_notify">الإشعارات العامة</string>
     <string name="channel_access">إشعارات النفاذ</string>
@@ -156,6 +157,7 @@
     <string name="msg_hosts">%1$d مسموحة ، %2$d محظورة ، %3$d مضيفين</string>
     <string name="msg_waiting">في انتظار حدث</string>
     <string name="msg_disabled">التطبيق غير مُفعّل، قم بتنشيط نات غارد بالضغط على الزر في الأعلى</string>
+    <string name="msg_notifications">انقر لمنح أذونات الإشعارات (لإشعارات محاولة الوصول، رسائل الخطأ، إلخ)</string>
     <string name="msg_revoked">تم تعطيل NetGuard، يُحتمل أنّ السبب راجع إلى استخدام تطبيق VPN آخر في آن واحد</string>
     <string name="msg_installed">\'%1$s\' مثبت</string>
     <string name="msg_installed_n">تم تثبيته</string>

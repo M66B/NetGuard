@@ -8,6 +8,13 @@
     <string name="app_agree">می‌پذیرم</string>
     <string name="app_disagree">نمی‌پذیرم</string>
     <string name="app_support">NetGuard به کمک شما نیاز دارد. برای خرید ویژگی‌های حرفه‌ای به‌خاطر یاری پروژه ضربه بزنید.</string>
+    <string name="app_qap">گوگل این برنامه را از فروشگاه Play حذف می‌کند، زیرا می‌خواهد مجوز جستجوی همه برنامه‌ها را داشته باشد.
+         پنج ایراد که توجیه خوبی برای لزوم این مجوز ارائه می کرد، رد شد.
+         با این حال، این نسخه از برنامه دیگر به این مجوز نیاز ندارد
+         به جز برخی از برنامه های (سیستم) که نمی توانند به صورت دستی از لیست برنامه های Android راه اندازی شوند
+         تقریباً همه برنامه‌ها لیست خواهند شد.
+         ترافیک اینترنت از این برنامه‌ها همیشه مجاز خواهد بود تا دستگاه شما به درستی کار کند.
+         اگر فکر می کنید این مشکل است، می توانید برنامه را به نسخه GitHub به روز کنید و دوباره همه برنامه های (سیستم) را اجرا کنید.    </string>
     <string name="channel_foreground">خدمات درحال اجرا</string>
     <string name="channel_notify">اعلان‌های عمومی</string>
     <string name="channel_access">اعلان‌های دسترسی</string>
@@ -85,6 +92,7 @@
     <string name="setting_access">آگاه سازی هنگام دسترسی به اینترنت</string>
     <string name="setting_filter">فیلتر کردن ترافیک</string>
     <string name="setting_filter_udp">فیلتر ترافیک UDP</string>
+    <string name="setting_handover">تحویل یکپارچه VPN در بارگذاری مجدد</string>
     <string name="setting_clear_onreload">بستن اتصال‌ها هنگام بارگذاری مجدد</string>
     <string name="setting_lockdown">قفل کردن ترافیک</string>
     <string name="setting_track_usage">مصرف شبکه را ردیابی کن</string>

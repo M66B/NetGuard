@@ -8,6 +8,13 @@
     <string name="app_agree">Concordo</string>
     <string name="app_disagree">Discordo</string>
     <string name="app_support">NetGuard necessita da sua ajuda. Toque para comprar funcionalidades pro para manter o projeto em andamento.</string>
+    <string name="app_qap">O Google iria remover o aplicativo da Play Store porque solicitou permissão para consultar todos os aplicativos.
+         Cinco recursos e uma boa justificativa sobre a necessidade dessa permissão foram rejeitados.
+         Esta versão do aplicativo não solicita mais essa permissão,
+         e apesar disso, quase todos os aplicativos ainda estarão listados,
+         exceto alguns aplicativos (do sistema) que não podem ser iniciados manualmente na lista de aplicativos Android.
+         O tráfego de internet desses aplicativos sempre será permitido para garantir que seu dispositivo continue funcionando corretamente.
+         Se você acha que isso é um problema, você pode atualizar para a versão GitHub do aplicativo e gerir todos os aplicativos (do sistema) novamente.    </string>
     <string name="channel_foreground">Serviços em execução</string>
     <string name="channel_notify">Notificações gerais</string>
     <string name="channel_access">Aceder às notificações</string>
@@ -156,6 +163,7 @@
     <string name="msg_hosts">%1$d permitidos, %2$d bloqueados, %3$d anfitriões</string>
     <string name="msg_waiting">A aguardar o evento</string>
     <string name="msg_disabled">NetGuard desativado, use o interruptor acima para o ativar</string>
+    <string name="msg_notifications">Toque para conceder permissões de notificação (para notificações de tentativas de acesso, mensagens de erro, etc.)</string>
     <string name="msg_revoked">NetGuard foi desativado, provavelmente está a ser utilizada outra aplicação que usa uma VPN</string>
     <string name="msg_installed">\'%1$s\' instalado</string>
     <string name="msg_installed_n">Foi instalada</string>

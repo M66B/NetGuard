@@ -209,7 +209,7 @@ Votre trafic Internet n\'est pas envoyé vers un serveur VPN distant.</string>
     <string name="msg_system">La gestion des applications système peut être activée dans les options avancées</string>
     <string name="msg_issue">Veuillez décrire le problème et indiquer l\'heure à laquelle il est survenu :</string>
     <string name="msg_vpn_cancelled">La connexion VPN a été arrêtée\nAvez-vous configuré un autre VPN destiné à être un VPN toujours actif ?</string>
-    <string name="msg_on">Si vous éteignez votre appareil avec NetGuard activé, celui ci démarrera automatiquement lorsque vous rallumerez votre appareil</string>
+    <string name="msg_on">Si NetGuard est activé lorsque vous éteignez votre appareil, il redémarrera automatiquement lorsque vous rallumerez l\'appareil</string>
     <string name="msg_unavailable">Cette fonctionnalité n’est pas disponible sur cette version d’Android</string>
     <string name="msg_always_on">Un autre VPN est défini comme VPN permanent</string>
     <string name="msg_always_on_lockdown">Désactiver \"Bloquer les connexions sans VPN\" dans les paramètres VPN d\'Android pour utiliser le filtrage de NetGuard</string>

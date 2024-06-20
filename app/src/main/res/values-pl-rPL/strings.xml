@@ -8,6 +8,7 @@
     <string name="app_agree">Zgadzam się</string>
     <string name="app_disagree">Nie zgadzam się</string>
     <string name="app_support">NetGuard potrzebuje Twojej pomocy. Kliknij, aby zakupić funkcje pro i wspomóc dalszy rozwój projektu.</string>
+    <string name="app_qap"></string>
     <string name="channel_foreground">Uruchomione usługi</string>
     <string name="channel_notify">Ogólne powiadomienia</string>
     <string name="channel_access">Powiadomienia dostępu</string>
@@ -151,7 +152,7 @@
     <string name="summary_watchdog">Sprawdź okresowo, czy NetGuard nadal działa (wpisz zero, aby wyłączyć tę opcję). Może to spowodować większe zużycie baterii.</string>
     <string name="summary_stats">Pokazuj wykres prędkości sieci w powiadomieniach aplikacji</string>
     <string name="msg_sure">Czy jesteś pewien?</string>
-    <string name="msg_started">Wymuś Reguły</string>
+    <string name="msg_started">Zastosowane Reguły</string>
     <string name="msg_packages">%1$d dozwolone, %2$d zablokowane</string>
     <string name="msg_hosts">%1$d zezwolono, %2$d zablokowano, %3$d hosts</string>
     <string name="msg_waiting">Czekam na zdarzenie</string>

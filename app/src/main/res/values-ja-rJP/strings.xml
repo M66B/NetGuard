@@ -198,7 +198,7 @@
     <string name="msg_metered">ネットワークは従量制です</string>
     <string name="msg_inactive">アクティブなインターネット接続がありません</string>
     <string name="msg_queue">NetGuard はビジーです</string>
-    <string name="msg_update">アップデートが利用できます。タップするとダウンロードします</string>
+    <string name="msg_update">更新できます。タップするとダウンロードします</string>
     <string name="msg_usage">アプリの横にあるアイコンをタップして、Wi-Fi またはモバイルインターネットアクセスを、許可 (緑) または拒否 (赤) することができます</string>
     <string name="msg_fairemail">プライバシーを保護するために NetGuard をインストールした場合、オープンソースのプライバシーフレンドリーなメールアプリ <a href="https://email.faircode.eu/">FairEmail</a> にもご興味ありませんか</string>
     <string name="msg_whitelist">デフォルトで、インターネットアクセスが許可されます。これは設定で変更することができます</string>

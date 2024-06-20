@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">NetGuard provides simple and advanced ways to block access to the internet - no root required. Apps and addresses can individually be allowed or denied access to your Wi-Fi and/or mobile connection.</string>
-    <string name="app_android">NetGuard requires Android 5.1 or later</string>
-    <string name="app_xposed">Xposed causes too many crashes, which might result in NetGuard being removed from the Google Play Store, therefore NetGuard isn\'t supported while Xposed is installed</string>
-    <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Privacy policy</a></string>
+    <string name="app_description">NetGuard इंटरनेट तक पहुंच को अवरुद्ध करने के लिए सरल और उन्नत तरीके प्रदान करता है - कोई रूट आवश्यक नहीं है। ऐप्स और पते व्यक्तिगत रूप से आपके वाई-फाई और/या मोबाइल कनेक्शन तक पहुंच की अनुमति या अस्वीकार किए जा सकते हैं।</string>
+    <string name="app_android">NetGuard को Android 5.1 या बाद के संस्करण की आवश्यकता है</string>
+    <string name="app_xposed">Xposed बहुत से दुर्घटनाओं का कारण बनता है, जिसके परिणामस्वरूप Google Play Store से NetGuard को हटाया जा सकता है, इसलिए NetGuard समर्थित नहीं है, जब तक Xposed स्थापित है</string>
+    <string name="app_privacy"><a href="https://www.netguard.me/privacy/">गोपनीयता नीति</a></string>
     <string name="app_first">नेटगार्ड को विकसित करने और परीक्षण करने के लिए बहुत सावधानी बरती गई है, हालांकि यह गारंटी देना असंभव है कि नेटगार्ड हर डिवाइस पर सही ढंग से काम करेगा।</string>
     <string name="app_agree">मैं सहमत हूँ</string>
     <string name="app_disagree">मैं असहमत हूं</string>

@@ -19,7 +19,7 @@
     </string>
     <string name="channel_foreground">Aktive Dienste</string>
     <string name="channel_notify">Allgemeine Benachrichtigungen</string>
-    <string name="channel_access">Auf Benachrichtigungen zugreifen</string>
+    <string name="channel_access">Internetzugriffsversuche</string>
     <string name="menu_search">Nach App suchen</string>
     <string name="menu_filter">Apps filtern</string>
     <string name="menu_app_user">Benutzer-Apps anzeigen</string>

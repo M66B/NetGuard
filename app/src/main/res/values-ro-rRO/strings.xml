@@ -81,7 +81,7 @@
     <string name="setting_metered_2g">Consideră 2G necontorizat</string>
     <string name="setting_metered_3g">Consideră 3G necontorizat</string>
     <string name="setting_metered_4g">Consideră 4G/LTE necontorizat</string>
-    <string name="setting_national_roaming">Ignoră roamingul național</string>
+    <string name="setting_national_roaming">Ignoră roaming național</string>
     <string name="setting_eu_roaming">Ignoră roaming în UE</string>
     <string name="setting_call">Dezactivare în timpul apelului</string>
     <string name="setting_lockdown_wifi">Închide Wi-Fi</string>
@@ -132,7 +132,7 @@
     <string name="setting_technical_networks">Reţele</string>
     <string name="setting_technical_subscription">Abonamente</string>
     <string name="summary_install">Arată o notificare în bara de stare pentru a configura aplicațiile noi instalate (versiune pro)</string>
-    <string name="summary_auto">După dezactivare din widget, activează automat NetGuard după numărul selectat de minute (valoarea zero dezactivează opțiunea)</string>
+    <string name="summary_auto">După dezactivarea din widget, activează automat NetGuard după numărul selectat de minute (valoarea zero dezactivează opțiunea)</string>
     <string name="summary_delay">După oprirea ecranului, păstrează regulile ecran pornit pentru numărul selectat de minute (valoarea zero dezactivează opțiunea)</string>
     <string name="summary_update">De două ori pe zi se va verifica dacă a fost publicată pe GitHub o nouă versiune</string>
     <string name="summary_tethering">În funcție de versiunea de Android, partajarea conexiunii (tethering/hotspot) ar putea funcționa sau nu. Traficul partajat nu poate fi filtrat.</string>

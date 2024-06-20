@@ -8,6 +8,13 @@
     <string name="app_agree">Slažem se</string>
     <string name="app_disagree">Ne slažem se</string>
     <string name="app_support">NetGuard treba Vašu pomoć. Dodirnite za kupnju pro-značajki za pomoć projektu.</string>
+    <string name="app_qap">        Google je planirao ukloniti aplikaciju iz Trgovine Play jer je tražila dopuštenje da čita aktivnost svih aplikacija.
+        Pet žalbi uz dobro opravdanje o razlogu traženja takvog dopuštenja odbijeno je.
+        Ova verzija aplikacije više ne traži to dopuštenje,
+        a unatoč tomu, skoro će se sve aplikacije prikazivati
+        uz iznimku nekih (sustavnih) aplikacija koje se ne mogu ručno pokrenuti s popisa aplikacija sustava Android.
+        Internetski promet tih aplikacija uvijek će biti dopušten kako bi vaš uređaj ispravno funkcionirao.
+        Ako vam ovo smeta, možete ažurirati aplikaciju na verziju s GitHuba kako biste ponovno upravljali svim (sustavnim) aplikacijama.    </string>
     <string name="channel_foreground">Pokrenuti servisi</string>
     <string name="channel_notify">Opće obavijesti</string>
     <string name="channel_access">Pristup obavijestima</string>
@@ -156,6 +163,7 @@
     <string name="msg_hosts">%1$d dopušteno, %2$d blokirano, %3$d hostovi</string>
     <string name="msg_waiting">Čekanje na događaj</string>
     <string name="msg_disabled">NetGuard je onemogućen, koristitite gornji prekidač kako bi omogućili NetGuard</string>
+    <string name="msg_notifications">Pritisni za davanje dopuštenja za obavijesti (o pokušajima pristupa, pogreškama itd.)</string>
     <string name="msg_revoked">NetGuard je onemogućen, vjerojatno koristeći drugu VPN aplikaciju</string>
     <string name="msg_installed">\'%1$s\' je instalirano</string>
     <string name="msg_installed_n">Je instalirano</string>

@@ -8,6 +8,10 @@
     <string name="app_agree">நான் ஏற்கிறேன்</string>
     <string name="app_disagree">நான் மறுக்கிறேன்</string>
     <string name="app_support">நெட்கார்டுக்கு உங்கள் உதவி தேவை. திட்டத்தை தொடர சார்பு அம்சங்களை வாங்க தட்டவும்.</string>
+    <string name="app_qap">இந்தப் பயன்பாடு, இதர அனைத்து பயன்பாடுகளையும் கோற அனுமதி கேட்பதால், கூகுள்(Google) இதனைப் பிளே ஸ்டோரிலிருந்து(Play Store) நீக்க முடிவெடுத்திருந்தது.
+இந்த அனுமதி  ஏன் தேவைப்படுகிறது என்று ஐந்துமுறை விளக்கமளித்தும் ஏற்றுக்கொள்ளப்படவில்லை.
+எனவே இந்தப் பதிப்பு அந்த அனுமதியைக் கோறாது, அதனால் சில சிஸ்டம்(System) பயன்பாடுகளின் இணய உபயோகம் எப்பொழுதும் அனுமதிக்கப்பட்டிருக்கும்.
+இதனை ஒரு பிழையாக கருதினால், ஜிட்ஹப்(GitHub)-லுள்ள பதிப்பிற்க்கு மாறி அனைத்து சிஸ்டம் பயன்பாட்டு இணைய இணைப்புகளையும் கட்டுப்படுத்தலாம்.    </string>
     <string name="channel_foreground">இயங்கும் சேவைகள்</string>
     <string name="channel_notify">பொது அறிவிப்புகள்</string>
     <string name="channel_access">அறிவிப்புகளை அணுகவும்</string>
@@ -33,7 +37,7 @@
     <string name="menu_traffic_blocked">தடுக்கப்பட்டவை</string>
     <string name="menu_live">நேரடி புதுப்பித்தல்கள்</string>
     <string name="menu_refresh">புதுப்பி</string>
-    <string name="menu_resolve">பெயர்களை காண்பி</string>
+    <string name="menu_resolve">பெயர்களைக் காண்பி</string>
     <string name="menu_organization">நிறுவனத்தை காண்பி</string>
     <string name="menu_pcap_enabled">PCAP செயலாக்கம்</string>
     <string name="menu_pcap_export">PCAP ஏற்றுமதி</string>
@@ -48,16 +52,16 @@
     <string name="title_raddr">இலக்கு முகவரி</string>
     <string name="title_rport">இலக்கு முணையம்</string>
     <string name="title_ruid">இலக்குச் செயலி</string>
-    <string name="title_external">ஒரு வெளிப்புற சேவையகத்திற்காக தேர்ந்தெடுத்து \'யாரும்\'</string>
-    <string name="setting_defaults">இயல்புநிலைகள்</string>
+    <string name="title_external">ஒரு வெளிப்புற சேவையகத்திற்காகத் \'யாருமில்லை\'-ஐ தேர்ந்தெடுக்கவும்</string>
+    <string name="setting_defaults">இயல்புநிலைகள் (வெள்ளை/கருப்பு பட்டியல்)</string>
     <string name="setting_whitelist_wifi">Wi-Fi-யை தடு</string>
-    <string name="setting_whitelist_other">மொபைல் தடு</string>
-    <string name="setting_screen_wifi">Wi-Fi அனுமதிக்கும் போது திரை மீது</string>
+    <string name="setting_whitelist_other">மொபைலைத் தடு</string>
+    <string name="setting_screen_wifi">Wi-Fi-ஐ திரை இயக்கத்தில் இருந்தால் அனுமதி</string>
     <string name="setting_screen_other">மொபைல் எப்போது திரை அனுமதி</string>
     <string name="setting_whitelist_roaming">சுற்றும் தடு</string>
     <string name="setting_options">விருப்பங்கள்</string>
     <string name="setting_theme">கருப்பொருள்: %1$s</string>
-    <string name="setting_dark">கருத்த கருப்பொருளை உபயோகி</string>
+    <string name="setting_dark">கருமையான தோற்றத்தை பயன்படுத்து</string>
     <string name="setting_install">புதிய நிறுவல்களை தெரிவி</string>
     <string name="setting_screen_on">\'ஸ்கிரீன் ஆன்\' விதிகளைப் பயன்படுத்துங்கள்</string>
     <string name="setting_auto">%1$s நிமிடங்களுக்கு பிறகு தானாக இயக்கு</string>
@@ -75,7 +79,7 @@
     <string name="setting_metered_4g">LTE unmetered சிந்திக்கவும்</string>
     <string name="setting_national_roaming">தேசிய சுற்றும் புறக்கணி</string>
     <string name="setting_eu_roaming">ஐரோப்பிய ஒன்றிய ரோமிங்கை புறக்கணிக்கவும்</string>
-    <string name="setting_call">அழைப்பில் முடக்கு</string>
+    <string name="setting_call">அழைப்பு வரும்பொழுது முடக்கு</string>
     <string name="setting_lockdown_wifi">வைஃபையை பூட்டு</string>
     <string name="setting_lockdown_other">மொபைலை பூட்டு</string>
     <string name="setting_reload_onconnectivity">ஒவ்வொரு இணைப்பு மாற்றத்திலும் மீண்டும் ஏற்றவும்</string>
@@ -156,6 +160,7 @@
     <string name="msg_hosts">%1$d அனுமதிக்கப்பட்டவை, %2$d தடுக்கப்பட்டவை, %3$d மந்தமான</string>
     <string name="msg_waiting">நிகழ்வுக்காக காத்திருக்கிறது</string>
     <string name="msg_disabled">NetGuard முடக்கப்பட்டது, NetGuard செயல்படுத்த மேலுள்ள பொத்தான் பயன்படுத்தவும்</string>
+    <string name="msg_notifications">அறிவிப்பு அனுமதிக்கு தட்டவும் (இணைப்பு முயற்ச்சி அறிவிப்புகள், பிழை தகவல்கள், மேலும்)</string>
     <string name="msg_revoked">NetGuard முடக்கப்பட்டுள்ளது, தெரிகிறது நாளுக்கு பயன்படுத்தி வேறு VPN அடிப்படையிலான பயன்பாடு</string>
     <string name="msg_installed">\'%1$s\' நிறுவப்பட்டவை</string>
     <string name="msg_installed_n">நிறுவப்பட்டது</string>

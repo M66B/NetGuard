@@ -8,6 +8,13 @@
     <string name="app_agree">同意</string>
     <string name="app_disagree">拒绝</string>
     <string name="app_support">NetGuard需要您帮助。请点击购买应用的专业版，支持此项目的开发工作。</string>
+    <string name="app_qap">        谷歌本打算从 Play 商店中移除本应用，因为本应用需要查询所有应用的权限。
+        尽管我已提出了五次申诉，并充分说明了需要此权限的理由，但均被驳回。
+        此版本不再请求此权限，
+        尽管如此，几乎所有应用仍会被列出，
+        除了一些无法从 Android 应用列表中手动启动的（系统）应用。
+        这些应用将始终允许使用互联网流量，以确保您的设备保持正常工作。
+        如果您认为这会造成困扰，您可以选择使用应用的 GitHub 版本从而再次管理所有（系统）应用。    </string>
     <string name="channel_foreground">正在运行的服务</string>
     <string name="channel_notify">常规通知</string>
     <string name="channel_access">访问通知</string>
@@ -19,7 +26,7 @@
     <string name="menu_app_disabled">显示已停用的应用</string>
     <string name="menu_sort">应用排序</string>
     <string name="menu_sort_name">按名称排序</string>
-    <string name="menu_sort_uid">按UID排序</string>
+    <string name="menu_sort_uid">按 UID 排序</string>
     <string name="menu_sort_data">按数据使用量排序</string>
     <string name="menu_log">显示日志</string>
     <string name="menu_settings">设置</string>
@@ -138,7 +145,7 @@
     <string name="summary_metered_4g">将Wi-Fi网络规则应用于LTE数据连接</string>
     <string name="summary_national_roaming">SIM卡与移动网络为相同国家时不使用漫游规则</string>
     <string name="summary_eu_roaming">使用欧洲国家SIM卡与移动网络时不应用漫游规则（如家漫游）</string>
-    <string name="summary_call">通话时停用NetGuard。这可解决IP/Wi-Fi呼叫问题。</string>
+    <string name="summary_call">通话时停用 NetGuard，这可用来解决 IP/Wi-Fi 通话问题</string>
     <string name="summary_system">设订系统应用规则（仅供高级用户使用）</string>
     <string name="summary_log_app">记录应用的网络访问尝试。装置可能会消耗更多电量。</string>
     <string name="summary_access">当应用程序试图访问一个新的互联网地址时显示状态栏通知（过滤禁用时仅通知被阻止网络的访问尝试）</string>
@@ -155,8 +162,9 @@
     <string name="msg_packages">已允许%1$d个应用，拦截%2$d个应用</string>
     <string name="msg_hosts">已允许%1$d个应用，拦截%2$d个应用，%3$d个host</string>
     <string name="msg_waiting">等待中</string>
-    <string name="msg_disabled">NetGuard已停用，请使用上方的开关启用NetGuard</string>
-    <string name="msg_revoked">NetGuard已停用，您可能启动了另一个VPN应用</string>
+    <string name="msg_disabled">NetGuard 已停用，请使用上方的开关启用 NetGuard</string>
+    <string name="msg_notifications">轻触以授予通知权限（用于访问尝试通知、错误消息等）</string>
+    <string name="msg_revoked">NetGuard 已被停用，可能是开启了另一个基于 VPN 的应用</string>
     <string name="msg_installed">已安装“%1$s”</string>
     <string name="msg_installed_n">已安装</string>
     <string name="msg_access">%1$s曾尝试连接网络</string>
