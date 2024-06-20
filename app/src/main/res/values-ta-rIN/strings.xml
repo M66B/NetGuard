@@ -221,7 +221,7 @@
     <string name="title_roaming_blocked">தொகுதி சுற்றும் போது</string>
     <string name="title_metered">இயல்புநிலை ஒரு Wi-Fi இணைப்பு இருக்கும்படி கொள்ளப்படும் unmetered மற்றும் மொபைல் இணைப்பை metered இருக்க</string>
     <string name="title_internet">இணைய அனுமதி இல்லை</string>
-    <string name="title_disabled">%s முடக்கப்பட்டது</string>
+    <string name="title_disabled">முடக்கப்பட்டது</string>
     <string name="title_messaging">உள்வரும் செய்திகள் Google Play சேவைகளால் பெறப்படுகின்றன, இந்த பயன்பாட்டின் மூலம் அல்ல, எனவே இந்த பயன்பாட்டைத் தடுப்பதன் மூலம் தடுக்க முடியாது</string>
     <string name="title_download">பதிவிறக்கங்கள் பதிவிறக்க மேலாளரால் செய்யப்படுகின்றன, இந்த பயன்பாட்டால் அல்ல, எனவே இந்த பயன்பாட்டைத் தடுப்பதன் மூலம் தடுக்க முடியாது</string>
     <string name="title_apply">விதிகள் மற்றும் நிபந்தனைகள் பயன்படுத்து</string>

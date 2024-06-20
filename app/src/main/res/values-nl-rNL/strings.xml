@@ -69,7 +69,7 @@
     <string name="setting_lan">LAN-toegang toestaan</string>
     <string name="setting_ip6">Schakel IPv6-verkeer in</string>
     <string name="setting_wifi_home">Wifi-thuisnetwerken: %1$s</string>
-    <string name="setting_metered">Beheer gemeten wifi-netwerken: %1$s</string>
+    <string name="setting_metered">Beheer gemeten wifi-netwerken</string>
     <string name="setting_metered_2g">Beschouw 2G als ongemeten</string>
     <string name="setting_metered_3g">Beschouw 3G als ongemeten</string>
     <string name="setting_metered_4g">Beschouw 4G als ongemeten</string>
