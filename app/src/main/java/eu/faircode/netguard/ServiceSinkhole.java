@@ -569,10 +569,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                     stopNative(vpn);
                     stopVPN(vpn);
                     vpn = null;
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException ignored) {
-                    }
+                    waitForVPNStop();
                 }
                 vpn = startVPN(last_builder);
 
@@ -599,10 +596,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                             stopNative(prev);
                             stopVPN(prev);
                             prev = null;
-                            try {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException ignored) {
-                            }
+                            waitForVPNStop();
                             vpn = startVPN(last_builder);
                             if (vpn == null)
                                 throw new IllegalStateException("Handover failed");
@@ -611,11 +605,13 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
                         if (prev != null) {
                             stopNative(prev);
                             stopVPN(prev);
+                            waitForVPNStop();
                         }
                     } else {
                         if (vpn != null) {
                             stopNative(vpn);
                             stopVPN(vpn);
+                            waitForVPNStop();
                         }
 
                         vpn = startVPN(builder);
@@ -1233,22 +1229,70 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         return listDns;
     }
 
+    private void waitForVPNStop() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+
+            if (cm != null) {
+                Network active;
+                NetworkInfo activeNetworkInfo;
+                while (true) {
+                    active = cm.getActiveNetwork();
+                    activeNetworkInfo = active == null ? null : cm.getNetworkInfo(active);
+
+                    if (activeNetworkInfo == null) {
+                        Network[] networks = cm.getAllNetworks();
+                        boolean isConnected = false;
+
+                        // if there's only one network
+                        if (networks.length == 1) {
+                            break;
+                        }
+                        for (Network network : networks) {
+                            activeNetworkInfo = cm.getNetworkInfo(network);
+                            if (activeNetworkInfo != null && activeNetworkInfo.getType() != ConnectivityManager.TYPE_VPN && activeNetworkInfo.isConnected()) {
+                                isConnected = true;
+                                break;
+                            }
+                        }
+                        if (!isConnected)
+                            break;
+                        Log.i(TAG, "Waiting for VPN to stop. network=null");
+                    } else {
+                        if (activeNetworkInfo.getType() != ConnectivityManager.TYPE_VPN) {
+                            break;
+                        }
+                        Log.i(TAG, "Waiting for VPN to stop. network=" + active + " " + activeNetworkInfo);
+                    }
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException ignored) {
+                    }
+                }
+            }
+        }
+        else {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {
+            }
+        }
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private ParcelFileDescriptor startVPN(Builder builder) throws SecurityException {
         try {
-            ParcelFileDescriptor pfd = builder.establish();
-
             // Set underlying network
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 Network active = (cm == null ? null : cm.getActiveNetwork());
                 if (active != null) {
                     Log.i(TAG, "Setting underlying network=" + active + " " + cm.getNetworkInfo(active));
-                    setUnderlyingNetworks(new Network[]{active});
+                    builder.setUnderlyingNetworks(new Network[]{active});
                 }
             }
 
-            return pfd;
+            return builder.establish();
         } catch (SecurityException ex) {
             throw ex;
         } catch (Throwable ex) {
