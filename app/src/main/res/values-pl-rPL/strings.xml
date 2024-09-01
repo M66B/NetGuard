@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_description">NetGuard umożliwia w prosty i zaawansowany sposób zarządzać dostępem do Internetu - root nie jest wymagany. Można zezwolić bądź zabronić dostępu do Twojego Wi-Fi i/lub połączenia mobilnego indywidualnym aplikacjom lub do wybranych adresów IP.</string>
+    <string name="app_description">NetGuard umożliwia w prosty i zaawansowany sposób zarządzać dostępem do internetu — root nie jest wymagany. Można zezwolić bądź zabronić dostępu do Twojego Wi-Fi i/lub połączenia mobilnego indywidualnym aplikacjom lub do wybranych adresów IP.</string>
     <string name="app_android">NetGuard wymaga systemu Android 5.1 lub nowszego</string>
     <string name="app_xposed">Xposed może powodować wiele błędów w działaniu aplikacji, które mogą skutkować usunięciem aplikacji NetGuard ze Sklepu Play, z tego też powodu NetGuard nie jest wspierany w przypadku istniejącej instalacji Xposed</string>
     <string name="app_privacy"><a href="https://www.netguard.me/privacy/">Polityka prywatności</a></string>
-    <string name="app_first">Z wielką starannością opracowano i przetestowano NetGuard. Nie można jednak zagwarantować bezbłędnego działania na wszystkich urządzeniach.</string>
+    <string name="app_first">NetGuard opracowano i przetestowano z wielką starannością, jednak nie ma gwarancji bezbłędnego działania na wszystkich urządzeniach.</string>
     <string name="app_agree">Zgadzam się</string>
     <string name="app_disagree">Nie zgadzam się</string>
     <string name="app_support">NetGuard potrzebuje Twojej pomocy. Kliknij, aby zakupić funkcje pro i wspomóc dalszy rozwój projektu.</string>
@@ -218,7 +218,7 @@
     <string name="title_roaming_blocked">Blokuj gdy roaming</string>
     <string name="title_metered">Domyślnie połączenie Wi-Fi jest uważane za nietaryfowe a połączenie komórkowe za taryfowe</string>
     <string name="title_internet">brak uprawnień do Internetu</string>
-    <string name="title_disabled">jest niesprawny</string>
+    <string name="title_disabled">jest wyłączona</string>
     <string name="title_messaging">Wiadomości przychodzące są odbierane przez usługi Google Play, a nie przez tę aplikację i dlatego nie mogą być blokowane przez zablokowanie tej aplikacji</string>
     <string name="title_download">Pobieranie jest wykonywane przez menedżera pobierania, a nie przez tę aplikację i dlatego nie może być zablokowane przez zablokowanie tej aplikacji</string>
     <string name="title_apply">Zastosuj reguły i warunki</string>
