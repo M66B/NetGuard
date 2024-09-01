@@ -1239,7 +1239,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             ParcelFileDescriptor pfd = builder.establish();
 
             // Set underlying network
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && false) {
                 ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 Network active = (cm == null ? null : cm.getActiveNetwork());
                 if (active != null) {
