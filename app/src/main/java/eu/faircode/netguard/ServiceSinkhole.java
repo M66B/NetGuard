@@ -671,7 +671,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             if (!Util.isPlayStoreInstall(ServiceSinkhole.this) &&
                     Util.hasValidFingerprint(ServiceSinkhole.this) &&
                     prefs.getBoolean("update_check", true))
-                checkUpdate();
+                checkUpdate(prefs.getBoolean("beta_release", false));
         }
 
         private void watchdog(Intent intent) {
@@ -684,7 +684,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             }
         }
 
-        private void checkUpdate() {
+        private void checkUpdate(boolean notifyForBetaReleases) {
             StringBuilder json = new StringBuilder();
             HttpsURLConnection urlConnection = null;
             try {
@@ -705,7 +705,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             try {
                 JSONObject jroot = new JSONObject(json.toString());
-                if (jroot.has("tag_name") && jroot.has("html_url") && jroot.has("assets")) {
+                if (jroot.has("tag_name") && jroot.has("html_url") && jroot.has("assets") && jroot.has("name")) {
+                    String releaseName = jroot.getString("name");
+                    if (!notifyForBetaReleases && releaseName.contains("beta")) {
+                        Log.i(TAG, "Skipping beta release '" + releaseName + "' due to update preferences");
+                        return;
+                    }
                     String url = jroot.getString("html_url");
                     JSONArray jassets = jroot.getJSONArray("assets");
                     if (jassets.length() > 0) {
