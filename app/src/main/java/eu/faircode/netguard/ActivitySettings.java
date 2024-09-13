@@ -319,8 +319,10 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
 
         pref_rcode.setTitle(getString(R.string.setting_rcode, prefs.getString("rcode", "3")));
 
-        if (Util.isPlayStoreInstall(this) || !Util.hasValidFingerprint(this))
+        if (Util.isPlayStoreInstall(this) || !Util.hasValidFingerprint(this)) {
             cat_options.removePreference(screen.findPreference("update_check"));
+            cat_options.removePreference(screen.findPreference("beta_release"));
+        }
 
         if (Util.isPlayStoreInstall(this)) {
             Log.i(TAG, "Play store install");
