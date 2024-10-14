@@ -330,6 +330,8 @@ void handle_ip(const struct arguments *args,
         allowed = (redirect != NULL);
         if (redirect != NULL && (*redirect->raddr == 0 || redirect->rport == 0))
             redirect = NULL;
+        if (allowed && *server_name && is_domain_blocked(args, server_name))
+            allowed = 0;
     }
 
     // Handle allowed traffic
