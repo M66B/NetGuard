@@ -2275,7 +2275,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         }
 
         private void checkConnectivity(Network network, NetworkInfo ni, NetworkCapabilities capabilities) {
-            if (ni != null && capabilities != null &&
+            if (isActiveNetwork(network) &&
+                    ni != null && capabilities != null &&
                     ni.getDetailedState() != NetworkInfo.DetailedState.SUSPENDED &&
                     ni.getDetailedState() != NetworkInfo.DetailedState.BLOCKED &&
                     ni.getDetailedState() != NetworkInfo.DetailedState.DISCONNECTED &&
@@ -2619,6 +2620,7 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         builder.addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
 
         ConnectivityManager.NetworkCallback nc = new ConnectivityManager.NetworkCallback() {
+            private Network last_active = null;
             private Network last_network = null;
             private Boolean last_connected = null;
             private Boolean last_metered = null;
@@ -2628,6 +2630,10 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             @Override
             public void onAvailable(Network network) {
                 Log.i(TAG, "Available network=" + network);
+                if (!isActiveNetwork(network))
+                    return;
+
+                last_active = network;
                 last_connected = Util.isConnected(ServiceSinkhole.this);
                 last_metered = Util.isMeteredNetwork(ServiceSinkhole.this);
                 reload("network available", ServiceSinkhole.this, false);
@@ -2636,6 +2642,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             @Override
             public void onLinkPropertiesChanged(Network network, LinkProperties linkProperties) {
                 Log.i(TAG, "Changed properties=" + network + " props=" + linkProperties);
+                if (!isActiveNetwork(network))
+                    return;
 
                 // Make sure the right DNS servers are being used
                 List<InetAddress> dns = linkProperties.getDnsServers();
@@ -2654,6 +2662,8 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             @Override
             public void onCapabilitiesChanged(Network network, NetworkCapabilities networkCapabilities) {
                 Log.i(TAG, "Changed capabilities=" + network + " caps=" + networkCapabilities);
+                if (!isActiveNetwork(network))
+                    return;
 
                 boolean connected = Util.isConnected(ServiceSinkhole.this);
                 boolean metered = Util.isMeteredNetwork(ServiceSinkhole.this);
@@ -2692,7 +2702,11 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
             @Override
             public void onLost(Network network) {
-                Log.i(TAG, "Lost network=" + network);
+                Log.i(TAG, "Lost network=" + network + " active=" + isActiveNetwork(network));
+                if (last_active == null || !last_active.equals(network))
+                    return;
+
+                last_active = null;
                 last_connected = Util.isConnected(ServiceSinkhole.this);
                 reload("network lost", ServiceSinkhole.this, false);
             }
@@ -2729,6 +2743,35 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
             phone_state = true;
         }
+    }
+
+    private Network getActiveNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null)
+            return null;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return cm.getActiveNetwork();
+
+        NetworkInfo ani = cm.getActiveNetworkInfo();
+        if (ani == null)
+            return null;
+
+        Network[] networks = cm.getAllNetworks();
+        for (Network network : networks) {
+            NetworkInfo ni = cm.getNetworkInfo(network);
+            if (ni == null)
+                continue;
+            if (ni.getType() == ani.getType() &&
+                    ni.getSubtype() == ani.getSubtype())
+                return network;
+        }
+
+        return null;
+    }
+
+    private boolean isActiveNetwork(Network network) {
+        return (network != null && network.equals(getActiveNetwork()));
     }
 
     @Override
