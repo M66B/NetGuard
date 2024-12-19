@@ -206,7 +206,21 @@ public class AdapterLog extends CursorAdapter {
         // Application icon
         ApplicationInfo info = null;
         PackageManager pm = context.getPackageManager();
-        String[] pkg = pm.getPackagesForUid(uid);
+        String[] pkg = null;
+
+        try {
+            pkg = pm.getPackagesForUid(uid);
+        } catch (SecurityException ignored) {
+            // STACK_TRACE=java.lang.SecurityException: getPackagesForUid: UID 1010154 requires android.permission.INTERACT_ACROSS_USERS_FULL or android.permission.INTERACT_ACROSS_USERS to access user 0.
+            //   at android.os.Parcel.createExceptionOrNull(Parcel.java:3240)
+            //   at android.os.Parcel.createException(Parcel.java:3224)
+            //   at android.os.Parcel.readException(Parcel.java:3200)
+            //   at android.os.Parcel.readException(Parcel.java:3142)
+            //   at android.content.pm.IPackageManager$Stub$Proxy.getPackagesForUid(IPackageManager.java:5176)
+            //   at android.app.ApplicationPackageManager$3.recompute(ApplicationPackageManager.java:1148)
+            //   at android.app.ApplicationPackageManager$3.recompute(ApplicationPackageManager.java:1142)
+        }
+
         if (pkg != null && pkg.length > 0)
             try {
                 info = pm.getApplicationInfo(pkg[0], 0);
