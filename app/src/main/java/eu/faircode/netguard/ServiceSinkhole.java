@@ -2750,8 +2750,20 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
         if (cm == null)
             return null;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            return cm.getActiveNetwork();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network active = cm.getActiveNetwork();
+            if (active == null) {
+                Log.i(TAG, "getActiveNetwork: no active network");
+                return null;
+            }
+
+            NetworkCapabilities caps = cm.getNetworkCapabilities(active);
+            if (caps != null && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN))
+                return active;
+            else
+                Log.w(TAG, "getActiveNetwork: active network is VPN");
+
+        }
 
         NetworkInfo ani = cm.getActiveNetworkInfo();
         if (ani == null)
@@ -2759,14 +2771,22 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
 
         Network[] networks = cm.getAllNetworks();
         for (Network network : networks) {
+            NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+            Log.i(TAG, "getActiveNetwork: network=" + network + " caps=" + caps);
+            if (caps == null || !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN))
+                continue;
+
             NetworkInfo ni = cm.getNetworkInfo(network);
             if (ni == null)
                 continue;
             if (ni.getType() == ani.getType() &&
-                    ni.getSubtype() == ani.getSubtype())
+                    ni.getSubtype() == ani.getSubtype()) {
+                Log.i(TAG, "getActiveNetwork: returning network=" + network);
                 return network;
+            }
         }
 
+        Log.i(TAG, "getActiveNetwork: no active network found");
         return null;
     }
 
