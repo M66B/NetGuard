@@ -1404,6 +1404,12 @@ public class ServiceSinkhole extends VpnService implements SharedPreferences.OnS
             if (config.mnc == 10 && config.mcc == 208)
                 listExclude.add(new IPUtil.CIDR("10.151.0.0", 24));
 
+            // AS6805 Telefonica Germany GmbH & Co.OHG
+            if (config.mnc == 3 && config.mcc == 262) {
+                listExclude.add(new IPUtil.CIDR("213.20.0.0", 16));
+                listExclude.add(new IPUtil.CIDR("62.52.0.0", 14));
+            }
+
             // Broadcast
             listExclude.add(new IPUtil.CIDR("224.0.0.0", 3));
 
