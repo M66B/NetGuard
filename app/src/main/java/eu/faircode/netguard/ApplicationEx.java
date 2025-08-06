@@ -20,13 +20,28 @@ package eu.faircode.netguard;
 */
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.graphics.Insets;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.preference.PreferenceManager;
 
 public class ApplicationEx extends Application {
     private static final String TAG = "NetGuard.App";
@@ -53,6 +68,69 @@ public class ApplicationEx extends Application {
                     Log.w(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
                     System.exit(1);
                 }
+            }
+        });
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                    View content = activity.findViewById(android.R.id.content);
+                    ViewCompat.setOnApplyWindowInsetsListener(content, new OnApplyWindowInsetsListener() {
+                        @NonNull
+                        @Override
+                        public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout() | WindowInsetsCompat.Type.ime());
+
+                            TypedValue tv = new TypedValue();
+                            activity.getTheme().resolveAttribute(R.attr.colorPrimaryDark, tv, true);
+
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+                            boolean dark = prefs.getBoolean("dark_theme", false);
+
+                            activity.getWindow().getDecorView().setBackgroundColor(tv.data);
+                            content.setBackgroundColor(dark ? Color.parseColor("#ff121212") : Color.WHITE);
+
+                            int actionBarHeight = Util.dips2pixels(56, activity);
+                            View decor = activity.getWindow().getDecorView();
+                            WindowCompat.getInsetsController(activity.getWindow(), decor).setAppearanceLightStatusBars(false);
+                            WindowCompat.getInsetsController(activity.getWindow(), decor).setAppearanceLightNavigationBars(!dark);
+                            v.setPadding(bars.left, bars.top + actionBarHeight, bars.right, bars.bottom);
+
+                            return insets;
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onActivityStarted(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(@NonNull Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(@NonNull Activity activity) {
+
             }
         });
     }
