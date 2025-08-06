@@ -5,6 +5,7 @@
         android:title="@string/setting_defaults">
         <PreferenceCategory
             android:key="category_defaults"
+            android:layout="@layout/pref_cat"
             android:title="@string/setting_defaults">
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="true"
@@ -40,6 +41,7 @@
         android:title="@string/setting_options">
         <PreferenceCategory
             android:key="category_options"
+            android:layout="@layout/pref_cat"
             android:title="@string/setting_options">
             <ListPreference
                 android:defaultValue="teal"
@@ -78,6 +80,7 @@
         android:title="@string/setting_network_options">
         <PreferenceCategory
             android:key="category_network_options"
+            android:layout="@layout/pref_cat"
             android:title="@string/setting_network_options">
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
@@ -155,6 +158,7 @@
         android:title="@string/setting_advanced_options">
         <PreferenceCategory
             android:key="category_advanced_options"
+            android:layout="@layout/pref_cat"
             android:title="@string/setting_advanced_options">
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
@@ -285,6 +289,7 @@
         android:title="@string/setting_stats_category">
         <PreferenceCategory
             android:key="category_stats"
+            android:layout="@layout/pref_cat"
             android:title="@string/setting_stats_category">
             <eu.faircode.netguard.SwitchPreference
                 android:defaultValue="false"
@@ -314,6 +319,7 @@
         android:title="@string/setting_backup">
         <PreferenceCategory
             android:key="category_backup"
+            android:layout="@layout/pref_cat"
             android:title="@string/setting_backup">
             <Preference
                 android:key="export"
@@ -344,6 +350,7 @@
         android:title="Development">
         <PreferenceCategory
             android:key="category_development"
+            android:layout="@layout/pref_cat"
             android:title="Development">
             <ListPreference
                 android:defaultValue="6"
@@ -369,6 +376,7 @@
         android:title="@string/setting_technical">
         <PreferenceCategory
             android:key="category_technical"
+            android:layout="@layout/pref_cat"
             android:title="@string/setting_technical">
             <Preference
                 android:key="technical_info"
