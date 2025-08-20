@@ -1,0 +1,1 @@
+Einfache Möglichkeit, pro Anwendung Zugriffe auf das Internet zu blockieren
