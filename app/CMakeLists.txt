@@ -1,6 +1,8 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+project(netguard)
+
 add_library( netguard
              SHARED
              src/main/jni/netguard/netguard.c
@@ -22,3 +24,5 @@ find_library( log-lib
 
 target_link_libraries( netguard
                        ${log-lib} )
+
+target_link_options(netguard PRIVATE "-Wl,-z,max-page-size=16384")
