@@ -74,7 +74,7 @@ public class ApplicationEx extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM && false) {
                     View content = activity.findViewById(android.R.id.content);
                     ViewCompat.setOnApplyWindowInsetsListener(content, new OnApplyWindowInsetsListener() {
                         @NonNull

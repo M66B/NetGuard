@@ -27,6 +27,7 @@
         <item name="iconPlay">@drawable/ic_play_arrow_black_24dp</item>
         <item name="iconPause">@drawable/ic_pause_black_24dp</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 
     <style name="BaseThemeLight" parent="Theme.AppCompat">
@@ -40,6 +41,7 @@
         <item name="iconPlay">@drawable/ic_play_arrow_white_24dp</item>
         <item name="iconPause">@drawable/ic_pause_white_24dp</item>
         <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 
     <style name="AppThemeTeal" parent="BaseThemeDark">
