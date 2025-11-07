@@ -73,6 +73,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -1087,7 +1088,9 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private void xmlExport(OutputStream out) throws IOException {
+    private void xmlExport(OutputStream _out) throws IOException {
+        BufferedOutputStream out = new BufferedOutputStream(_out);
+
         XmlSerializer serializer = Xml.newSerializer();
         serializer.setOutput(out, "UTF-8");
         serializer.startDocument(null, true);
@@ -1097,10 +1100,12 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         serializer.startTag(null, "application");
         xmlExport(PreferenceManager.getDefaultSharedPreferences(this), serializer);
         serializer.endTag(null, "application");
+        out.flush();
 
         serializer.startTag(null, "wifi");
         xmlExport(getSharedPreferences("wifi", Context.MODE_PRIVATE), serializer);
         serializer.endTag(null, "wifi");
+        out.flush();
 
         serializer.startTag(null, "mobile");
         xmlExport(getSharedPreferences("other", Context.MODE_PRIVATE), serializer);
@@ -1141,6 +1146,8 @@ public class ActivitySettings extends AppCompatActivity implements SharedPrefere
         serializer.endTag(null, "netguard");
         serializer.endDocument();
         serializer.flush();
+
+        out.flush();
     }
 
     private void xmlExport(SharedPreferences prefs, XmlSerializer serializer) throws IOException {
